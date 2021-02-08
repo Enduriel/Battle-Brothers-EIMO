@@ -1,0 +1,97 @@
+.ui-control.item > .dratio-layer
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 0.4rem;
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+.ui-control.item > .dratio-layer img
+{
+    left: 0.3rem;
+    bottom: 5.95rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    position: absolute;
+
+    pointer-events: none;
+}
+
+.ui-control.item > .dratio-layer .label
+{
+    left: 1.5rem;
+    bottom: 6.05rem;
+    height: 1.0rem;
+    position: absolute;
+
+    text-align: right;
+    line-height: 1.0rem;
+
+    pointer-events: none;
+}
+
+.ui-control.item > .markc-layer
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 0.4rem;
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+.ui-control.item > .markc-layer img
+{
+    left: 0.3rem;
+    bottom: 4.95rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    position: absolute;
+
+    pointer-events: none;
+}
+
+.ui-control.item > .favorite-layer
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 0.4rem;
+    z-index: 4;
+
+    pointer-events: none;
+}
+
+.ui-control.item > .favorite-layer img
+{
+    left: 6.0rem;
+    bottom: 5.95rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    position: absolute;
+
+    pointer-events: none;
+}
+
+.world-town-screen > .l-shop-dialog-container .content .row.is-content .l-button.is-sellall
+{
+    position: absolute;
+    
+    width: 5.2rem;
+    height: 4.1rem;
+    top: 26.0rem;
+}
+
+.character-screen-container .inventory-list-module .filter-panel .l-button.is-drepair-filter
+{
+    left: 35.0rem;
+}
+
+.character-screen-container .inventory-list-module .filter-panel .l-button.EIMO-visibility-level
+{
+    left: 40.0rem;
+}

@@ -1,0 +1,46 @@
+/*.tactical-combat-result-screen .loot-panel .l-loot-by-value-button
+{
+    position: absolute;
+    
+    width: 5.2rem;
+    height: 5.1rem;
+    top: 33.0rem;
+}*/
+
+
+.tactical-combat-result-screen .loot-panel .smart-loot-button
+{
+    background-image: url("coui://gfx/ui/mods/EIMO_smart_loot_button.png");
+    background-size: 5.2rem 9.1rem;
+}
+
+.tactical-combat-result-screen .loot-panel .smart-loot-button:hover,
+.tactical-combat-result-screen .loot-panel .smart-loot-button.is-selected
+{
+    background-image: url("coui://gfx/ui/mods/EIMO_smart_loot_button_selected.png");
+    background-size: 5.2rem 9.1rem;
+}
+
+.tactical-combat-result-screen .loot-panel .smart-loot-button.is-active
+{
+    background-image: url("coui://gfx/ui/mods/EIMO_smart_loot_button.png");
+    background-size: 5.2rem 9.1rem;
+}
+
+
+.tactical-combat-result-screen .loot-panel .l-smart-loot-button
+{
+    top: 18.0rem;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 5.2rem;
+    height: 9.1rem;
+    position: absolute;
+    margin: auto;
+}
+
+.tactical-combat-result-screen .loot-panel .smart-loot-button .ui-control.button > .label
+{
+    line-height: 7.0rem;
+}
