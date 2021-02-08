@@ -308,14 +308,13 @@
 				{
 					if (repairItem === true)
 					{
-						self.mDataSource.repairInventoryItem(itemId, function(ret)
+						self.mDataSource.toggleInventoryItem(itemId, null, function(ret)
 						{
-							if(ret)
-							{
-								data['repair'] = !data['repair'];
-								result.setRepairImageVisible(data['repair']);
-							}
-						});
+							data['repair'] = ret['repair'];
+							data['salvage'] = ret['salvage'];
+							result.setRepairImageVisible(data['repair'], data['salvage']);
+							//result.setSalvageImageVisible(data['salvage']);
+						})
 					}
 					else
 					{
