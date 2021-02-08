@@ -288,14 +288,14 @@ local visibilityLevel = 0;
 		o.onRepairAllButtonClicked <- function()
 		{
 			local items = this.World.Assets.getStash().getItems();
-				foreach( item in items )
+				foreach( i, item in items )
 				{
 					if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo && item.getCondition() < item.getConditionMax())
 					{
 						local dratio = getDratio(item);
 						if (dratio > ::EIMOrepairThreshold)
 						{
-							item.setToBeRepaired(true);
+							item.setToBeRepaired(true, i);
 						}
 					}
 				}
