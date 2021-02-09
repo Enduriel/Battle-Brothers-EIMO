@@ -1,9 +1,9 @@
-local modID = "EndsInventoryManagementOverhaul";
+local modID = "EndsInventoryManagementOverhaulLegends";
 ::EIMOrepairThreshold <- 125;
 ::EIMOwaitUntilRepairedThreshold <- 175;
 local visibilityLevel = 0;
 
-::mods_registerMod(modID, 6.3,"End's Inventory Management Overhaul");
+::mods_registerMod(modID, 6.32,"End's Inventory Management Overhaul Legends");
 
 
 ::mods_queue(null, null, function()
