@@ -87,10 +87,10 @@
       lootis.sort(@(ai,bi) sellValue(loot[bi]) <=> sellValue(loot[ai]));
 
       local function onItemDropped(i) { i.onRemovedFromStash(Stash.getID()); }
-      local function onItemTaken(i)
+      local function onItemTaken(i, idx)
       {
         i.onAddedToStash(Stash.getID());
-        if(isWorthRepairing(baseSellValue(i), i.getConditionMax())) i.setToBeRepaired(true);
+        if(isWorthRepairing(baseSellValue(i), i.getConditionMax())) i.setToBeRepaired(true, idx);
         if(!soundPlayed)
         {
           i.playInventorySound(this.Const.Items.InventoryEventType.PlacedInBag);
@@ -120,7 +120,7 @@
         if(si == stash.len()) break; // if there were no free stash slots, we're done
         stash[si++] = item; // otherwise, take the item
         loot[lootis[li]] = null;
-        onItemTaken(item);
+        onItemTaken(item, si-1);
         shrinkLoot = true;
       }
 
@@ -217,7 +217,7 @@
           if(isFood(stashItem)) removeFoodItem(stashItem);
           if(isFood(lootItem)) addFoodItem(lootItem);
           onItemDropped(stashItem);
-          onItemTaken(lootItem);
+          onItemTaken(lootItem, si-1);
         }
 
         // finally, we want to enhance our supply of food. some food is expensive and other food is cheap, but once purchased, the value in
@@ -257,7 +257,7 @@
               removeFoodItem(stashItem);
               addFoodItem(lootItem);
               onItemDropped(stashItem);
-              onItemTaken(lootItem);
+              onItemTaken(lootItem, si-1);
               foodDays = newFoodDays;
             }
           }
