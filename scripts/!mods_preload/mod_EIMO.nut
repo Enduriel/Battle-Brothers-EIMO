@@ -25,7 +25,7 @@ local visibilityLevel = 0;
 
 	local getItemSaleFlag = function (item)
 	{
-		return modID + "." + item.getID()+ item.getName() + ".forsale";
+		return modID + "." + item.getID() + item.getName() + ".forsale";
 	}
 
 	::mods_registerJS("mod_EIMO.js");
@@ -88,19 +88,26 @@ local visibilityLevel = 0;
 			//this.logInfo("Serializing");
 			local items = this.m.Assets.getStash().getItems();
 			
-			this.World.Flags.set(getVisibilityLevelFlag(), visibilityLevel);
+			if(visibilityLevel != 0)
+			{
+				this.World.Flags.set(getVisibilityLevelFlag(), visibilityLevel);
+			}
+			else if (this.World.Flags.has(getVisibilityLevelFlag()))
+			{
+				this.World.Flags.remove(getVisibilityLevelFlag());
+			}
 
 			for( local i = 0; i != items.len(); i = ++i )
 			{
 				local item = items[i];
 				if (item != null && item.m.isFavorite )
 				{
-					this.World.Flags.set( getStashIndexFlag(i), 1);
+					this.World.Flags.set(getStashIndexFlag(i), 1);
 					//this.logInfo("item: " + item.getID() + " at index "+ i +" saved as favorite.");
 				}
-				else
+				else if (this.World.Flags.has(getStashIndexFlag(i)))
 				{
-					this.World.Flags.set( getStashIndexFlag(i), 0);
+					this.World.Flags.remove(getStashIndexFlag(i));
 				}
 			}
 			onSerialize( _out );
@@ -129,11 +136,11 @@ local visibilityLevel = 0;
 				if (item == null || !this.World.Flags.has( getStashIndexFlag(i) ) || this.World.Flags.get( getStashIndexFlag(i) ) == 0)
 				{
 				}
-				else if (this.World.Flags.get( getStashIndexFlag(i) ) == 1)
+				else if (this.World.Flags.get(getStashIndexFlag(i)) == 1)
 				{
 					//this.logInfo("item: " + item.getID() + " at index "+ i +" loaded as favorite.");
 					item.m.isFavorite = true;
-					this.World.Flags.set( getStashIndexFlag(i) , 0);
+					this.World.Flags.remove(getStashIndexFlag(i));
 				}
 			}
 		}
