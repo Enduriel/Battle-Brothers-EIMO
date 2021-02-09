@@ -1,5 +1,5 @@
 ::mods_registerMod("SmartLootEIMO", 2.1, "Smart Loot integrated into EIMO");
-::mods_queue(null, "EndsInventoryManagementOverhaul, >mod_smartLoot", function()
+::mods_queue(null, "EndsInventoryManagementOverhaulLegends, >mod_smartLoot", function()
 {
   ::mods_hookNewObject("ui/screens/tactical/tactical_combat_result_screen", function(o)
   {
