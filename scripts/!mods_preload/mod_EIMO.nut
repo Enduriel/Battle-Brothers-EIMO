@@ -448,11 +448,6 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		{
 			return visibilityLevel;
 		}
-
-		o.logSomething <- function (data)
-		{
-			this.logInfo("debugged: " + data);
-		}
 	});
 
 });
