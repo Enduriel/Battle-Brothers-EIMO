@@ -94,12 +94,7 @@
 				i.onAddedToStash(Stash.getID());
 				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo  && ::EIMOgetDratio(i) > ::EIMOwaitUntilRepairedThreshold) 
 				{
-					this.logInfo("attempting to repair: " + i.getName());
 					i.setToBeRepaired(true);
-				}
-				else 
-				{
-				    this.logInfo("Not worth repairing: " + i.getName());
 				}
 				if(!soundPlayed)
 				{
