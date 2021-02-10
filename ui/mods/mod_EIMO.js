@@ -35,11 +35,6 @@ var EIMOGlobalVisibilityLevel;
 		SQ.call(this.mSQHandle, 'EIMOgetVisibilityLevel', null, _callback);
 	}
 
-	CharacterScreenDatasource.prototype.logSomething = function (data)
-	{
-		SQ.call(this.mSQHandle, 'logSomething', data)
-	};
-
 	WorldTownScreenShopDialogModule.prototype.getVisibilityLevel = function ()
 	{
 		var data = {
