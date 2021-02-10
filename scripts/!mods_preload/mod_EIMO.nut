@@ -354,11 +354,7 @@ local modID = "EndsInventoryManagementOverhaul";
 		  	//this.logInfo("visibility get:" + visibilityLevel);
 		  	return visibilityLevel;
 		}
-
-		o.logSomething <- function (data)
-		{
-			this.logInfo("debugged: " + data);
-		}
+		
 	});
 
 	::mods_hookClass("ui/screens/world/modules/world_town_screen/town_shop_dialog_module", function ( o )
