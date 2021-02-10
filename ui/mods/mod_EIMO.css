@@ -91,7 +91,12 @@
     left: 35.0rem;
 }
 
-.character-screen-container .inventory-list-module .filter-panel .l-button.EIMO-visibility-level
+.character-screen-container .inventory-list-module .filter-panel .l-button.EIMO-salvage-button
 {
     left: 40.0rem;
+}
+
+.character-screen-container .inventory-list-module .filter-panel .l-button.EIMO-visibility-level
+{
+    left: 45.0rem;
 }

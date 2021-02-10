@@ -149,6 +149,11 @@ var EIMOGlobalVisibilityLevel;
 	   this.notifyBackendRepairAllButtonClicked(_itemId, _callback);
 	};
 
+	CharacterScreenDatasource.prototype.salvageAllButtonClicked = function(_itemId, _callback)
+	{
+	   this.notifyBackendSalvageAllButtonClicked(_itemId, _callback);
+	};
+
 	CharacterScreenDatasource.prototype.EIMOchangeVisibilityButtonClicked = function(_itemId, _callback)
 	{
 		this.notifyBackendEIMOonChangeVisibilityButtonClicked(_itemId, _callback);
@@ -173,6 +178,11 @@ var EIMOGlobalVisibilityLevel;
 	CharacterScreenDatasource.prototype.notifyBackendRepairAllButtonClicked = function (_sourceItemId, _callback)
 	{
 		SQ.call(this.mSQHandle, 'onRepairAllButtonClicked', _sourceItemId, _callback);
+	};
+
+	CharacterScreenDatasource.prototype.notifyBackendSalvageAllButtonClicked = function (_sourceItemId, _callback)
+	{
+		SQ.call(this.mSQHandle, 'onSalvageAllButtonClicked', _sourceItemId, _callback);
 	};
 
 	CharacterScreenDatasource.prototype.notifyBackendSetForSaleInventoryItem = function (_sourceItemId, _callback)
@@ -228,6 +238,13 @@ var EIMOGlobalVisibilityLevel;
 			self.mDataSource.repairAllButtonClicked();
 		}, '', 3);
 
+		var layout = $('<div class="l-button EIMO-salvage-button"/>');
+		this.mFilterPanel.append(layout);
+		this.mSalvageButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_salvage_button.png", function ()
+		{
+			self.mDataSource.salvageAllButtonClicked();
+		}, '', 3);
+
 		var layout = $('<div class="l-button EIMO-visibility-level"/>');
 		this.mFilterPanel.append(layout);
 		this.mChangeVisibilityButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_cycle_button.png", function ()
@@ -242,6 +259,7 @@ var EIMOGlobalVisibilityLevel;
 		charBindTooltips.call(this);
 
 		this.mDrepairButton.bindTooltip({ contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.DrepairButton' });
+		this.mSalvageButton.bindTooltip({contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.SalvageAllButton'});
 		this.mChangeVisibilityButton.bindTooltip({ contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.ChangeVisibilityButton' });
 	};
 
@@ -251,6 +269,7 @@ var EIMOGlobalVisibilityLevel;
 		charUnbindTooltips.call(this);
 
 		this.mDrepairButton.unbindTooltip();
+		this.mSalvageButton.unbindTooltip();
 		this.mChangeVisibilityButton.unbindTooltip();
 	};
 

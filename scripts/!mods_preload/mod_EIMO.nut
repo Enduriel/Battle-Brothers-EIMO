@@ -1,5 +1,6 @@
 local modID = "EndsInventoryManagementOverhaulLegends";
 
+::EIMOsalvageThreshold <- 40;
 ::EIMOrepairThreshold <- 150;
 ::EIMOwaitUntilRepairedThreshold <- 175;
 ::EIMOgetDratio <- function (item)
@@ -226,6 +227,21 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			}
 		  ];
 		}
+		else if(elementId == "character-screen.right-panel-header-module.SalvageAllButton")
+		{
+			return [
+			{
+				id = 1,
+				type = "title",
+				text = "Mark Appropriate Items For Salvage"
+			},
+			{
+				id = 2,
+				type = "description",
+				text = "Marks all salvageable items in your iventory with low enough ratio for salvage"
+			}
+			];
+		}
 		else if(elementId == "character-screen.right-panel-header-module.ChangeVisibilityButton")
 		{
 		  return [
@@ -306,6 +322,22 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 					}
 				}
 				this.loadStashList();
+		}
+
+		o.onSalvageAllButtonClicked <- function()
+		{
+			local items = this.World.Assets.getStash().getItems();
+			foreach (i, item in items)
+			{
+				if (item != null && item.canBeSalvaged() && !item.m.isFavorite)
+				{
+					if (::EIMOgetDratio(item) < ::EIMOsalvageThreshold)
+					{
+						item.setToBeSalvaged(true, i);
+					}
+				}
+			}
+			this.loadStashList();
 		}
 
 		o.onSetForSaleInventoryItem <- function(data)

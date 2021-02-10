@@ -92,9 +92,16 @@
 			local function onItemTaken(i, idx)
 			{
 				i.onAddedToStash(Stash.getID());
-				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo  && ::EIMOgetDratio(i) > ::EIMOwaitUntilRepairedThreshold) 
+				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
-					i.setToBeRepaired(true, idx);
+					if(::EIMOgetDratio(i) > ::EIMOwaitUntilRepairedThreshold) 
+					{
+						i.setToBeRepaired(true, idx);
+					}
+					else if (::EIMOgetDratio(i) < ::EIMOsalvageThreshold)
+					{
+						if(i.canBeSalvaged()) i.setToBeSalvaged(true, idx);
+					}
 				}
 				if(!soundPlayed)
 				{
