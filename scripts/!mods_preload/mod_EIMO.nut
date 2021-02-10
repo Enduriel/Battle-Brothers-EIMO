@@ -1,6 +1,6 @@
 local modID = "EndsInventoryManagementOverhaulLegends";
 
-::EIMOrepairThreshold <- 125;
+::EIMOrepairThreshold <- 150;
 ::EIMOwaitUntilRepairedThreshold <- 175;
 ::EIMOgetDratio <- function (item)
 {
