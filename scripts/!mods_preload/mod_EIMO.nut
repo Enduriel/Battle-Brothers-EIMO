@@ -33,7 +33,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 	::mods_registerCSS("mod_EIMO.css");
 
 	::mods_registerJS("smart_loot/mod_EIMO_smart_loot.js");
-	::mods_registerJS("smart_loot/mod_EIMO_smart_loot_nohook.js");
+	//::mods_registerJS("smart_loot/mod_EIMO_smart_loot_nohook.js");
 	::mods_registerCSS("smart_loot/mod_EIMO_smart_loot.css");
 	
 	::mods_hookClass("items/item", function ( o )

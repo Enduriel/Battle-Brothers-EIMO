@@ -58,6 +58,22 @@
 		}
 	};
 
+	tcCreateDiv = TacticalCombatResultScreenLootPanel.prototype.createDIV;
+    TacticalCombatResultScreenLootPanel.prototype.createDIV = function (_parentDiv)
+    {
+        tcCreateDiv.call(this, _parentDiv);
+
+        var self = this;
+        var middleColumn = this.mContainer.children(".column.is-middle").children(".row.is-content");
+
+        var buttonLayout = $('<div class="l-smart-loot-button"/>');
+        middleColumn.append(buttonLayout);
+        this.mSmartLootButton = buttonLayout.createCustomButton("", function ()
+        {
+            self.mDataSource.notifyBackendSmartLootButtonPressed();
+        }, 'smart-loot-button', 7);
+    };
+
 	tcBindTooltips = TacticalCombatResultScreenLootPanel.prototype.bindTooltips;
 	TacticalCombatResultScreenLootPanel.prototype.bindTooltips = function()
 	{
