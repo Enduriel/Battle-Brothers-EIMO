@@ -8,27 +8,27 @@
 }*/
 
 
-.tactical-combat-result-screen .loot-panel .smart-loot-button
+.tactical-combat-result-screen .loot-panel .row .smart-loot-button
 {
     background-image: url("coui://gfx/ui/mods/EIMO_smart_loot_button.png");
     background-size: 5.2rem 9.1rem;
 }
 
-.tactical-combat-result-screen .loot-panel .smart-loot-button:hover,
-.tactical-combat-result-screen .loot-panel .smart-loot-button.is-selected
+.tactical-combat-result-screen .loot-panel .row .smart-loot-button:hover,
+.tactical-combat-result-screen .loot-panel .row .smart-loot-button.is-selected
 {
     background-image: url("coui://gfx/ui/mods/EIMO_smart_loot_button_selected.png");
     background-size: 5.2rem 9.1rem;
 }
 
-.tactical-combat-result-screen .loot-panel .smart-loot-button.is-active
+.tactical-combat-result-screen .loot-panel .row .smart-loot-button.is-active
 {
     background-image: url("coui://gfx/ui/mods/EIMO_smart_loot_button.png");
     background-size: 5.2rem 9.1rem;
 }
 
 
-.tactical-combat-result-screen .loot-panel .l-smart-loot-button
+.tactical-combat-result-screen .loot-panel .row .l-smart-loot-button
 {
     top: 18.0rem;
     left: 0;
@@ -40,7 +40,7 @@
     margin: auto;
 }
 
-.tactical-combat-result-screen .loot-panel .smart-loot-button .ui-control.button > .label
+.tactical-combat-result-screen .loot-panel .row .smart-loot-button .ui-control.button > .label
 {
     line-height: 7.0rem;
 }

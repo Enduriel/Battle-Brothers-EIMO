@@ -381,6 +381,22 @@ var EIMOGlobalVisibilityLevel;
 			}
 		}
 	};
+
+	var wtCreateDIV = WorldTownScreenShopDialogModule.prototype.createDIV;
+	WorldTownScreenShopDialogModule.prototype.createDIV = function (_parentDiv)
+	{
+		wtCreateDIV.call(this, _parentDiv);
+		var self = this
+		var container = this.mDialogContainer.findDialogContentContainer();
+		buttonContainer = container.children(".column.is-middle").children(".row.is-content").children(".button-container");
+
+		var layout = $('<div class="l-button is-sellall"/>');
+		buttonContainer.append(layout);
+		this.mSellAllButton = layout.createImageButton(Path.GFX + Asset.ICON_ASSET_MONEY, function()
+		{
+			self.sellAllButtonClicked();
+		}, '', 3);
+	};
 	
 	var wtBindTooltips = WorldTownScreenShopDialogModule.prototype.bindTooltips;
 	WorldTownScreenShopDialogModule.prototype.bindTooltips = function ()
