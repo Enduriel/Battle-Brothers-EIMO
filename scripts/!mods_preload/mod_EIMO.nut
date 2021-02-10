@@ -7,7 +7,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 	return item.m.Value * 0.15 / item.getConditionMax() * 20 * 15 / 250 * 120;
 }
 
-::mods_registerMod(modID, 6.4,"End's Inventory Management Overhaul Legends");
+::mods_registerMod(modID, 6.5,"End's Inventory Management Overhaul Legends");
 
 ::mods_queue(null, null, function()
 {
@@ -33,7 +33,6 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 	::mods_registerCSS("mod_EIMO.css");
 
 	::mods_registerJS("smart_loot/mod_EIMO_smart_loot.js");
-	//::mods_registerJS("smart_loot/mod_EIMO_smart_loot_nohook.js");
 	::mods_registerCSS("smart_loot/mod_EIMO_smart_loot.css");
 	
 	::mods_hookClass("items/item", function ( o )
