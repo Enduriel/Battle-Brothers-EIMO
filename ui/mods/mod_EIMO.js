@@ -50,12 +50,6 @@ var EIMOGlobalVisibilityLevel;
 	$.fn.createListItem = function(_withPriceLayer, _backgroundImage, _classes)
 	{
 		var result = createListItem.call(this, _withPriceLayer, _backgroundImage, _classes);
-		// repair layer
-		var repairLayer = $('<div class="repair-layer display-none"/>');
-		result.append(repairLayer);
-		var repairImage = $('<img/>');
-		repairImage.attr('src', Path.GFX + Asset.ICON_REPAIR_ITEM);
-		repairLayer.append(repairImage);
 
 		// dratio layer
 		var dratioLayer = $('<div class="dratio-layer display-none"/>');
@@ -199,7 +193,6 @@ var EIMOGlobalVisibilityLevel;
 		if((CharacterScreenIdentifier.Item.Id in _item) && (CharacterScreenIdentifier.Item.ImagePath in _item))
 		{
 			var itemData = _slot.data('item');
-			itemData.repair = _item.repair;
 			itemData.markc = _item.markc;
 			itemData.favorite = _item.favorite;
 			var dratioa = Math.floor(_item.dratio);
@@ -349,7 +342,6 @@ var EIMOGlobalVisibilityLevel;
 		else
 		{
 			var itemData = _slot.data('item');
-			itemData.repair = _item.repair;
 			itemData.markc = _item.markc;
 			itemData.favorite = _item.favorite;
 			var dratioa = Math.floor(_item.dratio);
