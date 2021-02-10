@@ -1,17 +1,17 @@
 local modID = "EndsInventoryManagementOverhaul";
+
 ::EIMOrepairThreshold <- 125;
 ::EIMOwaitUntilRepairedThreshold <- 175;
-local visibilityLevel = 0;
+::EIMOgetDratio <- function (item)
+{
+	return item.m.Value * 0.15 / item.getConditionMax() * 20 * 15 / 250 * 120;
+}
 
-::mods_registerMod(modID, 6.3,"End's Inventory Management Overhaul");
-
+::mods_registerMod(modID, 6.4,"End's Inventory Management Overhaul");
 
 ::mods_queue(null, null, function()
 {
-	local getDratio = function (item)
-	{
-		return item.m.Value * 0.15 / item.getConditionMax() * 20 * 15 / 250 * 120; 
-	}
+	local visibilityLevel = 0;
 
 	local getVisibilityLevelFlag = function ()
 	{
@@ -73,7 +73,7 @@ local visibilityLevel = 0;
 					id = 101,
 					type = "hint",
 					icon = "ui/icons/asset_supplies.png",
-					text = this.Math.floor(getDratio(this)) + ""
+					text = this.Math.floor(::EIMOgetDratio(this)) + ""
 				});
 			}
 			return result;
@@ -166,7 +166,7 @@ local visibilityLevel = 0;
 			{
 				result.showDratio <- false;
 			}
-			result.dratio <- getDratio(_item);
+			result.dratio <- ::EIMOgetDratio(_item);
 
 			if (_item == null || !this.World.Flags.has(getItemSaleFlag(_item)) || this.World.Flags.get(getItemSaleFlag(_item)) == 0)
 			{
@@ -299,7 +299,7 @@ local visibilityLevel = 0;
 				{
 					if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo && item.getCondition() < item.getConditionMax())
 					{
-						local dratio = getDratio(item);
+						local dratio = ::EIMOgetDratio(item);
 						if (dratio > ::EIMOrepairThreshold)
 						{
 							item.setToBeRepaired(true);
@@ -387,7 +387,7 @@ local visibilityLevel = 0;
 						item = this.Stash.getItemAtIndex(i).item;
 						//this.logDebug("item "+ item + " "+ i);
 						itemid = item.getID() + item.getName();
-						dratio = getDratio(item);
+						dratio = ::EIMOgetDratio(item);
 						if (!this.World.Flags.has(getItemSaleFlag(item)) || this.World.Flags.get(getItemSaleFlag(item)) == 0 || item.m.isFavorite)
 						{
 						}
