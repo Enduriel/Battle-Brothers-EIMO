@@ -58,7 +58,7 @@
         this.mFoundLootListScrollContainer = this.mFoundLootListContainer.findListScrollContainer();
 
 
-        //Vanilla SortValueButton
+        //SortValueButton
         var buttonLayout = $('<div class="l-smart-loot-button"/>');
         middleColumn.append(buttonLayout);
         this.mSmartLootButton = buttonLayout.createCustomButton("", function ()
@@ -70,21 +70,5 @@
 
         this.setupEventHandler();
     };
-
-    TacticalCombatResultScreenLootPanel.prototype.bindTooltips = function()
-    {
-        this.mStashSlotSizeContainer.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.Stash.FreeSlots });
-        this.mLootAllItemsButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.TacticalCombatResultScreen.LootPanel.LootAllItemsButton });
-
-        this.mSmartLootButton.bindTooltip({ contentType: 'ui-element', elementId: "tactical-combat-result-screen.loot-panel.SmartLootButton" });
-    }
-    
-    TacticalCombatResultScreenLootPanel.prototype.unbindTooltips = function()
-    {
-        this.mStashSlotSizeContainer.unbindTooltip();
-        this.mLootAllItemsButton.unbindTooltip();
-
-        this.mSmartLootButton.unbindTooltip();
-    }
 
 }

@@ -23,7 +23,7 @@ var EIMOGlobalVisibilityLevel;
 	createItemSlots = CharacterScreenInventoryListModule.prototype.createItemSlots;
 	CharacterScreenInventoryListModule.prototype.createItemSlots = function (_owner, _size, _itemArray, _itemContainer)
 	{
-		createItemSlots.bind(this)(_owner, _size, _itemArray, _itemContainer);
+		createItemSlots.call(this, _owner, _size, _itemArray, _itemContainer);
 		if(EIMOGlobalVisibilityLevel == undefined || EIMOGlobalVisibilityLevel == null)
 		{
 			this.mDataSource.setVisibilityLevel();
@@ -54,7 +54,7 @@ var EIMOGlobalVisibilityLevel;
 	var createListItem = $.fn.createListItem;
 	$.fn.createListItem = function(_withPriceLayer, _backgroundImage, _classes)
 	{
-		var result = createListItem.bind(this)(_withPriceLayer, _backgroundImage, _classes);
+		var result = createListItem.call(this, _withPriceLayer, _backgroundImage, _classes);
 		// repair layer
 		var repairLayer = $('<div class="repair-layer display-none"/>');
 		result.append(repairLayer);
@@ -151,7 +151,7 @@ var EIMOGlobalVisibilityLevel;
 		_slot.setMarkcImageVisible(false);
 		_slot.setFavoriteImageVisible(false);
 		_slot.setDratioVisible(null,"#ffffff");
-		charRemoveItemFromSlot.bind(this)(_slot);
+		charRemoveItemFromSlot.call(this, _slot);
 	}
 	
 	
@@ -200,11 +200,8 @@ var EIMOGlobalVisibilityLevel;
 	var charassignItemToSlot = CharacterScreenInventoryListModule.prototype.assignItemToSlot;
 	CharacterScreenInventoryListModule.prototype.assignItemToSlot = function(_entityId, _owner, _slot, _item)
 	{
-		charassignItemToSlot.bind(this)(_entityId, _owner, _slot, _item);
-		if(!(CharacterScreenIdentifier.Item.Id in _item) || !(CharacterScreenIdentifier.Item.ImagePath in _item))
-		{
-		}
-		else
+		charassignItemToSlot.call(this, _entityId, _owner, _slot, _item);
+		if((CharacterScreenIdentifier.Item.Id in _item) && (CharacterScreenIdentifier.Item.ImagePath in _item))
 		{
 			var itemData = _slot.data('item');
 			itemData.repair = _item.repair;
@@ -229,19 +226,32 @@ var EIMOGlobalVisibilityLevel;
 			}
 		}
 	};
+
+	charCreateDIV = CharacterScreenInventoryListModule.prototype.createDIV;
+	CharacterScreenInventoryListModule.prototype.createDIV = function (_parentDiv)
+	{
+		charCreateDIV.call(this, _parentDiv);
+		var self = this;
+
+		var layout = $('<div class="l-button is-drepair-filter"/>');
+		this.mFilterPanel.append(layout);
+		this.mDrepairButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_repair_button.png", function ()
+		{
+			self.mDataSource.repairAllButtonClicked();
+		}, '', 3);
+
+		var layout = $('<div class="l-button EIMO-visibility-level"/>');
+		this.mFilterPanel.append(layout);
+		this.mChangeVisibilityButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_cycle_button.png", function ()
+		{
+			self.mDataSource.EIMOchangeVisibilityButtonClicked();
+		}, '', 3);
+	};
 	
 	var charBindTooltips = CharacterScreenInventoryListModule.prototype.bindTooltips;
 	CharacterScreenInventoryListModule.prototype.bindTooltips = function ()
 	{
-		//charBindTooltips.bind(this); Doesn't work for some reason, temporariliy overwriting vanilla function fully
-		this.mSortInventoryButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.SortButton });
-	    this.mFilterAllButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterAllButton });
-	    this.mFilterWeaponsButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterWeaponsButton });
-	    this.mFilterArmorButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterArmorButton });
-	    this.mFilterMiscButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterMiscButton });
-	    this.mFilterUsableButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterUsableButton });
-	    this.mFilterMoodButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterMoodButton });
-
+		charBindTooltips.call(this);
 
 		this.mDrepairButton.bindTooltip({ contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.DrepairButton' });
 		this.mChangeVisibilityButton.bindTooltip({ contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.ChangeVisibilityButton' });
@@ -250,14 +260,7 @@ var EIMOGlobalVisibilityLevel;
 	var charUnbindTooltips = CharacterScreenInventoryListModule.prototype.unbindTooltips;
 	CharacterScreenInventoryListModule.prototype.unbindTooltips = function ()
 	{
-		//charUnbindTooltips.bind(this); Doesn't work for some reason, temporariliy overwriting vanilla function fully
-		this.mSortInventoryButton.unbindTooltip();
-	    this.mFilterAllButton.unbindTooltip();
-	    this.mFilterWeaponsButton.unbindTooltip();
-	    this.mFilterArmorButton.unbindTooltip();
-	    this.mFilterMiscButton.unbindTooltip();
-	    this.mFilterUsableButton.unbindTooltip();
-	    this.mFilterMoodButton.unbindTooltip();
+		charUnbindTooltips.call(this);
 
 		this.mDrepairButton.unbindTooltip();
 		this.mChangeVisibilityButton.unbindTooltip();
@@ -293,7 +296,7 @@ var EIMOGlobalVisibilityLevel;
 	var wtLoadFromData = WorldTownScreenShopDialogModule.prototype.loadFromData;
 	WorldTownScreenShopDialogModule.prototype.loadFromData = function (_data)
 	{
-		wtLoadFromData.bind(this)(_data);
+		wtLoadFromData.call(this, _data);
 		if(EIMOGlobalVisibilityLevel == undefined || EIMOGlobalVisibilityLevel == null)
 		{
 
@@ -343,13 +346,13 @@ var EIMOGlobalVisibilityLevel;
 		_slot.setMarkcImageVisible(false);
 		_slot.setFavoriteImageVisible(false);
 		_slot.setDratioVisible(null,"#ffffff");
-		wtremoveItemFromSlot.bind(this)(_slot);
+		wtremoveItemFromSlot.call(this, _slot);
 	};
 	
 	var assignItemToSlot = WorldTownScreenShopDialogModule.prototype.assignItemToSlot;
 	WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _slot, _item)
 	{
-		assignItemToSlot.bind(this)(_owner, _slot, _item);
+		assignItemToSlot.call(this, _owner, _slot, _item);
 		if(!('id' in _item) || !('imagePath' in _item))
 		{
 		}
@@ -382,38 +385,14 @@ var EIMOGlobalVisibilityLevel;
 	var wtBindTooltips = WorldTownScreenShopDialogModule.prototype.bindTooltips;
 	WorldTownScreenShopDialogModule.prototype.bindTooltips = function ()
 	{
-		//wtBindTooltips.bind(this); Doesn't work for some reason, temporariliy overwriting vanilla function fully
-		this.mAssets.bindTooltips();
-	    this.mStashSlotSizeContainer.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.Stash.FreeSlots });
-	    this.mLeaveButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.WorldTownScreen.ShopDialogModule.LeaveButton });
-
-		this.mSortInventoryButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.SortButton });
-		this.mFilterAllButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterAllButton });
-		this.mFilterWeaponsButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterWeaponsButton });
-		this.mFilterArmorButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterArmorButton });
-	    this.mFilterMiscButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterMiscButton });
-	    this.mFilterUsableButton.bindTooltip({ contentType: 'ui-element', elementId: TooltipIdentifier.CharacterScreen.RightPanelHeaderModule.FilterUsableButton });
-
-
+		wtBindTooltips.call(this);
 		this.mSellAllButton.bindTooltip({ contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.SellAllButton' });
 	};
 
 	var wtUnbindTooltips = WorldTownScreenShopDialogModule.prototype.unbindTooltips;
 	WorldTownScreenShopDialogModule.prototype.unbindTooltips = function ()
 	{
-		//wtUnbindTooltips.bind(this); Doesn't work for some reason, temporariliy overwriting vanilla function fully
-		this.mAssets.unbindTooltips();
-		this.mStashSlotSizeContainer.unbindTooltip();
-	    this.mLeaveButton.unbindTooltip();
-
-		this.mSortInventoryButton.unbindTooltip();
-		this.mFilterAllButton.unbindTooltip();
-		this.mFilterWeaponsButton.unbindTooltip();
-		this.mFilterArmorButton.unbindTooltip();
-	    this.mFilterMiscButton.unbindTooltip();
-	    this.mFilterUsableButton.unbindTooltip();
-
-
+		wtUnbindTooltips.call(this);
 		this.mSellAllButton.unbindTooltip();
 	};
 	
