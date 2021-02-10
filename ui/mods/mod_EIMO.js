@@ -278,11 +278,6 @@ var EIMOGlobalVisibilityLevel;
 		this.loadStashData(this.mStashList);
 	};
 
-	WorldTownScreenShopDialogModule.prototype.logSomething = function (data)
-	{
-		SQ.call(this.mSQHandle, 'logSomething', data)
-	};
-
 	WorldTownScreenShopDialogModule.prototype.notifyBackendgetVisibilityLevel = function (_callback)
 	{
 		SQ.call(this.mSQHandle, 'EIMOgetVisibilityLevel', null, _callback);
