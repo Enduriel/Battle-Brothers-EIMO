@@ -12,7 +12,14 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 	local getRepairCost = function(item)
 	{
-		return getToolBuyPrice() / 20 * (item.getConditionMax() - item.getCondition()) / 15;
+		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
+		{
+			return getToolBuyPrice() / 20 * (item.getRepairMax() - item.getRepair()) / 15;
+		}
+		else
+		{
+			return getToolBuyPrice() / 20 * (item.getConditionMax() - item.getCondition()) / 15;
+		}
 	}
 
 	local getMaxItemSellPrice = function(item)
@@ -33,9 +40,24 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		}
 	}
 
+	local getMaxLegendArmorSellPrice = function(armor)
+	{
+		local sellPrice = getMaxItemSellPrice(armor);
+		foreach(upgrade in armor.m.Upgrades)
+		{
+			if(upgrade != null) sellPrice += getMaxItemSellPrice(upgrade);
+		}
+		this.logInfo(armor.getName() + " sell price: " + sellPrice);
+		return sellPrice;
+	}
+
 	local getMaxSellPrice = function (item)
 	{
-		if(::mods_isClass(item, "armor") != null)
+		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
+		{
+			return getMaxLegendArmorSellPrice(item);
+		}
+		else if(::mods_isClass(item, "armor") != null)
 		{
 			return getMaxArmorSellPrice(item);
 		}
@@ -47,7 +69,24 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 	local getValueChange = function (item)
 	{
-		return getMaxSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
+		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
+		{
+			local valueChange = getMaxItemSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
+			foreach(upgrade in item.m.Upgrades)
+			{
+				if (upgrade != null)
+				{
+					valueChange += getMaxItemSellPrice(upgrade) * (1 - (upgrade.getCondition() / upgrade.getConditionMax()));
+					this.logInfo("valueChange: " + (getMaxItemSellPrice(upgrade) * (1 - (upgrade.getCondition() / upgrade.getConditionMax()))) + " sellprice: " + getMaxItemSellPrice(upgrade) + " dura percentage: " + (1 - (upgrade.getCondition() / upgrade.getConditionMax())));
+				}
+			}
+			this.logInfo(item.getName() + " valueChange: " + valueChange);
+			return valueChange;
+		}
+		else
+		{
+			return getMaxSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
+		}
 	}
 
 	::EIMOgetDratio <- function (item)
@@ -252,9 +291,20 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 			local result = convertItemToUIData(_item, _forceSmallIcon, _owner);
 			
-			if (_item != null && _item.getItemType() < this.Const.Items.ItemType.Ammo && _item.getConditionMax() != _item.getCondition())
+			if (_item != null && _item.getItemType() < this.Const.Items.ItemType.Ammo)
 			{
-				result.showDratio <- true;
+				if((::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null) && _item.getRepairMax() > _item.getRepair())
+				{
+					result.showDratio <- true;
+				}
+				else if (_item.getConditionMax() > _item.getCondition())
+				{
+					result.showDratio <- true;
+				}
+				else
+				{
+					result.showDratio <- false;
+				}
 			}
 			else
 			{
