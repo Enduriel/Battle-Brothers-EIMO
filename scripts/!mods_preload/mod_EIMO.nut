@@ -2,8 +2,8 @@ local modID = "EndsInventoryManagementOverhaul";
 ::mods_registerMod(modID, 7.0,"End's Inventory Management Overhaul");
 ::mods_queue(null, null, function()
 {
-	::EIMOrepairThreshold <- 150;
-	::EIMOwaitUntilRepairedThreshold <- 175;
+	::EIMOrepairThreshold <- 125;
+	::EIMOwaitUntilRepairedThreshold <- 150;
 
 	local getToolBuyPrice = function()
 	{
