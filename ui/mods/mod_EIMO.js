@@ -55,7 +55,7 @@ var EIMOGlobalVisibilityLevel;
 		var dratioLayer = $('<div class="dratio-layer display-none"/>');
 		result.append(dratioLayer);
 		var dratioImage = $('<img/>');
-		dratioImage.attr('src', Path.GFX + Asset.ICON_ASSET_SUPPLIES);
+		dratioImage.attr('src', Path.GFX + "ui/icons/asset_money.png");
 		dratioLayer.append(dratioImage);
 		var dratioLabel = $('<div class="label text-font-very-small font-color-value font-shadow-outline"/>');
 		dratioLayer.append(dratioLabel);
@@ -64,7 +64,7 @@ var EIMOGlobalVisibilityLevel;
 		var markcLayer = $('<div class="markc-layer display-none"/>');
 		result.append(markcLayer);
 		var markcImage = $('<img/>');
-		markcImage.attr('src', Path.GFX + Asset.ICON_MONEY_SMALL);
+		markcImage.attr('src', Path.GFX + "ui/icons/EIMO_money_icon.png");
 		markcLayer.append(markcImage);
 		
 		//favorite layer
@@ -121,7 +121,7 @@ var EIMOGlobalVisibilityLevel;
 		if (layer.length > 0)
 		{
 			var label = layer.find('.label:first');
-			if (_value !== undefined && _value !== null)
+			if (_value !== undefined && _value !== null && _value != 0)
 			{
 				label.text(_value);
 				layer.removeClass('display-none').addClass('display-block');

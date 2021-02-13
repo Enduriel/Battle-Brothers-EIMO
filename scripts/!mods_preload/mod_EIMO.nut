@@ -4,10 +4,24 @@ local modID = "EndsInventoryManagementOverhaul";
 ::EIMOwaitUntilRepairedThreshold <- 175;
 ::EIMOgetDratio <- function (item)
 {
-	return item.m.Value * 0.15 / item.getConditionMax() * 20 * 15 / 250 * 120;
+	local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+	local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
+
+	return 100 * (itemSellPrice / item.getConditionMax()) / (toolBuyPrice / (20 * 15));
 }
 
-::mods_registerMod(modID, 6.5,"End's Inventory Management Overhaul");
+::EIMOcalcBalanceDiffFromRepair <- function(item)
+{
+	local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+	local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]);
+
+	local valueChange = itemSellPrice * (1 - (item.getCondition() / item.getConditionMax()));
+	local repairCost = toolBuyPrice / 20 * (item.getConditionMax() - item.getCondition()) / 15;
+
+	return valueChange - repairCost;
+}
+
+::mods_registerMod(modID, 7.0,"End's Inventory Management Overhaul");
 
 ::mods_queue(null, null, function()
 {
@@ -40,7 +54,7 @@ local modID = "EndsInventoryManagementOverhaul";
 		o.m.isFavorite <- false;
 	});
 
-	::mods_hookClass("items/item", function ( o )
+	/*::mods_hookClass("items/item", function ( o )
 	{
 		while(!("getTooltip" in o)) o = o[o.SuperName];
 		local getTooltip = o.getTooltip;
@@ -77,7 +91,7 @@ local modID = "EndsInventoryManagementOverhaul";
 			}
 			return result;
 		}
-	});
+	});*/
 
 	::mods_hookNewObjectOnce("states/world_state", function ( o )
 	{
@@ -145,6 +159,51 @@ local modID = "EndsInventoryManagementOverhaul";
 		}
 	});
 
+	/*::mods_hookNewObject("entity/tactical/player", function (o)
+	{
+		local onSerialize = o.onSerialize;
+		o.onSerialize = function( _out )
+		{
+			this.logInfo("serializing");
+			foreach (item in this.getItems())
+			{
+				if(item != null)
+				{
+					this.logInfo("favoriting: " + item.getName() + " | " + item.getCurrentSlotType());
+					if(item.m.isFavorite) this.Flags.add("EIMO" + item.getCurrentSlotType());
+				}
+			}
+			onSerialize(_out);
+			foreach (item in this.getItems())
+			{
+				if(item != null)
+				{
+					if(this.Flags.has("EIMO" + item.getCurrentSlotType())) this.Flags.remove("EIMO" + item.getCurrentSlotType());
+				}
+			}
+		}
+
+		local onDeserialize = o.onDeserialize;
+		o.onDeserialize = function( _in )
+		{
+			onDeserialize(_in);
+			this.logInfo("deserializing");
+			foreach (item in this.getItems())
+			{
+				if(item != null)
+				{
+					if(this.Flags.has("EIMO" + item.getCurrentSlotType()))
+					{
+						this.logInfo("loading favorite: " + item.getName() + " | " + item.getCurrentSlotType())
+						item.m.isFavorite = true;
+						this.Flags.remove("EIMO" + item.getCurrentSlotType())
+					}
+				}
+			}
+		}
+		this.logInfo("replaced both scripts: " + o.getName());
+	});*/
+
 	::mods_hookNewObjectOnce("ui/global/data_helper", function ( o )
 	{
 		local convertItemToUIData = o.convertItemToUIData;
@@ -165,7 +224,7 @@ local modID = "EndsInventoryManagementOverhaul";
 			{
 				result.showDratio <- false;
 			}
-			result.dratio <- ::EIMOgetDratio(_item);
+			result.dratio <- ::EIMOcalcBalanceDiffFromRepair(_item);
 
 			if (_item == null || !this.World.Flags.has(getItemSaleFlag(_item)) || this.World.Flags.get(getItemSaleFlag(_item)) == 0)
 			{
@@ -204,25 +263,25 @@ local modID = "EndsInventoryManagementOverhaul";
 			{
 			  id = 1,
 			  type = "title",
-			  text = "Mark All Worthy Items For Repair"
+			  text = "Mark Items For Repair"
 			},
 			{
 			  id = 2,
 			  type = "description",
-			  text = "It marks all the repairable items in your inventory with high enough ratio for repair."
+			  text = "Marks all worthwile repairable items in your inventory with for repair."
 			},
 			{
 				id = 3,
 				type = "hint",
 				icon = "ui/icons/EIMO_mouse_right_button_shift.png",
-				text = "Side note: shift-click on items to mark their type for sale"
+				text = "Shift-click on items to mark their type for sale"
 			}
 			,
 			{
 				id = 4,
 				type = "hint",
 				icon = "ui/icons/EIMO_mouse_right_button_ctrl_shift.png",
-				text = "Side note: ctrl-shift-click on items to mark them as favorite (they will then not be sold)"
+				text = "Ctrl-Shift-click on items to mark them as favorite (they will then not be sold)"
 			}
 		  ];
 		}
@@ -232,7 +291,7 @@ local modID = "EndsInventoryManagementOverhaul";
 			{
 			  id = 1,
 			  type = "title",
-			  text = "Cycle Visbility of EIMO Info"
+			  text = "Cycle Visibility of EIMO Info"
 			},
 			{
 			  id = 2,
@@ -343,15 +402,13 @@ local modID = "EndsInventoryManagementOverhaul";
 			   	case 2: default:
 			   		visibilityLevel = 0;
 			}
-
-			//this.logInfo("visibility changed to:" + visibilityLevel);
+			this.loadStashList();
 			return visibilityLevel;
 		}
 
 
 		o.EIMOgetVisibilityLevel <- function ()
 		{
-		  	//this.logInfo("visibility get:" + visibilityLevel);
 		  	return visibilityLevel;
 		}
 		
@@ -380,7 +437,6 @@ local modID = "EndsInventoryManagementOverhaul";
 					else
 					{
 						item = this.Stash.getItemAtIndex(i).item;
-						//this.logDebug("item "+ item + " "+ i);
 						itemid = item.getID() + item.getName();
 						dratio = ::EIMOgetDratio(item);
 						if (!this.World.Flags.has(getItemSaleFlag(item)) || this.World.Flags.get(getItemSaleFlag(item)) == 0 || item.m.isFavorite)
@@ -391,7 +447,6 @@ local modID = "EndsInventoryManagementOverhaul";
 						}
 						else
 						{
-							//this.logDebug("itemid true "+ itemid + " "+ i);
 							removedItem = this.Stash.removeByIndex(i);
 
 							if (removedItem != null)
