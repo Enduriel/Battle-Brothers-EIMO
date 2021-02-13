@@ -121,7 +121,7 @@ var EIMOGlobalVisibilityLevel;
 		if (layer.length > 0)
 		{
 			var label = layer.find('.label:first');
-			if (_value !== undefined && _value !== null && _value != 0)
+			if (_value !== undefined && _value !== null)
 			{
 				label.text(_value);
 				layer.removeClass('display-none').addClass('display-block');
