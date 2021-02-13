@@ -4,6 +4,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 {
 	::EIMOrepairThreshold <- 125;
 	::EIMOwaitUntilRepairedThreshold <- 150;
+	::EIMOsalvageThreshold <- 40;
 
 	local getToolBuyPrice = function()
 	{
@@ -47,7 +48,6 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		{
 			if(upgrade != null) sellPrice += getMaxItemSellPrice(upgrade);
 		}
-		this.logInfo(armor.getName() + " sell price: " + sellPrice);
 		return sellPrice;
 	}
 
@@ -77,10 +77,8 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 				if (upgrade != null)
 				{
 					valueChange += getMaxItemSellPrice(upgrade) * (1 - (upgrade.getCondition() / upgrade.getConditionMax()));
-					this.logInfo("valueChange: " + (getMaxItemSellPrice(upgrade) * (1 - (upgrade.getCondition() / upgrade.getConditionMax()))) + " sellprice: " + getMaxItemSellPrice(upgrade) + " dura percentage: " + (1 - (upgrade.getCondition() / upgrade.getConditionMax())));
 				}
 			}
-			this.logInfo(item.getName() + " valueChange: " + valueChange);
 			return valueChange;
 		}
 		else
@@ -99,6 +97,10 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		{
 			return 100 * getValueChange(item)/getRepairCost(item);
 		}
+	}
+	::EIMOgetSratio <- function (item)
+	{
+		return 100 * getMaxSellPrice(item) / getRepairCost(item);
 	}
 
 	::EIMOcalcBalanceDiffFromRepair <- function(item)
@@ -479,7 +481,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			{
 				if (item != null && item.canBeSalvaged() && !item.m.isFavorite)
 				{
-					if (::EIMOgetDratio(item) < ::EIMOsalvageThreshold)
+					if (::EIMOgetSratio(item) < ::EIMOsalvageThreshold)
 					{
 						item.setToBeSalvaged(true, i);
 					}

@@ -98,7 +98,7 @@
 					{
 						i.setToBeRepaired(true, idx);
 					}
-					else if (::EIMOgetDratio(i) < ::EIMOsalvageThreshold)
+					else if (::EIMOgetSratio(i) < ::EIMOsalvageThreshold)
 					{
 						if(i.canBeSalvaged()) i.setToBeSalvaged(true, idx);
 					}
