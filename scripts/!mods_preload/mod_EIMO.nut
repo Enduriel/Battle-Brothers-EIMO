@@ -462,7 +462,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			local items = this.World.Assets.getStash().getItems();
 				foreach( i, item in items )
 				{
-					if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo && item.getCondition() < item.getConditionMax())
+					if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
 					{
 						local dratio = ::EIMOgetDratio(item);
 						if (dratio > ::EIMOrepairThreshold)
