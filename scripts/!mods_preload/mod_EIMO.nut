@@ -36,7 +36,10 @@ local modID = "EndsInventoryManagementOverhaul";
 		    return getMaxItemSellPrice(item);
 		}
 	}
-
+	local getValueChange = function (item)
+	{
+		return getMaxSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
+	}
 	::EIMOgetDratio <- function (item)
 	{
 		local itemSellPrice = getMaxSellPrice(item);
@@ -47,13 +50,10 @@ local modID = "EndsInventoryManagementOverhaul";
 
 	::EIMOcalcBalanceDiffFromRepair <- function(item)
 	{
-		local itemSellPrice = getMaxSellPrice(item);
-		local valueChange = itemSellPrice * (1 - (item.getCondition() / item.getConditionMax()));
-
 		local toolBuyPrice = getToolBuyPrice();
 		local repairCost = toolBuyPrice / 20 * (item.getConditionMax() - item.getCondition()) / 15;
 
-		return valueChange - repairCost;
+		return getValueChange(item) - repairCost;
 	}
 
 	local visibilityLevel = 0;
