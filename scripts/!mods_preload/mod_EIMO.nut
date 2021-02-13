@@ -27,7 +27,7 @@ local modID = "EndsInventoryManagementOverhaul";
 	}
 	local getMaxSellPrice = function (item)
 	{
-		if(::mods_isClass(item, "armor"))
+		if(::mods_isClass(item, "armor") != null)
 		{
 			return getMaxArmorSellPrice(item);
 		}
