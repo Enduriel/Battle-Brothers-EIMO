@@ -124,6 +124,35 @@ local modID = "EndsInventoryManagementOverhaul";
 				}
 			}
 			onSerialize( _out );
+			foreach(bro in this.World.getPlayerRoster().getAll())
+			{
+				foreach (item in bro.getItems().getAllItems())
+				{
+					if(item != null)
+					{
+						if(bro.getFlags().has("EIMO" + item.getCurrentSlotType())) bro.getFlags().remove("EIMO" + item.getCurrentSlotType());
+					}
+				}
+			}
+		}
+
+		local onBeforeSerialize = o.onBeforeSerialize;
+		o.onBeforeSerialize = function ( _out )
+		{
+			foreach(bro in this.World.getPlayerRoster().getAll())
+			{
+				foreach (item in bro.getItems().getAllItems())
+				{
+					if(item != null)
+					{
+						if(item.m.isFavorite)
+						{
+							bro.getFlags().add("EIMO" + item.getCurrentSlotType());
+						}
+					}
+				}
+			}
+			onBeforeSerialize( _out );
 		}
 
 		local onDeserialize = o.onDeserialize;
@@ -151,58 +180,27 @@ local modID = "EndsInventoryManagementOverhaul";
 				}
 				else if (this.World.Flags.get(getStashIndexFlag(i)) == 1)
 				{
-					//this.logInfo("item: " + item.getID() + " at index "+ i +" loaded as favorite.");
 					item.m.isFavorite = true;
 					this.World.Flags.remove(getStashIndexFlag(i));
 				}
 			}
-		}
-	});
 
-	/*::mods_hookNewObject("entity/tactical/player", function (o)
-	{
-		local onSerialize = o.onSerialize;
-		o.onSerialize = function( _out )
-		{
-			this.logInfo("serializing");
-			foreach (item in this.getItems())
+			foreach(bro in this.World.getPlayerRoster().getAll())
 			{
-				if(item != null)
+				foreach (item in bro.getItems().getAllItems())
 				{
-					this.logInfo("favoriting: " + item.getName() + " | " + item.getCurrentSlotType());
-					if(item.m.isFavorite) this.Flags.add("EIMO" + item.getCurrentSlotType());
-				}
-			}
-			onSerialize(_out);
-			foreach (item in this.getItems())
-			{
-				if(item != null)
-				{
-					if(this.Flags.has("EIMO" + item.getCurrentSlotType())) this.Flags.remove("EIMO" + item.getCurrentSlotType());
-				}
-			}
-		}
-
-		local onDeserialize = o.onDeserialize;
-		o.onDeserialize = function( _in )
-		{
-			onDeserialize(_in);
-			this.logInfo("deserializing");
-			foreach (item in this.getItems())
-			{
-				if(item != null)
-				{
-					if(this.Flags.has("EIMO" + item.getCurrentSlotType()))
+					if(item != null)
 					{
-						this.logInfo("loading favorite: " + item.getName() + " | " + item.getCurrentSlotType())
-						item.m.isFavorite = true;
-						this.Flags.remove("EIMO" + item.getCurrentSlotType())
+						if(bro.getFlags().has("EIMO" + item.getCurrentSlotType()))
+						{
+							item.m.isFavorite = true;
+							bro.getFlags().remove("EIMO" + item.getCurrentSlotType())
+						}
 					}
 				}
 			}
 		}
-		this.logInfo("replaced both scripts: " + o.getName());
-	});*/
+	});
 
 	::mods_hookNewObjectOnce("ui/global/data_helper", function ( o )
 	{
