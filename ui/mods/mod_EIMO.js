@@ -367,17 +367,23 @@ var EIMOGlobalVisibilityLevel;
 			switch (EIMOGlobalVisibilityLevel)
 			{
 				case 1:
-					_slot.setMarkcImageVisible(_item.markc);
-					_slot.setFavoriteImageVisible(_item.favorite);
+					if(_owner === WorldTownScreenShop.ItemOwner.Stash)
+					{
+						_slot.setMarkcImageVisible(_item.markc);
+						_slot.setFavoriteImageVisible(_item.favorite);
+					}
 					break;
 				case 2:
 					break;
 				case 0: default:
-					_slot.setMarkcImageVisible(_item.markc);
-					_slot.setFavoriteImageVisible(_item.favorite);
-					if(_item.showDratio === true && _item[CharacterScreenIdentifier.Item.Amount] != '')
+					if(_owner === WorldTownScreenShop.ItemOwner.Stash)
 					{
-						_slot.setDratioVisible('' + dratioa, _item[CharacterScreenIdentifier.Item.AmountColor]);
+						_slot.setMarkcImageVisible(_item.markc);
+						_slot.setFavoriteImageVisible(_item.favorite);
+						if(_item.showDratio === true && _item[CharacterScreenIdentifier.Item.Amount] != '')
+						{
+							_slot.setDratioVisible('' + dratioa, _item[CharacterScreenIdentifier.Item.AmountColor]);
+						}
 					}
 			}
 		}
