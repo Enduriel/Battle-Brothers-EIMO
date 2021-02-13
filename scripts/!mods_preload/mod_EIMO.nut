@@ -215,7 +215,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 			local result = convertItemToUIData(_item, _forceSmallIcon, _owner);
 			
-			if (_item != null && _item.getItemType() < this.Const.Items.ItemType.Ammo)
+			if (_item != null && _item.getItemType() < this.Const.Items.ItemType.Ammo && _item.getConditionMax() != _item.getCondition())
 			{
 				result.showDratio <- true;
 			}
