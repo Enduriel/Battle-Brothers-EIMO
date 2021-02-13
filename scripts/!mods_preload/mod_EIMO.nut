@@ -5,10 +5,24 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 ::EIMOwaitUntilRepairedThreshold <- 175;
 ::EIMOgetDratio <- function (item)
 {
-	return item.m.Value * 0.15 / item.getConditionMax() * 20 * 15 / 250 * 120;
+	local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+	local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
+
+	return 100 * (itemSellPrice / item.getConditionMax()) / (toolBuyPrice / (20 * 15));
 }
 
-::mods_registerMod(modID, 6.5,"End's Inventory Management Overhaul Legends");
+::EIMOcalcBalanceDiffFromRepair <- function(item)
+{
+	local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+	local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]);
+
+	local valueChange = itemSellPrice * (1 - (item.getCondition() / item.getConditionMax()));
+	local repairCost = toolBuyPrice / 20 * (item.getConditionMax() - item.getCondition()) / 15;
+
+	return valueChange - repairCost;
+}
+
+::mods_registerMod(modID, 7.0,"End's Inventory Management Overhaul Legends");
 
 ::mods_queue(null, null, function()
 {
@@ -41,7 +55,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		o.m.isFavorite <- false;
 	});
 
-	::mods_hookClass("items/item", function ( o )
+	/*::mods_hookClass("items/item", function ( o )
 	{
 		while(!("getTooltip" in o)) o = o[o.SuperName];
 		local getTooltip = o.getTooltip;
@@ -78,7 +92,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			}
 			return result;
 		}
-	});
+	});*/
 
 	::mods_hookNewObjectOnce("states/world_state", function ( o )
 	{
@@ -111,6 +125,35 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 				}
 			}
 			onSerialize( _out );
+			foreach(bro in this.World.getPlayerRoster().getAll())
+			{
+				foreach (item in bro.getItems().getAllItems())
+				{
+					if(item != null)
+					{
+						if(bro.getFlags().has("EIMO" + item.getCurrentSlotType())) bro.getFlags().remove("EIMO" + item.getCurrentSlotType());
+					}
+				}
+			}
+		}
+
+		local onBeforeSerialize = o.onBeforeSerialize;
+		o.onBeforeSerialize = function ( _out )
+		{
+			foreach(bro in this.World.getPlayerRoster().getAll())
+			{
+				foreach (item in bro.getItems().getAllItems())
+				{
+					if(item != null)
+					{
+						if(item.m.isFavorite)
+						{
+							bro.getFlags().add("EIMO" + item.getCurrentSlotType());
+						}
+					}
+				}
+			}
+			onBeforeSerialize( _out );
 		}
 
 		local onDeserialize = o.onDeserialize;
@@ -138,9 +181,23 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 				}
 				else if (this.World.Flags.get(getStashIndexFlag(i)) == 1)
 				{
-					//this.logInfo("item: " + item.getID() + " at index "+ i +" loaded as favorite.");
 					item.m.isFavorite = true;
 					this.World.Flags.remove(getStashIndexFlag(i));
+				}
+			}
+
+			foreach(bro in this.World.getPlayerRoster().getAll())
+			{
+				foreach (item in bro.getItems().getAllItems())
+				{
+					if(item != null)
+					{
+						if(bro.getFlags().has("EIMO" + item.getCurrentSlotType()))
+						{
+							item.m.isFavorite = true;
+							bro.getFlags().remove("EIMO" + item.getCurrentSlotType())
+						}
+					}
 				}
 			}
 		}
@@ -166,7 +223,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			{
 				result.showDratio <- false;
 			}
-			result.dratio <- ::EIMOgetDratio(_item);
+			result.dratio <- ::EIMOcalcBalanceDiffFromRepair(_item);
 
 			if (_item == null || !this.World.Flags.has(getItemSaleFlag(_item)) || this.World.Flags.get(getItemSaleFlag(_item)) == 0)
 			{
@@ -205,25 +262,25 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			{
 			  id = 1,
 			  type = "title",
-			  text = "Mark All Worthy Items For Repair"
+			  text = "Mark Items For Repair"
 			},
 			{
 			  id = 2,
 			  type = "description",
-			  text = "It marks all the repairable items in your inventory with high enough ratio for repair."
+			  text = "Marks all worthwile repairable items in your inventory with for repair."
 			},
 			{
 				id = 3,
 				type = "hint",
 				icon = "ui/icons/EIMO_mouse_right_button_shift.png",
-				text = "Side note: shift-click on items to mark their type for sale"
+				text = "Shift-click on items to mark their type for sale"
 			}
 			,
 			{
 				id = 4,
 				type = "hint",
 				icon = "ui/icons/EIMO_mouse_right_button_ctrl_shift.png",
-				text = "Side note: ctrl-shift-click on items to mark them as favorite (they will then not be sold)"
+				text = "Ctrl-Shift-click on items to mark them as favorite (they will then not be sold)"
 			}
 		  ];
 		}
@@ -248,7 +305,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			{
 			  id = 1,
 			  type = "title",
-			  text = "Cycle Visbility of EIMO Info"
+			  text = "Cycle Visibility of EIMO Info"
 			},
 			{
 			  id = 2,
@@ -375,15 +432,13 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			   	case 2: default:
 			   		visibilityLevel = 0;
 			}
-
-			//this.logInfo("visibility changed to:" + visibilityLevel);
+			this.loadStashList();
 			return visibilityLevel;
 		}
 
 
 		o.EIMOgetVisibilityLevel <- function ()
 		{
-		  	//this.logInfo("visibility get:" + visibilityLevel);
 		  	return visibilityLevel;
 		}
 		
@@ -412,7 +467,6 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 					else
 					{
 						item = this.Stash.getItemAtIndex(i).item;
-						//this.logDebug("item "+ item + " "+ i);
 						itemid = item.getID() + item.getName();
 						dratio = ::EIMOgetDratio(item);
 						if (!this.World.Flags.has(getItemSaleFlag(item)) || this.World.Flags.get(getItemSaleFlag(item)) == 0 || item.m.isFavorite)
@@ -423,7 +477,6 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 						}
 						else
 						{
-							//this.logDebug("itemid true "+ itemid + " "+ i);
 							removedItem = this.Stash.removeByIndex(i);
 
 							if (removedItem != null)

@@ -27,7 +27,7 @@
     height: 1.0rem;
     position: absolute;
 
-    text-align: right;
+    text-align: left;
     line-height: 1.0rem;
 
     pointer-events: none;
@@ -47,9 +47,9 @@
 .ui-control.item > .markc-layer img
 {
     left: 0.3rem;
-    bottom: 4.95rem;
-    width: 1.2rem;
-    height: 1.2rem;
+    bottom: 4.75rem;
+    width: 1.15rem;
+    height: 1.15rem;
     position: absolute;
 
     pointer-events: none;
@@ -68,8 +68,8 @@
 
 .ui-control.item > .favorite-layer img
 {
-    left: 6.0rem;
-    bottom: 5.95rem;
+    left: 0.25rem;
+    bottom: 3.55rem;
     width: 1.2rem;
     height: 1.2rem;
     position: absolute;
