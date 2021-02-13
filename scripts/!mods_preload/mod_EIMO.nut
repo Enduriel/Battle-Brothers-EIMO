@@ -1,30 +1,28 @@
 local modID = "EndsInventoryManagementOverhaul";
-
-::EIMOrepairThreshold <- 150;
-::EIMOwaitUntilRepairedThreshold <- 175;
-::EIMOgetDratio <- function (item)
-{
-	local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
-	local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
-
-	return 100 * (itemSellPrice / item.getConditionMax()) / (toolBuyPrice / (20 * 15));
-}
-
-::EIMOcalcBalanceDiffFromRepair <- function(item)
-{
-	local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
-	local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]);
-
-	local valueChange = itemSellPrice * (1 - (item.getCondition() / item.getConditionMax()));
-	local repairCost = toolBuyPrice / 20 * (item.getConditionMax() - item.getCondition()) / 15;
-
-	return valueChange - repairCost;
-}
-
 ::mods_registerMod(modID, 7.0,"End's Inventory Management Overhaul");
-
 ::mods_queue(null, null, function()
 {
+	::EIMOrepairThreshold <- 150;
+	::EIMOwaitUntilRepairedThreshold <- 175;
+	::EIMOgetDratio <- function (item)
+	{
+		local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+		local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
+
+		return 100 * (itemSellPrice / item.getConditionMax()) / (toolBuyPrice / (20 * 15));
+	}
+
+	::EIMOcalcBalanceDiffFromRepair <- function(item)
+	{
+		local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+		local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]);
+
+		local valueChange = itemSellPrice * (1 - (item.getCondition() / item.getConditionMax()));
+		local repairCost = toolBuyPrice / 20 * (item.getConditionMax() - item.getCondition()) / 15;
+
+		return valueChange - repairCost;
+	}
+
 	local visibilityLevel = 0;
 
 	local getVisibilityLevelFlag = function ()
