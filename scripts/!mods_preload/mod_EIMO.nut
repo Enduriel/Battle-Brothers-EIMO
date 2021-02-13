@@ -267,7 +267,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			{
 			  id = 2,
 			  type = "description",
-			  text = "Marks all worthwile repairable items in your inventory with for repair."
+			  text = "Marks all worthwile repairable items in your inventory for repair."
 			},
 			{
 				id = 3,
