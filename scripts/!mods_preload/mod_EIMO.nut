@@ -4,20 +4,53 @@ local modID = "EndsInventoryManagementOverhaul";
 {
 	::EIMOrepairThreshold <- 150;
 	::EIMOwaitUntilRepairedThreshold <- 175;
+
+	local getToolBuyPrice = function()
+	{
+		return 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
+	}
+	local getMaxItemSellPrice = function(item)
+	{
+		return this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+	}
+	local getMaxArmorSellPrice = function(armor)
+	{
+		local upgrade = armor.getUpgrade();
+		if(upgrade != null)
+		{
+			return getMaxItemSellPrice(upgrade) + getMaxItemSellPrice(armor);
+		}
+		else 
+		{
+		    return getMaxItemSellPrice(armor);
+		}
+	}
+	local getMaxSellPrice = function (item)
+	{
+		if(::mods_isClass(item, "armor"))
+		{
+			return getMaxArmorSellPrice(item);
+		}
+		else 
+		{
+		    return getMaxItemSellPrice(item);
+		}
+	}
+
 	::EIMOgetDratio <- function (item)
 	{
-		local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
-		local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
+		local itemSellPrice = getMaxSellPrice(item);
+		local toolBuyPrice = getToolBuyPrice();
 
 		return 100 * (itemSellPrice / item.getConditionMax()) / (toolBuyPrice / (20 * 15));
 	}
 
 	::EIMOcalcBalanceDiffFromRepair <- function(item)
 	{
-		local itemSellPrice = this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
-		local toolBuyPrice = 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]);
-
+		local itemSellPrice = getMaxSellPrice(item);
 		local valueChange = itemSellPrice * (1 - (item.getCondition() / item.getConditionMax()));
+
+		local toolBuyPrice = getToolBuyPrice();
 		local repairCost = toolBuyPrice / 20 * (item.getConditionMax() - item.getCondition()) / 15;
 
 		return valueChange - repairCost;
