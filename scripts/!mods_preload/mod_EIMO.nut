@@ -91,10 +91,14 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 	::EIMOgetDratio <- function (item)
 	{
-		local itemSellPrice = getMaxSellPrice(item);
-		local toolBuyPrice = getToolBuyPrice();
-
-		return 100 * (itemSellPrice / item.getConditionMax()) / (toolBuyPrice / (20 * 15));
+		if(item.getConditionMax == item.getCondition())
+		{
+			return 100
+		}
+		else
+		{
+			return 100 * getValueChange(item)/getRepairCost(item);
+		}
 	}
 
 	::EIMOcalcBalanceDiffFromRepair <- function(item)
