@@ -9,10 +9,17 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 	{
 		return 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
 	}
+
+	local getRepairCost = function(item)
+	{
+		return getToolBuyPrice() / 20 * (item.getConditionMax() - item.getCondition()) / 15;
+	}
+
 	local getMaxItemSellPrice = function(item)
 	{
 		return this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
 	}
+
 	local getMaxArmorSellPrice = function(armor)
 	{
 		local upgrade = armor.getUpgrade();
@@ -25,6 +32,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		    return getMaxItemSellPrice(armor);
 		}
 	}
+
 	local getMaxSellPrice = function (item)
 	{
 		if(::mods_isClass(item, "armor") != null)
@@ -36,10 +44,12 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		    return getMaxItemSellPrice(item);
 		}
 	}
+
 	local getValueChange = function (item)
 	{
 		return getMaxSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
 	}
+
 	::EIMOgetDratio <- function (item)
 	{
 		local itemSellPrice = getMaxSellPrice(item);
@@ -50,10 +60,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 	::EIMOcalcBalanceDiffFromRepair <- function(item)
 	{
-		local toolBuyPrice = getToolBuyPrice();
-		local repairCost = toolBuyPrice / 20 * (item.getConditionMax() - item.getCondition()) / 15;
-
-		return getValueChange(item) - repairCost;
+		return getValueChange(item) - getRepairCost(item);
 	}
 
 	local visibilityLevel = 0;
