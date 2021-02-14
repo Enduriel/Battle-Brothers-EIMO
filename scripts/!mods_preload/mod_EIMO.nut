@@ -562,10 +562,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 				local shopStash = this.m.Shop.getStash();
 				for( local i = this.World.Assets.getStash().getCapacity() - 1; i >= 0; i = --i )
 				{
-					if (this.Stash.getItemAtIndex(i).item == null)
-					{
-					}
-					else
+					if (this.Stash.getItemAtIndex(i).item != null)
 					{
 						item = this.Stash.getItemAtIndex(i).item;
 						itemid = item.getID() + item.getName();
@@ -585,14 +582,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 								this.World.Assets.addMoney(removedItem.getSellPrice());
 								shopStash.add(removedItem);
 
-								if(removedItem.isBought())
-								{
-									removedItem.setBought(false);
-								}
-								else 
-								{
-									removedItem.setSold(true);    
-								}
+								removedItem.setSold(true);
 
 								if (removedItem.isItemType(this.Const.Items.ItemType.TradeGood))
 								{
