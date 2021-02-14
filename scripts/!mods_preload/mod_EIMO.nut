@@ -549,11 +549,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 	{
 		o.onSellAllButtonClicked <- function()
 		{
-			if (this.Tactical.isActive())
-			{
-				
-			}
-			else
+			if (!this.Tactical.isActive())
 			{
 				local dratio = 0;
 				local item = null;
