@@ -1,5 +1,5 @@
 local modID = "EndsInventoryManagementOverhaulLegends";
-::mods_registerMod(modID, 7.0,"End's Inventory Management Overhaul Legends");
+::mods_registerMod(modID, 7.1,"End's Inventory Management Overhaul Legends");
 ::mods_queue(null, null, function()
 {
 	::EIMOrepairThreshold <- 125;
@@ -8,6 +8,8 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 	local getToolBuyPrice = function()
 	{
+		if (!("Assets" in this.World)) return 1;
+
 		return 1.25 * this.Math.ceil(200 * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
 	}
 
@@ -25,6 +27,8 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 	local getMaxItemSellPrice = function(item)
 	{
+		if (!("Assets" in this.World)) return 1;
+		
 		return this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
 	}
 
@@ -326,15 +330,18 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 			}
 			result.dratio <- ::EIMOcalcBalanceDiffFromRepair(_item);
 
-			if (_item == null || !this.World.Flags.has(getItemSaleFlag(_item)) || this.World.Flags.get(getItemSaleFlag(_item)) == 0)
+			if ("Flags" in this.World)
 			{
-				//this.logDebug("itemid false "+ itemid);
-				result.markc <- false;
-			}
-			else
-			{
-				//this.logDebug("itemid true "+ itemid);
-				result.markc <- true;
+				if (_item == null || !this.World.Flags.has(getItemSaleFlag(_item)) || this.World.Flags.get(getItemSaleFlag(_item)) == 0)
+				{
+					//this.logDebug("itemid false "+ itemid);
+					result.markc <- false;
+				}
+				else
+				{
+					//this.logDebug("itemid true "+ itemid);
+					result.markc <- true;
+				}
 			}
 
 			if (_item.m.isFavorite)
@@ -452,6 +459,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 	  
 		o.onFavoriteInventoryItem <- function(itemID)
 		{
+			if (!("Assets" in this.World)) return;
 			local item = this.World.Assets.getStash().getItemByInstanceID(itemID).item;
 			
 			if (item.m.isFavorite)
@@ -467,6 +475,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		
 		o.onRepairAllButtonClicked <- function()
 		{
+			if (!("Assets" in this.World)) return;
 			local items = this.World.Assets.getStash().getItems();
 				foreach( i, item in items )
 				{
@@ -500,7 +509,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 
 		o.onSetForSaleInventoryItem <- function(data)
 		{
-			
+			if (!("Assets" in this.World)) return;
 			local item = this.World.Assets.getStash().getItemByInstanceID(data).item;
 			if (item != null)
 			{
@@ -563,13 +572,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 						item = this.Stash.getItemAtIndex(i).item;
 						itemid = item.getID() + item.getName();
 						dratio = ::EIMOgetDratio(item);
-						if (!this.World.Flags.has(getItemSaleFlag(item)) || this.World.Flags.get(getItemSaleFlag(item)) == 0 || item.m.isFavorite)
-						{
-						}
-						else if (item.getCondition() < item.getConditionMax() && dratio > ::EIMOwaitUntilRepairedThreshold)
-						{
-						}
-						else
+						if (this.World.Flags.has(getItemSaleFlag(item)) && this.World.Flags.get(getItemSaleFlag(item)) == 1 && !item.m.isFavorite && !(item.getCondition() < item.getConditionMax() && dratio > ::EIMOwaitUntilRepairedThreshold))
 						{
 							removedItem = this.Stash.removeByIndex(i);
 
