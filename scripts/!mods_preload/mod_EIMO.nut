@@ -1,5 +1,5 @@
 local modID = "EndsInventoryManagementOverhaulLegends";
-::mods_registerMod(modID, 7.1,"End's Inventory Management Overhaul Legends");
+::mods_registerMod(modID, 7.2,"End's Inventory Management Overhaul Legends");
 ::mods_queue(null, null, function()
 {
 	::EIMOrepairThreshold <- 125;
@@ -558,65 +558,82 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 	{
 		o.onSellAllButtonClicked <- function()
 		{
-			if (!this.Tactical.isActive())
+			if (this.Tactical.isActive()) return;
+
+			local dratio = 0;
+			local item = null;
+			local itemid = null;
+			local removedItem = null;
+			local shopStash = this.m.Shop.getStash();
+			for( local i = this.World.Assets.getStash().getCapacity() - 1; i >= 0; i = --i )
 			{
-				local dratio = 0;
-				local item = null;
-				local itemid = null;
-				local removedItem = null;
-				local shopStash = this.m.Shop.getStash();
-				for( local i = this.World.Assets.getStash().getCapacity() - 1; i >= 0; i = --i )
+				if (this.Stash.getItemAtIndex(i).item == null) continue;
+				
+				item = this.Stash.getItemAtIndex(i).item;
+				itemid = item.getID() + item.getName();
+				dratio = ::EIMOgetDratio(item);
+
+				local forSale = function(_item)
 				{
-					if (this.Stash.getItemAtIndex(i).item != null)
+					return this.World.Flags.has(getItemSaleFlag(_item)) && this.World.Flags.get(getItemSaleFlag(_item)) == 1;
+				}
+				local toSell = forSale(item);
+				if (::mods_isClass(item, "legend_armor") || ::mods_isClass(item, "legend_helmet") && toSell)
+				{
+					foreach (i, layer in item.m.Upgrades) 
 					{
-						item = this.Stash.getItemAtIndex(i).item;
-						itemid = item.getID() + item.getName();
-						dratio = ::EIMOgetDratio(item);
-						if (this.World.Flags.has(getItemSaleFlag(item)) && this.World.Flags.get(getItemSaleFlag(item)) == 1 && !item.m.isFavorite && !(item.getCondition() < item.getConditionMax() && dratio > ::EIMOwaitUntilRepairedThreshold))
+						if (item.m.Blocked[i] || layer == null) continue;
+						if (!forSale(layer))
 						{
-							removedItem = this.Stash.removeByIndex(i);
-
-							if (removedItem != null)
-							{
-								this.World.Assets.addMoney(removedItem.getSellPrice());
-								shopStash.add(removedItem);
-
-								removedItem.setSold(true);
-
-								if (removedItem.isItemType(this.Const.Items.ItemType.TradeGood))
-								{
-									this.World.Statistics.getFlags().increment("TradeGoodsSold");
-								}
-							}
+							toSell = false;
+							break;
 						}
 					}
 				}
 
-				local result = {
-				Result = 0,
-				Assets = this.m.Parent.queryAssetsInformation(),
-				Shop = [],
-				Stash = [],
-				StashSpaceUsed = this.Stash.getNumberOfFilledSlots(),
-				StashSpaceMax = this.Stash.getCapacity(),
-				IsRepairOffered = this.m.Shop.isRepairOffered()
-				};
-
-				this.UIDataHelper.convertItemsToUIData(this.m.Shop.getStash().getItems(), result.Shop, this.Const.UI.ItemOwner.Shop);
-				result.Stash = this.UIDataHelper.convertStashToUIData(false, this.m.InventoryFilter);
-
-				if (this.World.Statistics.getFlags().has("TradeGoodsSold") && this.World.Statistics.getFlags().get("TradeGoodsSold") >= 10)
+				if (toSell && !item.m.isFavorite && !(item.getCondition() < item.getConditionMax() && dratio > ::EIMOwaitUntilRepairedThreshold))
 				{
-					this.updateAchievement("Trader", 1, 1);
-				}
+					removedItem = this.Stash.removeByIndex(i);
 
-				if (this.World.Statistics.getFlags().has("TradeGoodsSold") && this.World.Statistics.getFlags().get("TradeGoodsSold") >= 50)
-				{
-					this.updateAchievement("MasterTrader", 1, 1);
-				}
+					if (removedItem != null)
+					{
+						this.World.Assets.addMoney(removedItem.getSellPrice());
+						shopStash.add(removedItem);
 
-				return result;
+						removedItem.setSold(true);
+
+						if (removedItem.isItemType(this.Const.Items.ItemType.TradeGood))
+						{
+							this.World.Statistics.getFlags().increment("TradeGoodsSold");
+						}
+					}
+				}
 			}
+
+			local result = {
+			Result = 0,
+			Assets = this.m.Parent.queryAssetsInformation(),
+			Shop = [],
+			Stash = [],
+			StashSpaceUsed = this.Stash.getNumberOfFilledSlots(),
+			StashSpaceMax = this.Stash.getCapacity(),
+			IsRepairOffered = this.m.Shop.isRepairOffered()
+			};
+
+			this.UIDataHelper.convertItemsToUIData(this.m.Shop.getStash().getItems(), result.Shop, this.Const.UI.ItemOwner.Shop);
+			result.Stash = this.UIDataHelper.convertStashToUIData(false, this.m.InventoryFilter);
+
+			if (this.World.Statistics.getFlags().has("TradeGoodsSold") && this.World.Statistics.getFlags().get("TradeGoodsSold") >= 10)
+			{
+				this.updateAchievement("Trader", 1, 1);
+			}
+
+			if (this.World.Statistics.getFlags().has("TradeGoodsSold") && this.World.Statistics.getFlags().get("TradeGoodsSold") >= 50)
+			{
+				this.updateAchievement("MasterTrader", 1, 1);
+			}
+
+			return result;
 		}
 
 		o.EIMOgetVisibilityLevel <- function ()
