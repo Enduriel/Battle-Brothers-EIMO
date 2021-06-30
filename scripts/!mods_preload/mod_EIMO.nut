@@ -1,5 +1,5 @@
 local modID = "EndsInventoryManagementOverhaulLegends";
-::mods_registerMod(modID, 7.2,"End's Inventory Management Overhaul Legends");
+::mods_registerMod(modID, 7.3,"End's Inventory Management Overhaul Legends");
 ::mods_queue(null, null, function()
 {
 	::EIMOrepairThreshold <- 125;
@@ -28,8 +28,20 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 	local getMaxItemSellPrice = function(item)
 	{
 		if (!("Assets" in this.World)) return 1;
-		
-		return this.Math.floor(item.m.Value * this.Const.World.Assets.BaseSellPrice) * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+
+		local fullValue = item.m.Value; // we would like to use item.getValue() but it's inconsistent as to whether certain modifiers are applied
+		if("Assets" in World) // this is false in the tutorial, for example
+		{
+			fullValue *= World.Assets.getSellPriceMult() * Const.Difficulty.SellPriceMult[World.Assets.getEconomicDifficulty()];
+		}
+
+		if(item.isItemType(Const.Items.ItemType.Food | Const.Items.ItemType.TradeGood)) return fullValue; // trade goods sell for full value and don't deteriorate
+
+		if(item.isItemType(Const.Items.ItemType.Loot)) return fullValue * Const.World.Assets.BaseLootSellPrice; // loot sells for nearly full value and doesn't deteriorate
+
+		if(item.isItemType(Const.Items.ItemType.Supply)) return fullValue * 1.5; // food and supplies are not sold, so use the replacement cost (w/ 50% markup)
+
+		return this.Math.floor(fullValue * Const.World.Assets.BaseSellPrice);
 	}
 
 	local getMaxArmorSellPrice = function(armor)
@@ -55,7 +67,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		return sellPrice;
 	}
 
-	local getMaxSellPrice = function (item)
+	::EIMOgetMaxSellPrice <- function (item)
 	{
 		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
 		{

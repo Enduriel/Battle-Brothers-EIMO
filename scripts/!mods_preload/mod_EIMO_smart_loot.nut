@@ -1,4 +1,4 @@
-::mods_registerMod("SmartLootEIMO", 2.2, "Smart Loot integrated into EIMO");
+::mods_registerMod("SmartLootEIMO", 2.3, "Smart Loot integrated into EIMO");
 ::mods_queue(null, "EndsInventoryManagementOverhaulLegends, >mod_smartLoot", function()
 {
 	::mods_hookNewObject("ui/screens/tactical/tactical_combat_result_screen", function(o)
@@ -8,23 +8,6 @@
 
 		local function isFood(i) return i.isItemType(ItemType.Food); 
 
-		local function baseSellValue(i)
-		{
-			local fullValue = i.m.Value; // we would like to use i.getValue() but it's inconsistent as to whether certain modifiers are applied
-			if("Assets" in World) // this is false in the tutorial, for example
-			{
-				fullValue *= World.Assets.getSellPriceMult() * Const.Difficulty.SellPriceMult[World.Assets.getEconomicDifficulty()];
-			}
-
-			if(i.isItemType(ItemType.Food | ItemType.TradeGood)) return fullValue; // trade goods sell for full value and don't deteriorate
-
-			if(i.isItemType(ItemType.Loot)) return fullValue * Assets.BaseLootSellPrice; // loot sells for nearly full value and doesn't deteriorate
-
-			if(i.isItemType(ItemType.Supply)) return fullValue * 1.5; // food and supplies are not sold, so use the replacement cost (w/ 50% markup)
-
-			return fullValue * Assets.BaseSellPrice;
-		}
-
 		local function sellValue(i)
 		{
 			if(isFood(i)) // use a fixed valuation formula for food based on its desirability and
@@ -33,7 +16,7 @@
 			}
 			else
 			{
-				local value = baseSellValue(i), condition = i.getCondition(), maxCondition = i.getConditionMax();
+				local value = ::EIMOgetMaxSellPrice(i), condition = i.getCondition(), maxCondition = i.getConditionMax();
 				if(condition < maxCondition)
 				{
 					if(::EIMOgetDratio(i) >= ::EIMOwaitUntilRepairedThreshold)
