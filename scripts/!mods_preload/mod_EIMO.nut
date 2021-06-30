@@ -62,7 +62,7 @@ local modID = "EndsInventoryManagementOverhaul";
 
 	local getValueChange = function (item)
 	{
-		return getMaxSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
+		return ::EIMOgetMaxSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
 	}
 
 	::EIMOgetDratio <- function (item)
