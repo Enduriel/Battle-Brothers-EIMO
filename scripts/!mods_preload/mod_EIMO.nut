@@ -99,7 +99,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		}
 		else
 		{
-			return getMaxSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
+			return ::EIMOgetMaxSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
 		}
 	}
 
@@ -124,7 +124,7 @@ local modID = "EndsInventoryManagementOverhaulLegends";
 		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null) durability = item.getRepairMax();
 		else durability = item.getConditionMax();
 		
-		return 100 * getMaxSellPrice(item) / (getToolBuyPrice() / 20 * durability / 15);
+		return 100 * ::EIMOgetMaxSellPrice(item) / (getToolBuyPrice() / 20 * durability / 15);
 	}
 
 	::EIMOcalcBalanceDiffFromRepair <- function(item)
