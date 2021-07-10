@@ -18,7 +18,7 @@ this.getroottable().Const.EIMO.hookTownShop <- function()
 						item = this.Stash.getItemAtIndex(i).item;
 						itemid = item.getID() + item.getName();
 						dratio = this.Const.EIMO.getDratio(item);
-						if (this.World.Flags.has(getItemSaleFlag(item)) && this.World.Flags.get(getItemSaleFlag(item)) == 1 && !item.m.isFavorite && !(item.getCondition() < item.getConditionMax() && dratio > this.Const.EIMO.waitUntilRepairedThreshold))
+						if (this.World.Flags.has(this.Const.EIMO.getItemSaleFlag(item)) && this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(item)) == 1 && !item.m.isFavorite && !(item.getCondition() < item.getConditionMax() && dratio > this.Const.EIMO.sellThreshold))
 						{
 							removedItem = this.Stash.removeByIndex(i);
 
@@ -74,7 +74,7 @@ this.getroottable().Const.EIMO.hookTownShop <- function()
 
 		o.EIMOgetVisibilityLevel <- function ()
 		{
-			return visibilityLevel;
+			return this.Const.EIMO.visibilityLevel;
 		}
 	});
 }

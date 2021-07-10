@@ -8,26 +8,29 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 			//this.logInfo("Serializing");
 			local items = this.m.Assets.getStash().getItems();
 			
-			if(visibilityLevel != 0)
+			if(this.Const.EIMO.visibilityLevel != 0)
 			{
-				this.World.Flags.set(getVisibilityLevelFlag(), visibilityLevel);
+				this.World.Flags.set(this.Const.EIMO.getVisibilityLevelFlag(), visibilityLevel);
 			}
-			else if (this.World.Flags.has(getVisibilityLevelFlag()))
+			else if (this.World.Flags.has(this.Const.EIMO.getVisibilityLevelFlag()))
 			{
-				this.World.Flags.remove(getVisibilityLevelFlag());
+				this.World.Flags.remove(this.Const.EIMO.getVisibilityLevelFlag());
 			}
+
+			this.World.Flags.set(this.Const.EIMO.getRepairThresholdFlag(), this.Const.EIMO.repairThreshold)
+			this.World.Flags.set(this.Const.EIMO.getSellThresholdFlag(), this.Const.EIMO.sellThreshold)
 
 			for( local i = 0; i != items.len(); i = ++i )
 			{
 				local item = items[i];
 				if (item != null && item.m.isFavorite )
 				{
-					this.World.Flags.set(getStashIndexFlag(i), 1);
+					this.World.Flags.set(this.Const.EIMO.getStashIndexFlag(i), 1);
 					//this.logInfo("item: " + item.getID() + " at index "+ i +" saved as favorite.");
 				}
-				else if (this.World.Flags.has(getStashIndexFlag(i)))
+				else if (this.World.Flags.has(this.Const.EIMO.getStashIndexFlag(i)))
 				{
-					this.World.Flags.remove(getStashIndexFlag(i));
+					this.World.Flags.remove(this.Const.EIMO.getStashIndexFlag(i));
 				}
 			}
 			onSerialize( _out );
@@ -69,26 +72,31 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 			onDeserialize( _in );
 			local items = this.m.Assets.getStash().getItems();
 			
-			if(this.World.Flags.has(getVisibilityLevelFlag()) && this.World.Flags.get(getVisibilityLevelFlag()) >= 0)
+			if(this.World.Flags.has(this.Const.EIMO.getVisibilityLevelFlag()) && this.World.Flags.get(this.Const.EIMO.getVisibilityLevelFlag()) >= 0)
 			{
-				visibilityLevel = this.World.Flags.get(getVisibilityLevelFlag());
+				this.Const.EIMO.visibilityLevel = this.World.Flags.get(this.Const.EIMO.getVisibilityLevelFlag());
 			}
 			else
 			{
-				visibilityLevel = 0;
+				this.Const.EIMO.visibilityLevel = 0;
 			}
+
+			if(this.World.Flags.has(this.Const.EIMO.getRepairThresholdFlag())) this.Const.EIMO.repairThreshold = this.World.Flags.get(this.Const.EIMO.getRepairThresholdFlag())
+			else this.Const.EIMO.repairThreshold = 125;
+			if(this.World.Flags.has(this.Const.EIMO.getSellThresholdFlag())) this.Const.EIMO.sellThreshold = this.World.Flags.get(this.Const.EIMO.getSellThresholdFlag())
+			else this.Const.EIMO.sellThreshold = 150;
 
 			for( local i = 0; i != items.len(); i = ++i )
 			{
 				local item = items[i];
 				
-				if (item == null || !this.World.Flags.has( getStashIndexFlag(i) ) || this.World.Flags.get( getStashIndexFlag(i) ) == 0)
+				if (item == null || !this.World.Flags.has( this.Const.EIMO.getStashIndexFlag(i) ) || this.World.Flags.get( this.Const.EIMO.getStashIndexFlag(i) ) == 0)
 				{
 				}
-				else if (this.World.Flags.get(getStashIndexFlag(i)) == 1)
+				else if (this.World.Flags.get(this.Const.EIMO.getStashIndexFlag(i)) == 1)
 				{
 					item.m.isFavorite = true;
-					this.World.Flags.remove(getStashIndexFlag(i));
+					this.World.Flags.remove(this.Const.EIMO.getStashIndexFlag(i));
 				}
 			}
 

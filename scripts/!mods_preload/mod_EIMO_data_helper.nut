@@ -20,11 +20,11 @@ this.getroottable().Const.EIMO.hookDataHelper <- function()
 			{
 				result.showDratio <- false;
 			}
-			result.dratio <- ::EIMOcalcBalanceDiffFromRepair(_item);
+			result.dratio <- this.Const.EIMO.calcBalanceDiffFromRepair(_item);
 
 			if ("Flags" in this.World)
 			{
-				if (_item == null || !this.World.Flags.has(getItemSaleFlag(_item)) || this.World.Flags.get(getItemSaleFlag(_item)) == 0)
+				if (_item == null || !this.World.Flags.has(this.Const.EIMO.getItemSaleFlag(_item)) || this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(_item)) == 0)
 				{
 					//this.logDebug("itemid false "+ itemid);
 					result.markc <- false;

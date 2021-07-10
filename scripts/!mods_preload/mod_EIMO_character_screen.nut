@@ -42,15 +42,15 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 			local item = this.World.Assets.getStash().getItemByInstanceID(data).item;
 			if (item != null)
 			{
-				if (!this.World.Flags.has(getItemSaleFlag(item)) || this.World.Flags.get(getItemSaleFlag(item)) == 0)
+				if (!this.World.Flags.has(this.Const.EIMO.getItemSaleFlag(item)) || this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(item)) == 0)
 				{
-					this.World.Flags.set(getItemSaleFlag(item), 1);
+					this.World.Flags.set(this.Const.EIMO.getItemSaleFlag(item), 1);
 					this.loadStashList();
 					return true;
 				}
-				else if (item != null && this.World.Flags.get(getItemSaleFlag(item)) == 1)
+				else if (item != null && this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(item)) == 1)
 				{
-					this.World.Flags.set(getItemSaleFlag(item), 0);
+					this.World.Flags.set(this.Const.EIMO.getItemSaleFlag(item), 0);
 					this.loadStashList();
 					return true;
 				}
@@ -63,22 +63,37 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 
 		o.EIMOonChangeVisibilityButtonClicked <- function ()
 		{
-			switch (visibilityLevel) 
+			switch (this.Const.EIMO.visibilityLevel) 
 			{
 			    case 0: case 1:
-			        visibilityLevel = visibilityLevel + 1;
+			        this.Const.EIMO.visibilityLevel++;
 			        break;
 			   	case 2: default:
-			   		visibilityLevel = 0;
+			   		this.Const.EIMO.visibilityLevel = 0;
 			}
 			this.loadStashList();
-			return visibilityLevel;
+			return this.Const.EIMO.visibilityLevel;
 		}
 
 
 		o.EIMOgetVisibilityLevel <- function ()
 		{
-		  	return visibilityLevel;
+		  	return this.Const.EIMO.visibilityLevel;
+		}
+
+		o.EIMOgetSettings <- function()
+		{
+			local ret = {
+				repairThreshold = this.Const.EIMO.repairThreshold,
+				waitThreshold = this.Const.EIMO.sellThreshold
+			}
+			return ret;
+		}
+
+		o.EIMOsetSettings <- function (_data)
+		{
+			this.Const.EIMO.repairThreshold = _data.repairThreshold;
+			this.Const.EIMO.sellThreshold = _data.waitThreshold;
 		}
 	});
 }

@@ -40,11 +40,9 @@ var EIMOGlobalVisibilityLevel;
 		var data = {
 			'visLevel' : 0
 		};
-		SQ.call(this.mSQHandle, 'EIMOgetVisibilityLevel', data,_callback);
+		SQ.call(this.mSQHandle, 'EIMOgetVisibilityLevel', data, _callback);
 		return data['visLevel'];
 	}
-
-
 
 	var createListItem = $.fn.createListItem;
 	$.fn.createListItem = function(_withPriceLayer, _backgroundImage, _classes)
@@ -143,7 +141,6 @@ var EIMOGlobalVisibilityLevel;
 		charRemoveItemFromSlot.call(this, _slot);
 	}
 	
-	
 	CharacterScreenDatasource.prototype.repairAllButtonClicked = function(_itemId, _callback)
 	{
 	   this.notifyBackendRepairAllButtonClicked(_itemId, _callback);
@@ -215,11 +212,14 @@ var EIMOGlobalVisibilityLevel;
 		}
 	};
 
+
 	charCreateDIV = CharacterScreenInventoryListModule.prototype.createDIV;
 	CharacterScreenInventoryListModule.prototype.createDIV = function (_parentDiv)
 	{
 		charCreateDIV.call(this, _parentDiv);
 		var self = this;
+
+		
 
 		var layout = $('<div class="l-button is-drepair-filter"/>');
 		this.mFilterPanel.append(layout);
@@ -234,6 +234,7 @@ var EIMOGlobalVisibilityLevel;
 		{
 			self.mDataSource.EIMOchangeVisibilityButtonClicked();
 		}, '', 3);
+			
 	};
 	
 	var charBindTooltips = CharacterScreenInventoryListModule.prototype.bindTooltips;
@@ -253,6 +254,7 @@ var EIMOGlobalVisibilityLevel;
 		this.mDrepairButton.unbindTooltip();
 		this.mChangeVisibilityButton.unbindTooltip();
 	};
+
 
 
 	WorldTownScreenShopDialogModule.prototype.setVisibilityLevel = function ()
@@ -293,28 +295,28 @@ var EIMOGlobalVisibilityLevel;
 
 		this.notifyBackendSellAllButtonClicked(function(data)
 		{
-	        // update assets
-	        self.mParent.loadAssetData(data.Assets);
+			// update assets
+			self.mParent.loadAssetData(data.Assets);
 
-	        if ('StashSpaceUsed' in data)
-	        {
-	            self.mStashSpaceUsed = data.StashSpaceUsed;
-	        }
+			if ('StashSpaceUsed' in data)
+			{
+				self.mStashSpaceUsed = data.StashSpaceUsed;
+			}
 
-	        if ('StashSpaceMax' in data)
-	        {
-	            self.mStashSpaceMax = data.StashSpaceMax;
-	        }
+			if ('StashSpaceMax' in data)
+			{
+				self.mStashSpaceMax = data.StashSpaceMax;
+			}
 
-	        if ('Stash' in data)
-	        {
-	            self.updateStashList(data.Stash);
-	        }
+			if ('Stash' in data)
+			{
+				self.updateStashList(data.Stash);
+			}
 
-	        if ('Shop' in data)
-	        {
-	            self.updateShopList(data.Shop);
-	        }
+			if ('Shop' in data)
+			{
+				self.updateShopList(data.Shop);
+			}
 		});
 	}
 

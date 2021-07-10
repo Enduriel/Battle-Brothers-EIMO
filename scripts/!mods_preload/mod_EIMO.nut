@@ -1,9 +1,12 @@
 local gt = this.getroottable();
+
+gt.Const.EIMO <- {};
+
 ::mods_registerMod("mod_EIMO", 8.0,"End's Inventory Management Overhaul");
 ::mods_queue(null, "!mod_legends", function()
 {
 	gt.Const.EIMO.repairThreshold <- 125;
-	gt.Const.EIMO.waitUntilRepairedThreshold <- 150;
+	gt.Const.EIMO.sellThreshold <- 150;
 
 	local getToolBuyPrice = function()
 	{
@@ -82,24 +85,17 @@ local gt = this.getroottable();
 		return getValueChange(item) - getRepairCost(item);
 	}
 
-	local visibilityLevel = 0;
+	gt.Const.EIMO.visibilityLevel <- 0;
 
-	gt.Const.EIMO.getVisibilityLevelFlag <- function ()
-	{
-		return "EIMO" + ".VL";
-	}
-
-	gt.Const.EIMO.getStashIndexFlag <- function (i)
-	{
-		return "EIMO" + "." + i + ".Fav";
-	}
-
-	gt.Const.EIMO.getItemSaleFlag <- function (item)
-	{
-		return "EIMO" + "." + item.getID() + item.getName() + ".Sell";
-	}
+	gt.Const.EIMO.getVisibilityLevelFlag <- @() "EIMO.VL";
+	gt.Const.EIMO.getStashIndexFlag <- @(i) "EIMO." + i + ".Fav";
+	gt.Const.EIMO.getItemSaleFlag <- @(item) "EIMO." + item.getID() + item.getName() + ".Sell";
+	gt.Const.EIMO.getRepairThresholdFlag <- @() "EIMO.RepairThreshold";
+	gt.Const.EIMO.getSellThresholdFlag <- @() "EIMO.SellThreshold";
 
 	::mods_registerJS("mod_EIMO.js");
+	::mods_registerJS("mod_EIMO_character_screen_datasource.js");
+	::mods_registerJS("mod_EIMO_character_screen_right.js");
 	::mods_registerJS("mod_EIMO_nohook.js");
 	::mods_registerCSS("mod_EIMO.css");
 
