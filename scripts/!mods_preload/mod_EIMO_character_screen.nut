@@ -22,18 +22,18 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 		{
 			if (!("Assets" in this.World)) return;
 			local items = this.World.Assets.getStash().getItems();
-				foreach( item in items )
+			foreach( item in items )
+			{
+				if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
-					if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
+					local dratio = this.Const.EIMO.getDratio(item);
+					if (dratio > this.Const.EIMO.repairThreshold)
 					{
-						local dratio = this.Const.EIMO.getDratio(item);
-						if (dratio > this.Const.EIMO.repairThreshold)
-						{
-							item.setToBeRepaired(true);
-						}
+						item.setToBeRepaired(true);
 					}
 				}
-				this.loadStashList();
+			}
+			this.loadStashList();
 		}
 
 		o.onSetForSaleInventoryItem <- function(data)
