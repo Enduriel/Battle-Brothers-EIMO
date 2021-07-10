@@ -1,5 +1,5 @@
-::mods_registerMod("SmartLootEIMO", 2.3, "Smart Loot integrated into EIMO");
-::mods_queue(null, "EndsInventoryManagementOverhaul, >mod_smartLoot", function()
+::mods_registerMod("mod_smartLootEIMO", 2.3, "Smart Loot integrated into EIMO");
+::mods_queue(null, "EndsInventoryManagementOverhaul", "mod_EIMO, mod_legends, >mod_smartLoot", function()
 {
 	::mods_hookNewObject("ui/screens/tactical/tactical_combat_result_screen", function(o)
 	{
@@ -16,10 +16,10 @@
 			}
 			else
 			{
-				local value = ::EIMOgetMaxSellPrice(i), condition = i.getCondition(), maxCondition = i.getConditionMax();
+				local value = this.Const.EIMO.getMaxSellPrice(i), condition = i.getCondition(), maxCondition = i.getConditionMax();
 				if(condition < maxCondition)
 				{
-					if(::EIMOgetDratio(i) >= ::EIMOwaitUntilRepairedThreshold)
+					if(this.Const.EIMO.getDratio(i) >= this.Const.EIMO.waitUntilRepairedThreshold)
 					{
 						local toolsRequired = (maxCondition - condition) / 15.0;
 						value -= toolsRequired * CostPerTool;
@@ -75,7 +75,7 @@
 			local function onItemTaken(i)
 			{
 				i.onAddedToStash(Stash.getID());
-				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo  && ::EIMOgetDratio(i) > ::EIMOwaitUntilRepairedThreshold) 
+				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo  && this.Const.EIMO.getDratio(i) > this.Const.EIMO.waitUntilRepairedThreshold) 
 				{
 					i.setToBeRepaired(true);
 				}
