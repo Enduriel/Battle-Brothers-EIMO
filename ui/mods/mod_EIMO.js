@@ -110,7 +110,7 @@ var EIMOGlobalVisibilityLevel;
 	var csAssignItemToSlot = CharacterScreenInventoryListModule.prototype.assignItemToSlot;
 	CharacterScreenInventoryListModule.prototype.assignItemToSlot = function(_entityId, _owner, _slot, _item)
 	{
-		csAassignItemToSlot.call(this, _entityId, _owner, _slot, _item);
+		csAssignItemToSlot.call(this, _entityId, _owner, _slot, _item);
 		if((CharacterScreenIdentifier.Item.Id in _item) && (CharacterScreenIdentifier.Item.ImagePath in _item))
 		{
 			var itemData = _slot.data('item');

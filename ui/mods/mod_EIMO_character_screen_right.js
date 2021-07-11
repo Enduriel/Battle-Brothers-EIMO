@@ -32,7 +32,7 @@
 		var layout = $('<div class="l-button EIMO-settings-button"/>');
 		var rightButtonContainer = this.mContainer.find(".is-right:first");
 		rightButtonContainer.append(layout)
-		this.mEIMO.SettingsButton = layout.createImageButton(Path.GFX + Asset.BUTTON_QUIT, function ()
+		this.mEIMO.SettingsButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_cog_button.png", function ()
 		{
 			if (self.mEIMO.OptionsMenu.hasClass('opacity-full'))
 			{
@@ -69,6 +69,8 @@
 		{
 			self.mDataSource.EIMOchangeVisibilityButtonClicked();
 		}, '', 3);
+
+		this.EIMOregisterDatasourceListener();
 	}
 
 	CharacterScreenRightPanelHeaderModule.prototype.createSliderControlDIV = function (_definition, _label, _parentDiv)
@@ -133,6 +135,11 @@
 		this.mEIMO.SettingsValues.waitThreshold.Control.empty();
 		this.mEIMO.SettingsValues.waitThreshold.Control.remove();
 		this.mEIMO.SettingsValues.waitThreshold.Control = null;
+	}
+
+	CharacterScreenRightPanelHeaderModule.prototype.EIMOregisterDatasourceListener = function()
+	{
+		this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Brother.ListLoaded, jQuery.proxy(this.EIMOgetSettings, this));
 	}
 
 	var csBindTooltips = CharacterScreenRightPanelHeaderModule.prototype.bindTooltips;
