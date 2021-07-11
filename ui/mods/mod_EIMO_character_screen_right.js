@@ -37,15 +37,18 @@
 			if (self.mEIMO.OptionsMenu.hasClass('opacity-full'))
 			{
 				self.EIMOhide();
+				self.EIMOsetSettings();
+				self.EIMOsetVisible();
 			}
 			else
 			{
 				self.EIMOshow();
+				self.EIMOsetVisible();
 				self.EIMOgetSettings();
 			}
 		}, '', 6);
 
-		this.mEIMO.OptionsMenu = $('<div class="opacity-none EIMO-settings"/>');
+		this.mEIMO.OptionsMenu = $('<div class="EIMO-settings"/>');
 		this.mContainer.append(this.mEIMO.OptionsMenu);
 
 		var settingsImage = $('<div class="background"/>');
@@ -139,7 +142,7 @@
 
 	CharacterScreenRightPanelHeaderModule.prototype.EIMOregisterDatasourceListener = function()
 	{
-		this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Brother.ListLoaded, jQuery.proxy(this.EIMOgetSettings, this));
+		this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Inventory.StashLoaded, jQuery.proxy(this.EIMOgetSettings, this));
 	}
 
 	var csBindTooltips = CharacterScreenRightPanelHeaderModule.prototype.bindTooltips;
@@ -184,6 +187,11 @@
 		this.mEIMO.OptionsMenu.removeClass('opacity-none no-pointer-events').addClass('opacity-full is-top');
 	}
 
+	CharacterScreenRightPanelHeaderModule.prototype.EIMOisVisible = function()
+	{
+		return this.mEIMO.OptionsMenu.hasClass('opacity-full');
+	}
+
 	CharacterScreenRightPanelHeaderModule.prototype.EIMOgetSettings = function()
 	{
 		var self = this;
@@ -194,6 +202,9 @@
 			self.mEIMO.SettingsValues.waitThreshold.Value = res.waitThreshold;
 			self.mEIMO.SettingsValues.repairThreshold.Control.update(res.repairThreshold);
 			self.mEIMO.SettingsValues.waitThreshold.Control.update(res.waitThreshold);
+
+			if(res.isVisible) self.EIMOshow();
+			else self.EIMOhide();
 		});
 	}
 
@@ -204,5 +215,10 @@
 			"waitThreshold" : this.mEIMO.SettingsValues.waitThreshold.Value
 		};
 		this.mDataSource.notifyBackendEIMOsetSettings(data);
+	}
+
+	CharacterScreenRightPanelHeaderModule.prototype.EIMOsetVisible = function()
+	{
+		this.mDataSource.notifyBackendEIMOsetVisible(this.EIMOisVisible());
 	}
 }

@@ -85,7 +85,8 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 		{
 			local ret = {
 				repairThreshold = this.Const.EIMO.repairThreshold,
-				waitThreshold = this.Const.EIMO.sellThreshold
+				waitThreshold = this.Const.EIMO.sellThreshold,
+				isVisible = this.Const.EIMO.showSettings
 			}
 			return ret;
 		}
@@ -94,6 +95,11 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 		{
 			this.Const.EIMO.repairThreshold = _data.repairThreshold;
 			this.Const.EIMO.sellThreshold = _data.waitThreshold;
+		}
+
+		o.EIMOsetVisible <- function (_data)
+		{
+			this.Const.EIMO.showSettings = _data;
 		}
 	});
 }

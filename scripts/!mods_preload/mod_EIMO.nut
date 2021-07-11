@@ -7,6 +7,7 @@ gt.Const.EIMO <- {};
 {
 	gt.Const.EIMO.repairThreshold <- 125;
 	gt.Const.EIMO.sellThreshold <- 150;
+	gt.Const.EIMO.showSettings <- true;
 
 	local getToolBuyPrice = function()
 	{
@@ -92,6 +93,8 @@ gt.Const.EIMO <- {};
 	gt.Const.EIMO.getItemSaleFlag <- @(item) "EIMO." + item.getID() + item.getName() + ".Sell";
 	gt.Const.EIMO.getRepairThresholdFlag <- @() "EIMO.RepairThreshold";
 	gt.Const.EIMO.getSellThresholdFlag <- @() "EIMO.SellThreshold";
+	gt.Const.EIMO.getShowSettingsFlag <- @() "EIMO.ShowSettings";
+
 
 	::mods_registerJS("mod_EIMO.js");
 	::mods_registerJS("mod_EIMO_character_screen_datasource.js");

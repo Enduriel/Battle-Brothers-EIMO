@@ -9,6 +9,11 @@
 		SQ.call(this.mSQHandle, "EIMOsetSettings", _data);
 	}
 
+	CharacterScreenDatasource.prototype.notifyBackendEIMOsetVisible = function(_data)
+	{
+		SQ.call(this.mSQHandle, "EIMOsetVisible", _data);
+	}
+
 	CharacterScreenDatasource.prototype.notifyBackendEIMOsetSettingsVisibility = function(_data)
 	{
 		SQ.call(this.mSQHandle, "EIMOsetSettingsVisibility", _data);
