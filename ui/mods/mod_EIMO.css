@@ -91,7 +91,7 @@
     
     left: 70.0rem;
     top: -25rem;
-    width: 44.9rem;
+    width: 36rem;
     height: 25.0rem;
 
     position: absolute;
@@ -113,7 +113,7 @@
 
     background-image: url("coui://gfx/ui/skin/popup_background_449x250.png");
     
-    background-size: 35.8rem 25.0rem;
+    background-size: 36rem 25.0rem;
     background-repeat: no-repeat;
 }
 

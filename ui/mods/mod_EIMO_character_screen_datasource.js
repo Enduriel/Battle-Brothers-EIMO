@@ -14,15 +14,20 @@
 		SQ.call(this.mSQHandle, "EIMOsetSettingsVisibility", _data);
 	}
 
-	CharacterScreenDatasource.prototype.repairAllButtonClicked = function(_itemId, _callback)
+	CharacterScreenDatasource.prototype.EIMOrepairAllButtonClicked = function(_itemId, _callback)
 	{
-	   this.notifyBackendRepairAllButtonClicked(_itemId, _callback);
+	   this.notifyBackendEIMORepairAllButtonClicked(_itemId, _callback);
+	};
+
+	CharacterScreenDatasource.prototype.notifyBackendEIMORepairAllButtonClicked = function (_sourceItemId, _callback)
+	{
+		SQ.call(this.mSQHandle, 'onRepairAllButtonClicked', _sourceItemId, _callback);
 	};
 
 	CharacterScreenDatasource.prototype.EIMOchangeVisibilityButtonClicked = function(_itemId, _callback)
 	{
 		this.notifyBackendEIMOonChangeVisibilityButtonClicked(_itemId, _callback);
-		this.setVisibilityLevel();
+		this.EIMOgetVisibilityLevel();
 	};
 
 	CharacterScreenDatasource.prototype.notifyBackendEIMOonChangeVisibilityButtonClicked = function (_sourceItemId, _callback)
@@ -30,17 +35,43 @@
 		SQ.call(this.mSQHandle, 'EIMOonChangeVisibilityButtonClicked', _sourceItemId, _callback);
 	};
 
-	CharacterScreenDatasource.prototype.notifyBackendRepairAllButtonClicked = function (_sourceItemId, _callback)
+	CharacterScreenDatasource.prototype.EIMOgetVisibilityLevel = function ()
 	{
-		SQ.call(this.mSQHandle, 'onRepairAllButtonClicked', _sourceItemId, _callback);
+		var self = this;
+		var temp;
+		this.notifyBackendgetVisibilityLevel(function(result){
+			var temp = result
+			self.EIMOaftergetVisibility(temp);
+		});
 	};
 
-	CharacterScreenDatasource.prototype.notifyBackendSetForSaleInventoryItem = function (_sourceItemId, _callback)
+	CharacterScreenDatasource.prototype.EIMOaftergetVisibility = function (data)
+	{
+		EIMOGlobalVisibilityLevel = data;
+		this.notifyEventListener(CharacterScreenDatasourceIdentifier.Inventory.StashLoaded, this.mStashList);
+	}
+
+	CharacterScreenDatasource.prototype.notifyBackendgetVisibilityLevel = function (_callback)
+	{
+		SQ.call(this.mSQHandle, 'EIMOgetVisibilityLevel', null, _callback);
+	}
+
+	CharacterScreenDatasource.prototype.EIMOsetForSaleInventoryItem = function(_itemId, _callback)
+	{
+	   this.notifyBackendEIMOSetForSaleInventoryItem(_itemId, _callback);
+	};
+
+	CharacterScreenDatasource.prototype.notifyBackendEIMOSetForSaleInventoryItem = function (_sourceItemId, _callback)
 	{
 		SQ.call(this.mSQHandle, 'onSetForSaleInventoryItem', _sourceItemId, _callback);
 	};
 
-	CharacterScreenDatasource.prototype.notifyBackendFavoriteInventoryItem = function (_sourceItemId, _callback)
+	CharacterScreenDatasource.prototype.EIMOfavoriteInventoryItem = function(_itemId, _callback)
+	{
+	   this.notifyBackendEIMOFavoriteInventoryItem(_itemId, _callback);
+	};
+
+	CharacterScreenDatasource.prototype.notifyBackendEIMOFavoriteInventoryItem = function (_sourceItemId, _callback)
 	{
 		SQ.call(this.mSQHandle, 'onFavoriteInventoryItem', _sourceItemId, _callback);
 	};

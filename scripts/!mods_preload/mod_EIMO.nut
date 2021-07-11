@@ -96,6 +96,7 @@ gt.Const.EIMO <- {};
 	::mods_registerJS("mod_EIMO.js");
 	::mods_registerJS("mod_EIMO_character_screen_datasource.js");
 	::mods_registerJS("mod_EIMO_character_screen_right.js");
+	::mods_registerJS("mod_EIMO_town_shop.js")
 	::mods_registerJS("mod_EIMO_nohook.js");
 	::mods_registerCSS("mod_EIMO.css");
 

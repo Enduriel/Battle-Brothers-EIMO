@@ -60,7 +60,7 @@
 		content.append(layout);
 		this.mEIMO.DrepairButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_repair_button.png", function ()
 		{
-			self.mDataSource.repairAllButtonClicked();
+			self.mDataSource.EIMOrepairAllButtonClicked();
 		}, '', 3);
 
 		var layout = $('<div class="l-button EIMO-visibility-level"/>');
@@ -135,10 +135,10 @@
 		this.mEIMO.SettingsValues.waitThreshold.Control = null;
 	}
 
-	var bindTooltips = CharacterScreenRightPanelHeaderModule.prototype.bindTooltips;
+	var csBindTooltips = CharacterScreenRightPanelHeaderModule.prototype.bindTooltips;
 	CharacterScreenRightPanelHeaderModule.prototype.bindTooltips = function ()
 	{
-		bindTooltips.call(this)
+		csBindTooltips.call(this)
 
 		this.mEIMO.SettingsButton.bindTooltip({ contentType: 'ui-element', elementId: 'EIMO.SettingsButton' });
 		this.mEIMO.DrepairButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairButton' });
@@ -151,10 +151,10 @@
 		this.mEIMO.SettingsValues.waitThreshold.Title.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.WaitThresholdSlider' });
 	}
 
-	var unbindTooltips = CharacterScreenRightPanelHeaderModule.prototype.unbindTooltips;
+	var csUnbindTooltips = CharacterScreenRightPanelHeaderModule.prototype.unbindTooltips;
 	CharacterScreenRightPanelHeaderModule.prototype.unbindTooltips = function ()
 	{
-		unbindTooltips.call(this);
+		csUnbindTooltips.call(this);
 
 		this.mEIMO.SettingsButton.unbindTooltip()
 		this.mDrepairButton.unbindTooltip();
