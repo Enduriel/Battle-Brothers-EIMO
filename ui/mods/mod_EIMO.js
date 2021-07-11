@@ -140,17 +140,6 @@ var EIMOGlobalVisibilityLevel;
 		_slot.setDratioVisible(null,"#ffffff");
 		charRemoveItemFromSlot.call(this, _slot);
 	}
-	
-	CharacterScreenDatasource.prototype.repairAllButtonClicked = function(_itemId, _callback)
-	{
-	   this.notifyBackendRepairAllButtonClicked(_itemId, _callback);
-	};
-
-	CharacterScreenDatasource.prototype.EIMOchangeVisibilityButtonClicked = function(_itemId, _callback)
-	{
-		this.notifyBackendEIMOonChangeVisibilityButtonClicked(_itemId, _callback);
-		this.setVisibilityLevel();
-	};
 
 	CharacterScreenDatasource.prototype.setForSaleInventoryItem = function(_itemId, _callback)
 	{
@@ -161,27 +150,6 @@ var EIMOGlobalVisibilityLevel;
 	{
 	   this.notifyBackendFavoriteInventoryItem(_itemId, _callback);
 	};
-	
-	CharacterScreenDatasource.prototype.notifyBackendEIMOonChangeVisibilityButtonClicked = function (_sourceItemId, _callback)
-	{
-		SQ.call(this.mSQHandle, 'EIMOonChangeVisibilityButtonClicked', _sourceItemId, _callback);
-	};
-
-	CharacterScreenDatasource.prototype.notifyBackendRepairAllButtonClicked = function (_sourceItemId, _callback)
-	{
-		SQ.call(this.mSQHandle, 'onRepairAllButtonClicked', _sourceItemId, _callback);
-	};
-
-	CharacterScreenDatasource.prototype.notifyBackendSetForSaleInventoryItem = function (_sourceItemId, _callback)
-	{
-		SQ.call(this.mSQHandle, 'onSetForSaleInventoryItem', _sourceItemId, _callback);
-	};
-
-	CharacterScreenDatasource.prototype.notifyBackendFavoriteInventoryItem = function (_sourceItemId, _callback)
-	{
-		SQ.call(this.mSQHandle, 'onFavoriteInventoryItem', _sourceItemId, _callback);
-	};
-	
 	
 	var charassignItemToSlot = CharacterScreenInventoryListModule.prototype.assignItemToSlot;
 	CharacterScreenInventoryListModule.prototype.assignItemToSlot = function(_entityId, _owner, _slot, _item)
@@ -211,51 +179,6 @@ var EIMOGlobalVisibilityLevel;
 			}
 		}
 	};
-
-
-	charCreateDIV = CharacterScreenInventoryListModule.prototype.createDIV;
-	CharacterScreenInventoryListModule.prototype.createDIV = function (_parentDiv)
-	{
-		charCreateDIV.call(this, _parentDiv);
-		var self = this;
-
-		
-
-		var layout = $('<div class="l-button is-drepair-filter"/>');
-		this.mFilterPanel.append(layout);
-		this.mDrepairButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_repair_button.png", function ()
-		{
-			self.mDataSource.repairAllButtonClicked();
-		}, '', 3);
-
-		var layout = $('<div class="l-button EIMO-visibility-level"/>');
-		this.mFilterPanel.append(layout);
-		this.mChangeVisibilityButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_cycle_button.png", function ()
-		{
-			self.mDataSource.EIMOchangeVisibilityButtonClicked();
-		}, '', 3);
-			
-	};
-	
-	var charBindTooltips = CharacterScreenInventoryListModule.prototype.bindTooltips;
-	CharacterScreenInventoryListModule.prototype.bindTooltips = function ()
-	{
-		charBindTooltips.call(this);
-
-		this.mDrepairButton.bindTooltip({ contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.DrepairButton' });
-		this.mChangeVisibilityButton.bindTooltip({ contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.ChangeVisibilityButton' });
-	};
-
-	var charUnbindTooltips = CharacterScreenInventoryListModule.prototype.unbindTooltips;
-	CharacterScreenInventoryListModule.prototype.unbindTooltips = function ()
-	{
-		charUnbindTooltips.call(this);
-
-		this.mDrepairButton.unbindTooltip();
-		this.mChangeVisibilityButton.unbindTooltip();
-	};
-
-
 
 	WorldTownScreenShopDialogModule.prototype.setVisibilityLevel = function ()
 	{

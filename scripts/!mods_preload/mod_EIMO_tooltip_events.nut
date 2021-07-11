@@ -6,7 +6,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 		{
 			local tooltip = queryTooltipData(entityId, elementId, elementOwner);
 			if(tooltip != null) return tooltip;
-			if(elementId == "character-screen.right-panel-header-module.DrepairButton")
+			if(elementId == "EIMO.RepairButton")
 			{
 				return [
 				{
@@ -32,7 +32,21 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					text = "Ctrl-Shift-click on items to mark them as favorite (they will then not be sold)"
 				}];
 			}
-			else if(elementId == "character-screen.right-panel-header-module.ChangeVisibilityButton")
+			else if (elementId == "EIMO.SettingsButton") 
+			{
+				return [
+				{
+					id = 1,
+					type = "title",
+					text = "Toggle EIMO Settings"
+				},
+				{
+					id = 2,
+					type = "description",
+					text = "Toggles the EIMO settings window"
+				}];
+			}
+			else if(elementId == "EIMO.ChangeVisibilityButton")
 			{
 				return [
 				{
@@ -44,37 +58,63 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					id = 2,
 					type = "description",
 					text = "Cycles through 3 different levels of visibility for EIMO Info"
-				}
-				];
+				}];
+			}
+			else if(elementId == "EIMO.RepairThresholdSlider")
+			{
+				return [
+				{
+					id = 1,
+					type = "title",
+					text = "Change Repair Threshold"
+				},
+				{
+					id = 2,
+					type = "description",
+					text = "Above this threshold of profitability items will be marked for repair by the repair button (Smart Loot uses the wait Threshold).\n\nA value of 150% means 50% profit from selling a repaired item compared to the cost of buying tools"
+				}];
+			}
+			else if(elementId == "EIMO.WaitThresholdSlider")
+			{
+				return [
+				{
+					id = 1,
+					type = "title",
+					text = "Change Wait Until Repaired Threshold"
+				},
+				{
+					id = 2,
+					type = "description",
+					text = "Above this threshold of profitability items will not be sold until they are fully repaired.\n\nA value of 150% means 50% profit from selling a repaired item compared to the cost of buying tools"
+				}];
 			}
 			else if(elementId == "character-screen.right-panel-header-module.SellAllButton")
 			{
 				return [
-					{
-						id = 1,
-						type = "title",
-						text = "Sell All Loot"
-					},
-					{
-							id = 2,
-							type = "description",
-							text = "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Items with ratio 175+ will only be sold when in full condition."
-					}
-					];
-			} else if(elementId == "tactical-combat-result-screen.loot-panel.SmartLootButton")
-			{
-				return [
-					{
-						id = 1,
-						type = "title",
-						text = "Smart Loot"
-					},
-					{
+				{
+					id = 1,
+					type = "title",
+					text = "Sell All Loot"
+				},
+				{
 						id = 2,
 						type = "description",
-						text = "Intelligently loot all items including moving items from player inventory and automatically adding consumables to their totals."
-					}
-				];
+						text = "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Items with ratio 175+ will only be sold when in full condition."
+				}];
+			} 
+			else if(elementId == "tactical-combat-result-screen.loot-panel.SmartLootButton")
+			{
+				return [
+				{
+					id = 1,
+					type = "title",
+					text = "Smart Loot"
+				},
+				{
+					id = 2,
+					type = "description",
+					text = "Intelligently loot all items including moving items from player inventory and automatically adding consumables to their totals."
+				}];
 			}
 			return null;
 		}
