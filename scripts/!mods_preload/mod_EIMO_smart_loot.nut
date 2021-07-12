@@ -19,7 +19,7 @@
 				local value = this.Const.EIMO.getMaxSellPrice(i), condition = i.getCondition(), maxCondition = i.getConditionMax();
 				if(condition < maxCondition)
 				{
-					if(this.Const.EIMO.getDratio(i) >= this.Const.EIMO.sellThreshold)
+					if(this.Const.EIMO.getDratio(i) >= this.Const.EIMO.SellThreshold)
 					{
 						local toolsRequired = (maxCondition - condition) / 15.0;
 						value -= toolsRequired * CostPerTool;
@@ -75,7 +75,7 @@
 			local function onItemTaken(i)
 			{
 				i.onAddedToStash(Stash.getID());
-				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo  && this.Const.EIMO.getDratio(i) > this.Const.EIMO.sellThreshold) 
+				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo  && this.Const.EIMO.getDratio(i) > this.Const.EIMO.SellThreshold) 
 				{
 					i.setToBeRepaired(true);
 				}

@@ -27,7 +27,7 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 				if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
 					local dratio = this.Const.EIMO.getDratio(item);
-					if (dratio > this.Const.EIMO.repairThreshold)
+					if (dratio > this.Const.EIMO.RepairThreshold)
 					{
 						item.setToBeRepaired(true);
 					}
@@ -84,22 +84,22 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 		o.EIMOgetSettings <- function()
 		{
 			local ret = {
-				repairThreshold = this.Const.EIMO.repairThreshold,
-				waitThreshold = this.Const.EIMO.sellThreshold,
-				isVisible = this.Const.EIMO.showSettings
+				repairThreshold = this.Const.EIMO.RepairThreshold,
+				waitThreshold = this.Const.EIMO.SellThreshold,
+				isVisible = this.Const.EIMO.ShowSettings
 			}
 			return ret;
 		}
 
 		o.EIMOsetSettings <- function (_data)
 		{
-			this.Const.EIMO.repairThreshold = _data.repairThreshold;
-			this.Const.EIMO.sellThreshold = _data.waitThreshold;
+			this.Const.EIMO.RepairThreshold = _data.repairThreshold;
+			this.Const.EIMO.SellThreshold = _data.waitThreshold;
 		}
 
 		o.EIMOsetVisible <- function (_data)
 		{
-			this.Const.EIMO.showSettings = _data;
+			this.Const.EIMO.ShowSettings = _data;
 		}
 	});
 }

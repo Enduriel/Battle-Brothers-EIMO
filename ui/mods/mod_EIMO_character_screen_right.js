@@ -167,14 +167,14 @@
 		csUnbindTooltips.call(this);
 
 		this.mEIMO.SettingsButton.unbindTooltip()
-		this.mDrepairButton.unbindTooltip();
-		this.mChangeVisibilityButton.unbindTooltip();
+		this.mEIMO.DrepairButton.unbindTooltip();
+		this.mEIMO.ChangeVisibilityButton.unbindTooltip();
 
-		this.mEIMO.SettingsValues.repairThreshold.Control.unbindTooltip()
-		this.mEIMO.SettingsValues.repairThreshold.Title.unbindTooltip()
+		this.mEIMO.SettingsValues.repairThreshold.Control.unbindTooltip();
+		this.mEIMO.SettingsValues.repairThreshold.Title.unbindTooltip();
 
-		this.mEIMO.SettingsValues.waitThreshold.Control.unbindTooltip()
-		this.mEIMO.SettingsValues.waitThreshold.Title.unbindTooltip()
+		this.mEIMO.SettingsValues.waitThreshold.Control.unbindTooltip();
+		this.mEIMO.SettingsValues.waitThreshold.Title.unbindTooltip();
 	}
 
 	CharacterScreenRightPanelHeaderModule.prototype.EIMOhide = function()

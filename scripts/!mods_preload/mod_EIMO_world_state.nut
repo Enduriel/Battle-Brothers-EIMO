@@ -17,9 +17,9 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 				this.World.Flags.remove(this.Const.EIMO.getVisibilityLevelFlag());
 			}
 
-			this.World.Flags.set(this.Const.EIMO.getRepairThresholdFlag(), this.Const.EIMO.repairThreshold)
-			this.World.Flags.set(this.Const.EIMO.getSellThresholdFlag(), this.Const.EIMO.sellThreshold)
-			this.World.Flags.set(this.Const.EIMO.getShowSettingsFlag(), this.Const.EIMO.showSettings)
+			this.World.Flags.set(this.Const.EIMO.getRepairThresholdFlag(), this.Const.EIMO.RepairThreshold)
+			this.World.Flags.set(this.Const.EIMO.getSellThresholdFlag(), this.Const.EIMO.SellThreshold)
+			this.World.Flags.set(this.Const.EIMO.getShowSettingsFlag(), this.Const.EIMO.ShowSettings)
 
 			for( local i = 0; i != items.len(); i = ++i )
 			{
@@ -82,12 +82,12 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 				this.Const.EIMO.visibilityLevel = 0;
 			}
 
-			if(this.World.Flags.has(this.Const.EIMO.getRepairThresholdFlag())) this.Const.EIMO.repairThreshold = this.World.Flags.get(this.Const.EIMO.getRepairThresholdFlag())
-			else this.Const.EIMO.repairThreshold = 125;
-			if(this.World.Flags.has(this.Const.EIMO.getSellThresholdFlag())) this.Const.EIMO.sellThreshold = this.World.Flags.get(this.Const.EIMO.getSellThresholdFlag())
-			else this.Const.EIMO.sellThreshold = 150;
-			if(this.World.Flags.has(this.Const.EIMO.getShowSettingsFlag())) this.Const.EIMO.showSettings = this.World.Flags.get(this.Const.EIMO.getShowSettingsFlag())
-			else this.Const.EIMO.showSettings = true;
+			if(this.World.Flags.has(this.Const.EIMO.getRepairThresholdFlag())) this.Const.EIMO.RepairThreshold = this.World.Flags.get(this.Const.EIMO.getRepairThresholdFlag())
+			else this.Const.EIMO.RepairThreshold = 125;
+			if(this.World.Flags.has(this.Const.EIMO.getSellThresholdFlag())) this.Const.EIMO.SellThreshold = this.World.Flags.get(this.Const.EIMO.getSellThresholdFlag())
+			else this.Const.EIMO.SellThreshold = 150;
+			if(this.World.Flags.has(this.Const.EIMO.getShowSettingsFlag())) this.Const.EIMO.ShowSettings = this.World.Flags.get(this.Const.EIMO.getShowSettingsFlag())
+			else this.Const.EIMO.ShowSettings = true;
 
 			for( local i = 0; i != items.len(); i = ++i )
 			{
