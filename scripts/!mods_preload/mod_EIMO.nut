@@ -5,10 +5,10 @@ gt.Const.EIMO <- {};
 ::mods_registerMod("mod_EIMO_legends", 8.0,"End's Inventory Management Overhaul Legends");
 ::mods_queue(null, null, function()
 {
-	gt.Const.EIMO.repairThreshold <- 125;
-	gt.Const.EIMO.sellThreshold <- 150;
+	gt.Const.EIMO.RepairThreshold <- 125;
+	gt.Const.EIMO.SellThreshold <- 150;
 	gt.Const.EIMO.SalvageThreshold <- 40;
-	gt.Const.EIMO.showSettings <- true;
+	gt.Const.EIMO.ShowSettings <- true;
 
 	local getToolBuyPrice = function()
 	{
