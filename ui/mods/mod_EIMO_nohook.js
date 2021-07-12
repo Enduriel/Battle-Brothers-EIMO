@@ -274,7 +274,7 @@
 			{
 				if (markItemAsFavorite === true)
 				{
-					self.mDataSource.favoriteInventoryItem(itemId, function (retf)
+					self.mDataSource.EIMOfavoriteInventoryItem(itemId, function (retf)
 					{
 						if(retf)
 						{
@@ -285,7 +285,7 @@
 				} 
 				else if (markitemforsale === true)
 				{
-					self.mDataSource.setForSaleInventoryItem(itemId, function(retu)
+					self.mDataSource.EIMOsetForSaleInventoryItem(itemId, function(retu)
 					{
 						if(retu)
 						{
