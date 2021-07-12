@@ -142,6 +142,7 @@ gt.Const.EIMO <- {};
 	gt.Const.EIMO.getItemSaleFlag <- @(item) "EIMO." + item.getID() + item.getName() + ".Sell";
 	gt.Const.EIMO.getRepairThresholdFlag <- @() "EIMO.RepairThreshold";
 	gt.Const.EIMO.getSellThresholdFlag <- @() "EIMO.SellThreshold";
+	gt.Const.EIMO.getSalvageThresholdFlag <- @() "EIMO.SalvageThreshold";
 	gt.Const.EIMO.getShowSettingsFlag <- @() "EIMO.ShowSettings";
 
 

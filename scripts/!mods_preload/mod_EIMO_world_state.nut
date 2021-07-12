@@ -19,6 +19,7 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 
 			this.World.Flags.set(this.Const.EIMO.getRepairThresholdFlag(), this.Const.EIMO.repairThreshold)
 			this.World.Flags.set(this.Const.EIMO.getSellThresholdFlag(), this.Const.EIMO.sellThreshold)
+			this.World.Flags.set(this.Const.EIMO.getSalvageThresholdFlag(), this.Const.EIMO.SalvageThreshold);
 			this.World.Flags.set(this.Const.EIMO.getShowSettingsFlag(), this.Const.EIMO.showSettings)
 
 			for( local i = 0; i != items.len(); i = ++i )
@@ -86,6 +87,8 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 			else this.Const.EIMO.repairThreshold = 125;
 			if(this.World.Flags.has(this.Const.EIMO.getSellThresholdFlag())) this.Const.EIMO.sellThreshold = this.World.Flags.get(this.Const.EIMO.getSellThresholdFlag())
 			else this.Const.EIMO.sellThreshold = 150;
+			if(this.World.Flags.has(this.Const.EIMO.getSalvageThresholdFlag())) this.Const.EIMO.SalvageThreshold = this.World.Flags.get(this.Const.EIMO.getSalvageThresholdFlag())
+			else this.Const.EIMO.SalvageThreshold = 40;
 			if(this.World.Flags.has(this.Const.EIMO.getShowSettingsFlag())) this.Const.EIMO.showSettings = this.World.Flags.get(this.Const.EIMO.getShowSettingsFlag())
 			else this.Const.EIMO.showSettings = true;
 
