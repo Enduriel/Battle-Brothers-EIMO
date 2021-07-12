@@ -26,6 +26,15 @@
 				Max: 500,
 				Value: 250,
 				Step: 10
+			},
+			salvageThreshold : {
+				Control : null,
+				Title : null,
+				Key: "salvage-threshold",
+				Min: 0,
+				Max: 200,
+				Value: 40,
+				Step: 5
 			}
 		};
 
@@ -56,6 +65,7 @@
 
 		this.createSliderControlDIV(this.mEIMO.SettingsValues.repairThreshold, "Repair Ratio", this.mEIMO.OptionsMenu);
 		this.createSliderControlDIV(this.mEIMO.SettingsValues.waitThreshold, "Wait Until Repaired Ratio", this.mEIMO.OptionsMenu);
+		this.createSliderControlDIV(this.mEIMO.SettingsValues.salvageThreshold, "Salvage Ratio", this.mEIMO.OptionsMenu);
 
 		var content = $('<div class="row"/>');
 		this.mEIMO.OptionsMenu.append(content);
@@ -145,6 +155,10 @@
 		this.mEIMO.SettingsValues.waitThreshold.Control.empty();
 		this.mEIMO.SettingsValues.waitThreshold.Control.remove();
 		this.mEIMO.SettingsValues.waitThreshold.Control = null;
+
+		this.mEIMO.SettingsValues.salvageThreshold.Control.empty();
+		this.mEIMO.SettingsValues.salvageThreshold.Control.remove();
+		this.mEIMO.SettingsValues.salvageThreshold.Control = null;
 	}
 
 	CharacterScreenRightPanelHeaderModule.prototype.EIMOregisterDatasourceListener = function()
@@ -167,6 +181,9 @@
 
 		this.mEIMO.SettingsValues.waitThreshold.Control.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.WaitThresholdSlider' });
 		this.mEIMO.SettingsValues.waitThreshold.Title.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.WaitThresholdSlider' });
+
+		this.mEIMO.SettingsValues.salvageThreshold.Control.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.SalvageThresholdSlider' });
+		this.mEIMO.SettingsValues.salvageThreshold.Title.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.SalvageThresholdSlider' });
 	}
 
 	var csUnbindTooltips = CharacterScreenRightPanelHeaderModule.prototype.unbindTooltips;
@@ -184,6 +201,9 @@
 
 		this.mEIMO.SettingsValues.waitThreshold.Control.unbindTooltip()
 		this.mEIMO.SettingsValues.waitThreshold.Title.unbindTooltip()
+
+		this.mEIMO.SettingsValues.salvageThreshold.Control.unbindTooltip();
+		this.mEIMO.SettingsValues.salvageThreshold.Title.unbindTooltip();
 	}
 
 	CharacterScreenRightPanelHeaderModule.prototype.EIMOhide = function()
@@ -209,8 +229,11 @@
 		{
 			self.mEIMO.SettingsValues.repairThreshold.Value = res.repairThreshold;
 			self.mEIMO.SettingsValues.waitThreshold.Value = res.waitThreshold;
+			self.mEIMO.SettingsValues.salvageThreshold.Value = res.salvageThreshold;
+
 			self.mEIMO.SettingsValues.repairThreshold.Control.update(res.repairThreshold);
 			self.mEIMO.SettingsValues.waitThreshold.Control.update(res.waitThreshold);
+			self.mEIMO.SettingsValues.salvageThreshold.Control.update(res.salvageThreshold);
 
 			if(res.isVisible) self.EIMOshow();
 			else self.EIMOhide();
@@ -221,7 +244,8 @@
 	{
 		var data = {
 			"repairThreshold" : this.mEIMO.SettingsValues.repairThreshold.Value,
-			"waitThreshold" : this.mEIMO.SettingsValues.waitThreshold.Value
+			"waitThreshold" : this.mEIMO.SettingsValues.waitThreshold.Value,
+			"salvageThreshold" : this.mEIMO.SettingsValues.salvageThreshold.Value
 		};
 		this.mDataSource.notifyBackendEIMOsetSettings(data);
 	}
