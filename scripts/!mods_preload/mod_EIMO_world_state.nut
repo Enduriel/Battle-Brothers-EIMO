@@ -24,7 +24,7 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 			for( local i = 0; i != items.len(); i = ++i )
 			{
 				local item = items[i];
-				if (item != null && item.m.isFavorite )
+				if (item != null && item.isFavorite() )
 				{
 					this.World.Flags.set(this.Const.EIMO.getStashIndexFlag(i), 1);
 					//this.logInfo("item: " + item.getID() + " at index "+ i +" saved as favorite.");
@@ -56,7 +56,7 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 				{
 					if(item != null)
 					{
-						if(item.m.isFavorite)
+						if(item.isFavorite())
 						{
 							bro.getFlags().add("EIMO" + item.getCurrentSlotType());
 						}
@@ -98,7 +98,7 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 				}
 				else if (this.World.Flags.get(this.Const.EIMO.getStashIndexFlag(i)) == 1)
 				{
-					item.m.isFavorite = true;
+					item.setFavorite(true);
 					this.World.Flags.remove(this.Const.EIMO.getStashIndexFlag(i));
 				}
 			}
@@ -111,7 +111,7 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 					{
 						if(bro.getFlags().has("EIMO" + item.getCurrentSlotType()))
 						{
-							item.m.isFavorite = true;
+							item.setFavorite(true);
 							bro.getFlags().remove("EIMO" + item.getCurrentSlotType())
 						}
 					}

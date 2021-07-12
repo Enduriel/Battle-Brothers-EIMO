@@ -5,16 +5,9 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 		o.onFavoriteInventoryItem <- function(itemID)
 		{
 			if (!("Assets" in this.World)) return;
-			local item = this.World.Assets.getStash().getItemByInstanceID(itemID).item;
-			
-			if (item.m.isFavorite)
-			{
-				item.m.isFavorite = false;
-			}
-			else
-			{
-				item.m.isFavorite = true;
-			}
+			local item = this.World.Assets.getStash().getItemByInstanceID(itemID).item;			
+			item.setFavorite(!item.isFavorite())
+
 			return true;
 		}
 		
