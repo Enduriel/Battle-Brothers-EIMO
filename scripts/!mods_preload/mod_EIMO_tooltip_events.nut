@@ -88,7 +88,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					text = "Above this threshold of profitability items will not be sold until they are fully repaired.\n\nA value of 150% means 50% profit from selling a repaired item compared to the cost of buying tools"
 				}];
 			}
-			else if(elementId == "character-screen.right-panel-header-module.SellAllButton")
+			else if(elementId == "EIMO.SellAllButton")
 			{
 				return [
 				{
@@ -102,7 +102,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 						text = "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Items with ratio 175+ will only be sold when in full condition."
 				}];
 			} 
-			else if(elementId == "tactical-combat-result-screen.loot-panel.SmartLootButton")
+			else if(elementId == "EIMO.SmartLootButton")
 			{
 				return [
 				{

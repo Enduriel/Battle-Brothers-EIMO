@@ -79,7 +79,7 @@
 	{
 		tcBindTooltips.call(this);
 
-		this.mSmartLootButton.bindTooltip({ contentType: 'ui-element', elementId: "tactical-combat-result-screen.loot-panel.SmartLootButton" });
+		this.mSmartLootButton.bindTooltip({ contentType: 'ui-element', elementId: "EIMO.SmartLootButton" });
 	}
 	
 	tcUnbindTooltips = TacticalCombatResultScreenLootPanel.prototype.unbindTooltips;

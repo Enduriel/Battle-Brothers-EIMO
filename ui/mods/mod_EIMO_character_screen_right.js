@@ -59,14 +59,14 @@
 
 		var content = $('<div class="row"/>');
 		this.mEIMO.OptionsMenu.append(content);
-		var layout = $('<div class="l-button EIMO-repair"/>');
+		var layout = $('<div class="l-button repair"/>');
 		content.append(layout);
 		this.mEIMO.DrepairButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_repair_button.png", function ()
 		{
 			self.mDataSource.EIMOrepairAllButtonClicked();
 		}, '', 3);
 
-		var layout = $('<div class="l-button EIMO-visibility-level"/>');
+		var layout = $('<div class="l-button visibility-level"/>');
 		content.append(layout);
 		this.mEIMO.ChangeVisibilityButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_cycle_button.png", function ()
 		{
