@@ -182,10 +182,35 @@
     left: 6.0rem;
 }
 
+.character-screen-container .EIMO-settings .row .l-button.repair-brother
+{
+    left: 24.7rem;
+}
+
+.character-screen-container .EIMO-settings .row .l-button.repair-company
+{
+    left: 29.7rem;
+}
+
+.character-screen-container .EIMO-settings .row .l-button.repair-brother img
+{
+    top: -0.3rem;
+}
+
+.character-screen-container .EIMO-settings .row .l-button.repair-company img
+{
+    top: -0.3rem;
+}
+
 .character-screen-container .right-panel-module .is-right .l-button.EIMO-settings-button
 {
     top: 0.2rem;
     width: 4.5rem;
     height: 4.1rem;
     left: -8rem;
+}
+
+.character-screen-container .right-panel-module .is-right .l-button.EIMO-settings-button img
+{
+    top: -0.2rem;
 }

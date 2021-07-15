@@ -6,8 +6,9 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 		{
 			local tooltip = queryTooltipData(entityId, elementId, elementOwner);
 			if(tooltip != null) return tooltip;
-			if(elementId == "EIMO.RepairButton")
+			switch (elementId)
 			{
+			case "EIMO.RepairButton":
 				return [
 				{
 					id = 1,
@@ -31,9 +32,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					icon = "ui/icons/EIMO_mouse_right_button_ctrl_shift.png",
 					text = "Ctrl-Shift-click on items to mark them as favorite (they will then not be sold)"
 				}];
-			}
-			else if (elementId == "EIMO.SettingsButton") 
-			{
+			case "EIMO.SettingsButton":
 				return [
 				{
 					id = 1,
@@ -45,9 +44,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					type = "description",
 					text = "Toggles the EIMO settings window"
 				}];
-			}
-			else if(elementId == "EIMO.ChangeVisibilityButton")
-			{
+			case "EIMO.ChangeVisibilityButton":
 				return [
 				{
 					id = 1,
@@ -59,9 +56,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					type = "description",
 					text = "Cycles through 3 different levels of visibility for EIMO Info"
 				}];
-			}
-			else if(elementId == "EIMO.RepairThresholdSlider")
-			{
+			case "EIMO.RepairThresholdSlider":
 				return [
 				{
 					id = 1,
@@ -73,9 +68,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					type = "description",
 					text = "Above this threshold of profitability items will be marked for repair by the repair button (Smart Loot uses the wait Threshold).\n\nA value of 150% means 50% profit from selling a repaired item compared to the cost of buying tools"
 				}];
-			}
-			else if(elementId == "EIMO.WaitThresholdSlider")
-			{
+			case "EIMO.WaitThresholdSlider":
 				return [
 				{
 					id = 1,
@@ -87,9 +80,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					type = "description",
 					text = "Above this threshold of profitability items will not be sold until they are fully repaired.\n\nA value of 150% means 50% profit from selling a repaired item compared to the cost of buying tools"
 				}];
-			}
-			else if(elementId == "EIMO.SellAllButton")
-			{
+			case "EIMO.SellAllButton":
 				return [
 				{
 					id = 1,
@@ -97,13 +88,11 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					text = "Sell All Loot"
 				},
 				{
-						id = 2,
-						type = "description",
-						text = "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Items with ratio 175+ will only be sold when in full condition."
+					id = 2,
+					type = "description",
+					text = "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Items with ratio 175+ will only be sold when in full condition."
 				}];
-			} 
-			else if(elementId == "EIMO.SmartLootButton")
-			{
+			case "EIMO.SmartLootButton":
 				return [
 				{
 					id = 1,
@@ -115,6 +104,52 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					type = "description",
 					text = "Intelligently loot all items including moving items from player inventory and automatically adding consumables to their totals."
 				}];
+			case "EIMO.RepairBrotherButton":
+				local ret = [
+				{
+					id = 1,
+					type = "title",
+					text = "Repair Current Brother's Equipment"
+				},
+				{
+					id = 2,
+					type = "description",
+					text = "Repair current brother's equipment at the local smith instantly by paying a fee.\n\nRequires you to be within 2 world tiles of a town with a smith and have enough money for the repair."
+				}];
+
+				if(this.Const.EIMO.characterScreen.EIMOcanRepair())
+				{
+					ret.push({
+						id = 3,
+						type = "hint",
+						icon = "ui/icons/asset_money.png",
+						text = "Repair Cost: " + this.Const.EIMO.characterScreen.EIMOgetRepairPriceBrother(this.Const.EIMO.characterScreen.EIMOgetSelectedBrother())
+					});
+				}
+				return ret;
+			case "EIMO.RepairCompanyButton":
+				local ret = [
+				{
+					id = 1,
+					type = "title",
+					text = "Repair Company's Equipment"
+				},
+				{
+					id = 2,
+					type = "description",
+					text = "Repair your entire company's equipment at the local smith instantly by paying a fee.\n\nRequires you to be within 2 world tiles of a town with a smith and have enough money for the repair."
+				}];
+
+				if(this.Const.EIMO.characterScreen.EIMOcanRepair())
+				{
+					ret.push({
+						id = 3,
+						type = "hint",
+						icon = "ui/icons/asset_money.png",
+						text = "Repair Cost: " + this.Const.EIMO.characterScreen.EIMOgetRepairPriceCompany()
+					});
+				}
+				return ret;
 			}
 			return null;
 		}
