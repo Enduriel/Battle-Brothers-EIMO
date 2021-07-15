@@ -1,4 +1,4 @@
-::mods_registerMod("mod_smartLootEIMO", 2.3, "Smart Loot integrated into EIMO");
+::mods_registerMod("mod_smart_loot_EIMO", 2.3, "Smart Loot integrated into EIMO");
 ::mods_queue(null,"mod_EIMO, !mod_legends, >mod_smartLoot", function()
 {
 	::mods_hookNewObject("ui/screens/tactical/tactical_combat_result_screen", function(o)
