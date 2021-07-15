@@ -161,9 +161,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					});
 				}
 				return ret;
-			}
-			else if(elementId == "EIMO.SalvageAllButton")
-			{
+			case "EIMO.SalvageAllButton":
 				return [
 				{
 					id = 1,
@@ -174,8 +172,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					id = 2,
 					type = "description",
 					text = "Marks all salvageable items in your iventory with low enough ratio for salvage"
-				}
-				];
+				}];
 			}
 			return null;
 		}

@@ -45,6 +45,7 @@
 			{
 				DrepairButton: null,
 				ChangeVisibilityButton: null,
+				SalvageButton: null,
 				RepairBrother:
 				{
 					Enabled: false
@@ -103,9 +104,9 @@
 			self.mDataSource.EIMOOptionsMenu.ChangeVisibilityButtonClicked();
 		}, '', 3);
 
-		var layout = $('<div class="l-button salvage-button"/>');
+		var layout = $('<div class="l-button salvage"/>');
 		content.append(layout);
-		this.mEIMO.SalvageButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_salvage_button.png", function ()
+		this.mEIMO.OptionsMenu.SalvageButton = layout.createImageButton(Path.GFX + EIMO.BUTTON_SALVAGE, function ()
 		{
 			self.mDataSource.EIMOsalvageAllButtonClicked();
 		}, '', 3);
@@ -180,6 +181,9 @@
 		this.mEIMO.OptionsMenu.ChangeVisibilityButton.remove();
 		this.mEIMO.OptionsMenu.ChangeVisibilityButton = null;
 
+		this.mEIMO.OptionsMenu.SalvageButton.remove();
+		this.mEIMO.OptionsMenu.SalvageButton = null;
+
 		this.mEIMO.OptionsMenu.RepairBrother.remove();
 		this.mEIMO.OptionsMenu.RepairBrother = null;
 
@@ -216,9 +220,9 @@
 		csBindTooltips.call(this)
 
 		this.mEIMO.SettingsButton.bindTooltip({ contentType: 'ui-element', elementId: 'EIMO.SettingsButton' });
-		this.mEIMO.SalvageButton.bindTooltip({contentType: 'ui-element', elementId:  'EIMO.SalvageAllButton'});
 
 		this.mEIMO.OptionsMenu.DrepairButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairButton' });
+		this.mEIMO.OptionsMenu.SalvageButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.SalvageAllButton' });
 		this.mEIMO.OptionsMenu.ChangeVisibilityButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.ChangeVisibilityButton' });
 		this.mEIMO.OptionsMenu.RepairBrother.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairBrotherButton' });
 		this.mEIMO.OptionsMenu.RepairCompany.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairCompanyButton' });
@@ -239,9 +243,9 @@
 		csUnbindTooltips.call(this);
 
 		this.mEIMO.SettingsButton.unbindTooltip();
-		this.mEIMO.SalvageButton.unbindTooltip();
 
 		this.mEIMO.OptionsMenu.DrepairButton.unbindTooltip();
+		this.mEIMO.OptionsMenu.SalvageButton.unbindTooltip();
 		this.mEIMO.OptionsMenu.ChangeVisibilityButton.unbindTooltip();
 		this.mEIMO.OptionsMenu.RepairBrother.unbindTooltip();
 		this.mEIMO.OptionsMenu.RepairCompany.unbindTooltip();
@@ -312,7 +316,7 @@
 	CharacterScreenRightPanelHeaderModule.prototype.EIMOgetSettings = function()
 	{
 		var self = this;
-		this.mDataSource.notifyBackendEIMOgetSettings(function(res)
+		this.mDataSource.EIMOgetSettings(function(res)
 		{
 			self.mEIMO.SettingsValues.repairThreshold.Value = res.repairThreshold;
 			self.mEIMO.SettingsValues.waitThreshold.Value = res.waitThreshold;

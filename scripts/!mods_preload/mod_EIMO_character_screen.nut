@@ -134,6 +134,7 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 				{
 					foreach(building in s.getBuildings())
 					{
+						if (building == null) continue; //Should really be unnecessary but apparently Legends Settlements can have null buildings? Needs looking at
 						if (building.isRepairOffered()) return s;
 					}
 				}
@@ -183,8 +184,21 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 			local town = this.EIMOcanRepair();
 			if(town == null) return null;
 
-			local price = (_item.getConditionMax() - _item.getCondition()) * this.Const.World.Assets.CostToRepairPerPoint;
-			local value = _item.m.Value * (1.0 - _item.getCondition() / _item.getConditionMax()) * 0.2 * town.getPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+			local condition;
+			local conditionMax;
+			if(::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null)
+			{
+				condition = _item.getRepair();
+				conditionMax = _item.getRepairMax();
+			}
+			else
+			{
+				condition = _item.getCondition();
+				conditionMax = _item.getConditionMax();
+			}
+
+			local price = (conditionMax - condition) * this.Const.World.Assets.CostToRepairPerPoint;
+			local value = _item.getValue() * (1.0 - condition / conditionMax) * 0.2 * town.getPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
 			return this.Math.max(price, value);
 		}
 
@@ -202,8 +216,15 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 
 		o.EIMOpaidRepair <- function (_item)
 		{
-			_item.setCondition(_item.getConditionMax());
-			_item.setToBeRepaired(false);	//Legends may need to remove from a queue?
+			if(::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null)
+			{
+				_item.setCondition(_item.getRepairMax());
+			}
+			else
+			{
+				_item.setCondition(_item.getConditionMax());
+			}
+			_item.setToBeRepaired(false, 0);	//Legends may need to remove from a queue?
 			this.World.Statistics.getFlags().increment("ItemsRepaired");
 		}
 

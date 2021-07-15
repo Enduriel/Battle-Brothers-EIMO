@@ -1,4 +1,9 @@
 {
+	CharacterScreenDatasource.prototype.EIMOgetSettings = function (_callback)
+	{
+		this.notifyBackendEIMOgetSettings(_callback);
+	}
+
 	CharacterScreenDatasource.prototype.notifyBackendEIMOgetSettings = function (_callback)
 	{
 		SQ.call(this.mSQHandle, 'EIMOgetSettings', null, _callback);
