@@ -135,6 +135,8 @@ gt.Const.EIMO <- {};
 		return getValueChange(item) - getRepairCost(item);
 	}
 
+	gt.Const.EIMO.characterScreen <- null;
+
 	gt.Const.EIMO.visibilityLevel <- 0;
 
 	gt.Const.EIMO.getVisibilityLevelFlag <- @() "EIMO.VL";
@@ -147,6 +149,7 @@ gt.Const.EIMO <- {};
 
 
 	::mods_registerJS("mod_EIMO.js");
+	::mods_registerJS("mod_EIMO_assets.js");
 	::mods_registerJS("mod_EIMO_character_screen_datasource.js");
 	::mods_registerJS("mod_EIMO_character_screen_right.js");
 	::mods_registerJS("mod_EIMO_town_shop.js")
@@ -162,6 +165,7 @@ gt.Const.EIMO <- {};
 	gt.Const.EIMO.hookTooltipEvents();
 	gt.Const.EIMO.hookWorldState();
 	gt.Const.EIMO.hookCharacterScreen();
+	gt.Const.EIMO.hookSettlement();
 
 	delete gt.Const.EIMO.hookTownShop;
 	delete gt.Const.EIMO.hookCharacterScreen;
@@ -169,6 +173,7 @@ gt.Const.EIMO <- {};
 	delete gt.Const.EIMO.hookTooltipEvents;
 	delete gt.Const.EIMO.hookItemsStash;
 	delete gt.Const.EIMO.hookDataHelper;
+	delete gt.Const.EIMO.hookSettlement;
 });
 
 

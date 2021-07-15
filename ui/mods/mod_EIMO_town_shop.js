@@ -125,7 +125,7 @@
 	WorldTownScreenShopDialogModule.prototype.bindTooltips = function ()
 	{
 		wtBindTooltips.call(this);
-		this.mSellAllButton.bindTooltip({ contentType: 'ui-element', elementId:  'character-screen.right-panel-header-module.SellAllButton' });
+		this.mSellAllButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.SellAllButton' });
 	};
 
 	var wtUnbindTooltips = WorldTownScreenShopDialogModule.prototype.unbindTooltips;

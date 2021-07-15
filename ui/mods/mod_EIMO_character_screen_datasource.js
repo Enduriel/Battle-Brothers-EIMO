@@ -21,7 +21,7 @@
 
 	CharacterScreenDatasource.prototype.EIMOrepairAllButtonClicked = function(_itemId, _callback)
 	{
-	   this.notifyBackendEIMORepairAllButtonClicked(_itemId, _callback);
+		this.notifyBackendEIMORepairAllButtonClicked(_itemId, _callback);
 	};
 
 	CharacterScreenDatasource.prototype.notifyBackendEIMORepairAllButtonClicked = function (_sourceItemId, _callback)
@@ -29,15 +29,15 @@
 		SQ.call(this.mSQHandle, 'onRepairAllButtonClicked', _sourceItemId, _callback);
 	};
 
-	CharacterScreenDatasource.prototype.EIMOchangeVisibilityButtonClicked = function(_itemId, _callback)
+	CharacterScreenDatasource.prototype.ChangeVisibilityButtonClicked = function(_itemId, _callback)
 	{
-		this.notifyBackendEIMOonChangeVisibilityButtonClicked(_itemId, _callback);
+		this.notifyBackendEIMOonOptionsMenu.ChangeVisibilityButtonClicked(_itemId, _callback);
 		this.EIMOgetVisibilityLevel();
 	};
 
-	CharacterScreenDatasource.prototype.notifyBackendEIMOonChangeVisibilityButtonClicked = function (_sourceItemId, _callback)
+	CharacterScreenDatasource.prototype.notifyBackendChangeVisibilityButtonClicked = function (_sourceItemId, _callback)
 	{
-		SQ.call(this.mSQHandle, 'EIMOonChangeVisibilityButtonClicked', _sourceItemId, _callback);
+		SQ.call(this.mSQHandle, 'ChangeVisibilityButtonClicked', _sourceItemId, _callback);
 	};
 
 	CharacterScreenDatasource.prototype.EIMOgetVisibilityLevel = function ()
@@ -63,7 +63,7 @@
 
 	CharacterScreenDatasource.prototype.EIMOsetForSaleInventoryItem = function(_itemId, _callback)
 	{
-	   this.notifyBackendEIMOSetForSaleInventoryItem(_itemId, _callback);
+		this.notifyBackendEIMOSetForSaleInventoryItem(_itemId, _callback);
 	};
 
 	CharacterScreenDatasource.prototype.notifyBackendEIMOSetForSaleInventoryItem = function (_sourceItemId, _callback)
@@ -73,7 +73,7 @@
 
 	CharacterScreenDatasource.prototype.EIMOfavoriteInventoryItem = function(_itemId, _callback)
 	{
-	   this.notifyBackendEIMOFavoriteInventoryItem(_itemId, _callback);
+		this.notifyBackendEIMOFavoriteInventoryItem(_itemId, _callback);
 	};
 
 	CharacterScreenDatasource.prototype.notifyBackendEIMOFavoriteInventoryItem = function (_sourceItemId, _callback)
@@ -81,13 +81,43 @@
 		SQ.call(this.mSQHandle, 'onFavoriteInventoryItem', _sourceItemId, _callback);
 	};
 
-	CharacterScreenDatasource.prototype.EIMOsalvageAllButtonClicked = function(_itemId, _callback)
+	CharacterScreenDatasource.prototype.EIMOpaidRepairBrother = function()
 	{
-	   this.notifyBackendEIMOSalvageAllButtonClicked(_itemId, _callback);
+		this.notifyBackendEIMOPaidRepairBrother();
 	};
 
-	CharacterScreenDatasource.prototype.notifyBackendEIMOSalvageAllButtonClicked = function (_sourceItemId, _callback)
+	CharacterScreenDatasource.prototype.notifyBackendEIMOPaidRepairBrother = function ()
 	{
-		SQ.call(this.mSQHandle, 'onSalvageAllButtonClicked', _sourceItemId, _callback);
+		SQ.call(this.mSQHandle, 'EIMOjspaidRepairBrother');
+	};
+
+	CharacterScreenDatasource.prototype.EIMOpaidRepairCompany = function()
+	{
+		this.notifyBackendEIMOPaidRepairCompany();
+	};
+
+	CharacterScreenDatasource.prototype.notifyBackendEIMOPaidRepairCompany = function ()
+	{
+		SQ.call(this.mSQHandle, 'EIMOjspaidRepairCompany');
+	};
+
+	CharacterScreenDatasource.prototype.EIMOsetSelectedBrother = function(_entityId)
+	{
+		this.notifyBackendEIMOSetSelectedBrother(_entityId);
+	};
+
+	CharacterScreenDatasource.prototype.notifyBackendEIMOSetSelectedBrother = function (_entityId)
+	{
+		SQ.call(this.mSQHandle, 'EIMOsetSelectedBrother',_entityId);
+	};
+
+	CharacterScreenDatasource.prototype.EIMOgetRepairButtonData = function(_callback)
+	{
+		this.notifyBackendEIMOgetRepairButtonData(_callback);
+	};
+
+	CharacterScreenDatasource.prototype.notifyBackendEIMOgetRepairButtonData = function (_callback)
+	{
+		SQ.call(this.mSQHandle, 'EIMOgetRepairButtonData', null, _callback);
 	};
 }

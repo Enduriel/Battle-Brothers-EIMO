@@ -36,14 +36,7 @@ this.getroottable().Const.EIMO.hookDataHelper <- function()
 				}
 			}
 
-			if (_item.m.isFavorite)
-			{
-				result.favorite <- true;
-			}
-			else
-			{
-				result.favorite <- false;
-			}
+			result.favorite <- _item.isFavorite()
 
 			return result;
 

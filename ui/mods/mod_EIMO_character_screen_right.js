@@ -6,42 +6,62 @@
 		createDiv.call(this, _parentDiv);
 		var self = this;
 
-		this.mEIMO = {};
-
-		this.mEIMO.SettingsValues = {
-			repairThreshold : {
-				Control : null,
-				Title : null,
-				Key: "repair-threshold",
-				Min: 100,
-				Max: 500,
-				Value: 200,
-				Step: 10				
+		this.mEIMO = 
+		{
+			SettingsValues: 
+			{
+				repairThreshold: 
+				{
+					Control: null,
+					Title: null,
+					Key: "repair-threshold",
+					Min: 100,
+					Max: 500,
+					Value: 200,
+					Step: 10				
+				},
+				waitThreshold: 
+				{
+					Control: null,
+					Title: null,
+					Key: "wait-threshold",
+					Min: 100,
+					Max: 500,
+					Value: 250,
+					Step: 10
+				},
+				salvageThreshold : {
+					Control : null,
+					Title : null,
+					Key: "salvage-threshold",
+					Min: 0,
+					Max: 200,
+					Value: 40,
+					Step: 5
+				}
 			},
-			waitThreshold : {
-				Control : null,
-				Title : null,
-				Key: "wait-threshold",
-				Min: 100,
-				Max: 500,
-				Value: 250,
-				Step: 10
+			SettingsButton: null,
+			OptionsMenu:
+			{
+				DrepairButton: null,
+				ChangeVisibilityButton: null,
+				RepairBrother:
+				{
+					Enabled: false
+				},
+				RepairCompany:
+				{
+					Enabled: false
+				}
 			},
-			salvageThreshold : {
-				Control : null,
-				Title : null,
-				Key: "salvage-threshold",
-				Min: 0,
-				Max: 200,
-				Value: 40,
-				Step: 5
-			}
+			CurrentBrother: null,
+			CanRepair: false
 		};
 
 		var layout = $('<div class="l-button EIMO-settings-button"/>');
 		var rightButtonContainer = this.mContainer.find(".is-right:first");
 		rightButtonContainer.append(layout)
-		this.mEIMO.SettingsButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_cog_button.png", function ()
+		this.mEIMO.SettingsButton = layout.createImageButton(Path.GFX + EIMO.BUTTON_SETTINGS, function ()
 		{
 			if (self.mEIMO.OptionsMenu.hasClass('opacity-full'))
 			{
@@ -69,18 +89,18 @@
 
 		var content = $('<div class="row"/>');
 		this.mEIMO.OptionsMenu.append(content);
-		var layout = $('<div class="l-button EIMO-repair"/>');
+		var layout = $('<div class="l-button repair"/>');
 		content.append(layout);
-		this.mEIMO.DrepairButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_repair_button.png", function ()
+		this.mEIMO.OptionsMenu.DrepairButton = layout.createImageButton(Path.GFX + EIMO.BUTTON_REPAIR, function ()
 		{
 			self.mDataSource.EIMOrepairAllButtonClicked();
 		}, '', 3);
 
-		var layout = $('<div class="l-button EIMO-visibility-level"/>');
+		var layout = $('<div class="l-button visibility-level"/>');
 		content.append(layout);
-		this.mEIMO.ChangeVisibilityButton = layout.createImageButton(Path.GFX + "ui/icons/EIMO_cycle_button.png", function ()
+		this.mEIMO.OptionsMenu.ChangeVisibilityButton = layout.createImageButton(Path.GFX + EIMO.BUTTON_VISIBILITY, function ()
 		{
-			self.mDataSource.EIMOchangeVisibilityButtonClicked();
+			self.mDataSource.EIMOOptionsMenu.ChangeVisibilityButtonClicked();
 		}, '', 3);
 
 		var layout = $('<div class="l-button salvage-button"/>');
@@ -89,6 +109,22 @@
 		{
 			self.mDataSource.EIMOsalvageAllButtonClicked();
 		}, '', 3);
+
+		var layout = $('<div class="l-button repair-brother"/>');
+		content.append(layout);
+		this.mEIMO.OptionsMenu.RepairBrother = layout.createImageButton(Path.GFX + EIMO.BUTTON_REPAIR_ONE_DISABLED, function ()
+		{
+			if(self.mEIMO.OptionsMenu.RepairBrother.Enabled) self.mDataSource.EIMOpaidRepairBrother();
+		}, '', 3);
+		this.mEIMO.OptionsMenu.RepairBrother.Enabled = false
+
+		var layout = $('<div class="l-button repair-company"/>');
+		content.append(layout);
+		this.mEIMO.OptionsMenu.RepairCompany = layout.createImageButton(Path.GFX + EIMO.BUTTON_REPAIR_ALL_DISABLED, function ()
+		{
+			if(self.mEIMO.OptionsMenu.RepairCompany.Enabled) self.mDataSource.EIMOpaidRepairCompany();
+		}, '', 3);
+		this.mEIMO.OptionsMenu.RepairCompany.Enabled = false;
 
 		this.EIMOregisterDatasourceListener();
 	}
@@ -135,18 +171,20 @@
 	{
 		destroyDiv.call(this);
 
-		this.mEIMO.OptionsMenu.empty();
-		this.mEIMO.OptionsMenu.remove();
-		this.mEIMO.OptionsMenu = null;
-
 		this.mEIMO.SettingsButton.remove();
 		this.mEIMO.SettingsButton = null;
 
-		this.mEIMO.DrepairButton.remove();
-		this.mEIMO.DrepairButton = null;
+		this.mEIMO.OptionsMenu.DrepairButton.remove();
+		this.mEIMO.OptionsMenu.DrepairButton = null;
 
-		this.mEIMO.ChangeVisibilityButton.remove();
-		this.mEIMO.ChangeVisibilityButton = null;
+		this.mEIMO.OptionsMenu.ChangeVisibilityButton.remove();
+		this.mEIMO.OptionsMenu.ChangeVisibilityButton = null;
+
+		this.mEIMO.OptionsMenu.RepairBrother.remove();
+		this.mEIMO.OptionsMenu.RepairBrother = null;
+
+		this.mEIMO.OptionsMenu.RepairCompany.remove();
+		this.mEIMO.OptionsMenu.RepairCompany = null;
 
 		this.mEIMO.SettingsValues.repairThreshold.Control.empty();
 		this.mEIMO.SettingsValues.repairThreshold.Control.remove();
@@ -159,11 +197,17 @@
 		this.mEIMO.SettingsValues.salvageThreshold.Control.empty();
 		this.mEIMO.SettingsValues.salvageThreshold.Control.remove();
 		this.mEIMO.SettingsValues.salvageThreshold.Control = null;
+
+		this.mEIMO.OptionsMenu.empty();
+		this.mEIMO.OptionsMenu.remove();
+		this.mEIMO.OptionsMenu = null;
 	}
 
 	CharacterScreenRightPanelHeaderModule.prototype.EIMOregisterDatasourceListener = function()
 	{
-		this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Inventory.StashLoaded, jQuery.proxy(this.EIMOgetSettings, this));
+		this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Brother.ListLoaded, jQuery.proxy(this.EIMOgetSettings, this));
+		this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Brother.Selected, jQuery.proxy(this.EIMOonSelectBrother, this));
+		this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Inventory.StashItemUpdated.Key, jQuery.proxy(this.EIMOupdateRepairButton, this));
 	}
 
 	var csBindTooltips = CharacterScreenRightPanelHeaderModule.prototype.bindTooltips;
@@ -172,9 +216,12 @@
 		csBindTooltips.call(this)
 
 		this.mEIMO.SettingsButton.bindTooltip({ contentType: 'ui-element', elementId: 'EIMO.SettingsButton' });
-		this.mEIMO.DrepairButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairButton' });
-		this.mEIMO.ChangeVisibilityButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.ChangeVisibilityButton' });
 		this.mEIMO.SalvageButton.bindTooltip({contentType: 'ui-element', elementId:  'EIMO.SalvageAllButton'});
+
+		this.mEIMO.OptionsMenu.DrepairButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairButton' });
+		this.mEIMO.OptionsMenu.ChangeVisibilityButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.ChangeVisibilityButton' });
+		this.mEIMO.OptionsMenu.RepairBrother.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairBrotherButton' });
+		this.mEIMO.OptionsMenu.RepairCompany.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairCompanyButton' });
 
 		this.mEIMO.SettingsValues.repairThreshold.Control.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairThresholdSlider' });
 		this.mEIMO.SettingsValues.repairThreshold.Title.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairThresholdSlider' });
@@ -192,9 +239,12 @@
 		csUnbindTooltips.call(this);
 
 		this.mEIMO.SettingsButton.unbindTooltip();
-		this.mEIMO.DrepairButton.unbindTooltip();
-		this.mEIMO.ChangeVisibilityButton.unbindTooltip();
 		this.mEIMO.SalvageButton.unbindTooltip();
+
+		this.mEIMO.OptionsMenu.DrepairButton.unbindTooltip();
+		this.mEIMO.OptionsMenu.ChangeVisibilityButton.unbindTooltip();
+		this.mEIMO.OptionsMenu.RepairBrother.unbindTooltip();
+		this.mEIMO.OptionsMenu.RepairCompany.unbindTooltip();
 
 		this.mEIMO.SettingsValues.repairThreshold.Control.unbindTooltip();
 		this.mEIMO.SettingsValues.repairThreshold.Title.unbindTooltip();
@@ -221,10 +271,47 @@
 		return this.mEIMO.OptionsMenu.hasClass('opacity-full');
 	}
 
+	CharacterScreenRightPanelHeaderModule.prototype.EIMOonSelectBrother = function(_datasource, _brother)
+	{
+		this.mDataSource.EIMOsetSelectedBrother(_brother[CharacterScreenIdentifier.Entity.Id]);
+		this.EIMOupdateRepairButton();
+	}
+
+	CharacterScreenRightPanelHeaderModule.prototype.EIMOupdateRepairButton = function()
+	{
+		var self = this;
+		this.mDataSource.EIMOgetRepairButtonData(function(data)
+		{
+			self.EIMORepairBrotherButtonState(data.canRepairBrother);
+			self.EIMORepairCompanyButtonState(data.canRepairCompany);
+		});
+	}
+
+	CharacterScreenRightPanelHeaderModule.prototype.EIMORepairBrotherButtonState = function (_enable)
+	{
+		if(!this.mEIMO.CanRepair) _enable = false;
+		if(this.mEIMO.OptionsMenu.RepairBrother.Enabled === _enable) return;
+		this.mEIMO.OptionsMenu.RepairBrother.Enabled = _enable;
+		if (_enable === true)
+			this.mEIMO.OptionsMenu.RepairBrother.changeButtonImage(Path.GFX + EIMO.BUTTON_REPAIR_ONE_ENABLED);
+		else
+			this.mEIMO.OptionsMenu.RepairBrother.changeButtonImage(Path.GFX + EIMO.BUTTON_REPAIR_ONE_DISABLED);
+	};
+
+	CharacterScreenRightPanelHeaderModule.prototype.EIMORepairCompanyButtonState = function (_enable)
+	{
+		if(!this.mEIMO.CanRepair) _enable = false;
+		if(this.mEIMO.OptionsMenu.RepairCompany.Enabled === _enable) return;
+		this.mEIMO.OptionsMenu.RepairCompany.Enabled = _enable;
+		if (_enable === true)
+			this.mEIMO.OptionsMenu.RepairCompany.changeButtonImage(Path.GFX + EIMO.BUTTON_REPAIR_ALL_ENABLED);
+		else
+			this.mEIMO.OptionsMenu.RepairCompany.changeButtonImage(Path.GFX + EIMO.BUTTON_REPAIR_ALL_DISABLED);
+	};
+
 	CharacterScreenRightPanelHeaderModule.prototype.EIMOgetSettings = function()
 	{
 		var self = this;
-
 		this.mDataSource.notifyBackendEIMOgetSettings(function(res)
 		{
 			self.mEIMO.SettingsValues.repairThreshold.Value = res.repairThreshold;
@@ -237,6 +324,8 @@
 
 			if(res.isVisible) self.EIMOshow();
 			else self.EIMOhide();
+
+			self.mEIMO.CanRepair = res.canRepair;
 		});
 	}
 

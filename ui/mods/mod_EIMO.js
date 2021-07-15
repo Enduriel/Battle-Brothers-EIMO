@@ -1,6 +1,6 @@
 var EIMOGlobalVisibilityLevel;
 {
-	createItemSlots = CharacterScreenInventoryListModule.prototype.createItemSlots;
+	var createItemSlots = CharacterScreenInventoryListModule.prototype.createItemSlots;
 	CharacterScreenInventoryListModule.prototype.createItemSlots = function (_owner, _size, _itemArray, _itemContainer)
 	{
 		createItemSlots.call(this, _owner, _size, _itemArray, _itemContainer);
@@ -28,7 +28,7 @@ var EIMOGlobalVisibilityLevel;
 		var markcLayer = $('<div class="markc-layer display-none"/>');
 		result.append(markcLayer);
 		var markcImage = $('<img/>');
-		markcImage.attr('src', Path.GFX + "ui/icons/EIMO_money_icon.png");
+		markcImage.attr('src', Path.GFX + EIMO.ICON_MONEY);
 		markcLayer.append(markcImage);
 		
 		//favorite layer
@@ -36,7 +36,7 @@ var EIMOGlobalVisibilityLevel;
 		var favoriteLayer = $('<div class="favorite-layer display-none"/>');
 		result.append(favoriteLayer);
 		var favoriteImage = $('<img/>');
-		favoriteImage.attr('src', Path.GFX + "ui/icons/EIMO_favorite_icon.png");
+		favoriteImage.attr('src', Path.GFX + EIMO.ICON_FAVORITE);
 		favoriteLayer.append(favoriteImage);
 		
 		return result
