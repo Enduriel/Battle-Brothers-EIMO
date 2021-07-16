@@ -77,7 +77,7 @@
 				i.onAddedToStash(Stash.getID());
 				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
-					if(this.Const.EIMO.getDratio(i) > this.Const.EIMO.SellThreshold()) 
+					if(this.Const.EIMO.getDratio(i) > this.Const.EIMO.SellThreshold) 
 					{
 						i.setToBeRepaired(true, idx);
 					}
