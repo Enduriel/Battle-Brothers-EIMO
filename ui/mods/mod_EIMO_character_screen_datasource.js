@@ -36,7 +36,7 @@
 
 	CharacterScreenDatasource.prototype.ChangeVisibilityButtonClicked = function(_itemId, _callback)
 	{
-		this.notifyBackendEIMOonOptionsMenu.ChangeVisibilityButtonClicked(_itemId, _callback);
+		this.notifyBackendChangeVisibilityButtonClicked(_itemId, _callback);
 		this.EIMOgetVisibilityLevel();
 	};
 
