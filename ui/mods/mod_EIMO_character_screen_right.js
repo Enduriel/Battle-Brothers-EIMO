@@ -109,7 +109,15 @@
 		}, '', 3);
 		this.mEIMO.OptionsMenu.RepairCompany.Enabled = false;
 
-		this.EIMOregisterDatasourceListener();
+		if (this.mDataSource.isTacticalMode()) 
+		{
+			this.EIMOhide();
+			this.mEIMO.SettingsButton.removeClass('opacity-full is-top').addClass('opacity-none no-pointer-events');
+		}
+		else
+		{
+			this.EIMOregisterDatasourceListener();
+		}
 	}
 
 	CharacterScreenRightPanelHeaderModule.prototype.createSliderControlDIV = function (_definition, _label, _parentDiv)
