@@ -90,7 +90,7 @@
 		content.append(layout);
 		this.mEIMO.OptionsMenu.ChangeVisibilityButton = layout.createImageButton(Path.GFX + EIMO.BUTTON_VISIBILITY, function ()
 		{
-			self.mDataSource.EIMOOptionsMenu.ChangeVisibilityButtonClicked();
+			self.mDataSource.ChangeVisibilityButtonClicked();
 		}, '', 3);
 
 		var layout = $('<div class="l-button repair-brother"/>');
