@@ -35,18 +35,9 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 			local item = this.World.Assets.getStash().getItemByInstanceID(data).item;
 			if (item != null)
 			{
-				if (!this.World.Flags.has(this.Const.EIMO.getItemSaleFlag(item)) || this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(item)) == 0)
-				{
-					this.World.Flags.set(this.Const.EIMO.getItemSaleFlag(item), 1);
-					this.loadStashList();
-					return true;
-				}
-				else if (item != null && this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(item)) == 1)
-				{
-					this.World.Flags.set(this.Const.EIMO.getItemSaleFlag(item), 0);
-					this.loadStashList();
-					return true;
-				}
+				item.setForSale(!item.isSetForSale());
+				this.loadStashList();
+				return true;
 			}
 			else
 			{

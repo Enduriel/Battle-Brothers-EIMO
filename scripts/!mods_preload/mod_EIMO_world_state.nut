@@ -52,13 +52,19 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 		{
 			foreach(bro in this.World.getPlayerRoster().getAll())
 			{
+				local bagslot = 0;
 				foreach (item in bro.getItems().getAllItems())
 				{
 					if(item != null)
 					{
+						if(item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
 						if(item.isFavorite())
 						{
-							bro.getFlags().add("EIMO" + item.getCurrentSlotType());
+							bro.getFlags().add(this.Const.EIMO.getBroItemSlotFlag(item, bagslot));
+						}
+						else if(bro.getFlags().has(this.Const.EIMO.getBroItemSlotFlag(item, bagslot)))
+						{
+							bro.getFlags().remove(this.Const.EIMO.getBroItemSlotFlag(item, bagslot));
 						}
 					}
 				}
@@ -105,14 +111,16 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 
 			foreach(bro in this.World.getPlayerRoster().getAll())
 			{
+				local bagslot = 0;
 				foreach (item in bro.getItems().getAllItems())
 				{
 					if(item != null)
 					{
-						if(bro.getFlags().has("EIMO" + item.getCurrentSlotType()))
+						if(item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
+						if(bro.getFlags().has(this.Const.EIMO.getBroItemSlotFlag(item, bagslot)))
 						{
 							item.setFavorite(true);
-							bro.getFlags().remove("EIMO" + item.getCurrentSlotType())
+							bro.getFlags().remove(this.Const.EIMO.getBroItemSlotFlag(item, bagslot))
 						}
 					}
 				}

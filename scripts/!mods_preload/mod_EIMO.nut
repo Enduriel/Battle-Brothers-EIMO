@@ -86,8 +86,8 @@ gt.Const.EIMO <- {};
 		return getValueChange(item) - getRepairCost(item);
 	}
 
+	gt.Const.EIMO.isLayered <- @(_item) ::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null 
 	gt.Const.EIMO.characterScreen <- null;
-
 	gt.Const.EIMO.visibilityLevel <- 0;
 
 	gt.Const.EIMO.getVisibilityLevelFlag <- @() "EIMO.VL";
@@ -96,6 +96,11 @@ gt.Const.EIMO <- {};
 	gt.Const.EIMO.getRepairThresholdFlag <- @() "EIMO.RepairThreshold";
 	gt.Const.EIMO.getSellThresholdFlag <- @() "EIMO.SellThreshold";
 	gt.Const.EIMO.getShowSettingsFlag <- @() "EIMO.ShowSettings";
+	gt.Const.EIMO.getBroItemSlotFlag <- function (_item, _bagslot)
+	{
+		if(_item.getCurrentSlotType() == this.Const.ItemSlot.Bag) return "EIMO." + this.Const.ItemSlot.Bag + "." + _bagslot;
+		else return "EIMO." + _item.getCurrentSlotType();
+	}
 
 
 	::mods_registerJS("mod_EIMO.js");
