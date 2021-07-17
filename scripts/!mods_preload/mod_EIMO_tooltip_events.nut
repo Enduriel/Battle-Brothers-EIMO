@@ -5,7 +5,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 		o.general_queryUIElementTooltipData = function(entityId, elementId, elementOwner)
 		{
 			local tooltip = queryTooltipData(entityId, elementId, elementOwner);
-			if(tooltip != null) return tooltip;
+			if (tooltip != null) return tooltip;
 			switch (elementId)
 			{
 			case "EIMO.RepairButton":
@@ -117,7 +117,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					text = "Repair current brother's equipment at the local smith instantly by paying a fee.\n\nRequires you to be within 2 world tiles of a town with a smith and have enough money for the repair."
 				}];
 
-				if(this.Const.EIMO.characterScreen.EIMOcanRepair())
+				if (this.Const.EIMO.characterScreen.EIMOcanRepair())
 				{
 					ret.push({
 						id = 3,
@@ -140,7 +140,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					text = "Repair your entire company's equipment at the local smith instantly by paying a fee.\n\nRequires you to be within 2 world tiles of a town with a smith and have enough money for the repair."
 				}];
 
-				if(this.Const.EIMO.characterScreen.EIMOcanRepair())
+				if (this.Const.EIMO.characterScreen.EIMOcanRepair())
 				{
 					ret.push({
 						id = 3,

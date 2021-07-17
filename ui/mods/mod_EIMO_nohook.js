@@ -276,7 +276,7 @@
 				{
 					self.mDataSource.EIMOfavoriteInventoryItem(itemId, function (retf)
 					{
-						if(retf)
+						if (retf)
 						{
 							data['favorite'] = !data['favorite'];
 							result.setFavoriteImageVisible(data['favorite']);
@@ -287,7 +287,7 @@
 				{
 					self.mDataSource.EIMOsetForSaleInventoryItem(itemId, function(retu)
 					{
-						if(retu)
+						if (retu)
 						{
 							data['markc'] = !data['markc'];
 							result.setMarkcImageVisible(data['markc']);
@@ -310,7 +310,7 @@
 					{
 						self.mDataSource.repairInventoryItem(itemId, function(ret)
 						{
-							if(ret)
+							if (ret)
 							{
 								data['repair'] = !data['repair'];
 								result.setRepairImageVisible(data['repair']);

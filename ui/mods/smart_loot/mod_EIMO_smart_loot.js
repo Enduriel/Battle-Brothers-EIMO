@@ -29,7 +29,7 @@
 	TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot = function(_owner, _slot, _item)
 	{
 		tcAssignItemToSlot.call(this, _owner, _slot, _item);
-		if(!('id' in _item) || !('imagePath' in _item))
+		if (!('id' in _item) || !('imagePath' in _item))
 		{
 		}
 		else
@@ -50,7 +50,7 @@
 				case 0: default:
 					_slot.setMarkcImageVisible(_item.markc);
 					_slot.setFavoriteImageVisible(_item.favorite);
-					if(_item.showDratio === true && _item[CharacterScreenIdentifier.Item.Amount] != '')
+					if (_item.showDratio === true && _item[CharacterScreenIdentifier.Item.Amount] != '')
 					{
 						_slot.setDratioVisible('' + dratioa, _item[CharacterScreenIdentifier.Item.AmountColor]);
 					}

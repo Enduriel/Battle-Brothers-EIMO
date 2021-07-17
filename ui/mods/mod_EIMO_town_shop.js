@@ -24,7 +24,7 @@
 	WorldTownScreenShopDialogModule.prototype.loadFromData = function (_data)
 	{
 		wtLoadFromData.call(this, _data);
-		if(EIMOGlobalVisibilityLevel == undefined || EIMOGlobalVisibilityLevel == null)
+		if (EIMOGlobalVisibilityLevel == undefined || EIMOGlobalVisibilityLevel == null)
 		{
 			this.EIMOgetVisibilityLevel();
 		}
@@ -62,7 +62,7 @@
 	WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _slot, _item)
 	{
 		wtAssignItemToSlot.call(this, _owner, _slot, _item);
-		if(!('id' in _item) || !('imagePath' in _item))
+		if (!('id' in _item) || !('imagePath' in _item))
 		{
 		}
 		else
@@ -74,7 +74,7 @@
 			switch (EIMOGlobalVisibilityLevel)
 			{
 				case 1:
-					if(_owner === WorldTownScreenShop.ItemOwner.Stash)
+					if (_owner === WorldTownScreenShop.ItemOwner.Stash)
 					{
 						_slot.setMarkcImageVisible(_item.markc);
 						_slot.setFavoriteImageVisible(_item.favorite);
@@ -83,11 +83,11 @@
 				case 2:
 					break;
 				case 0: default:
-					if(_owner === WorldTownScreenShop.ItemOwner.Stash)
+					if (_owner === WorldTownScreenShop.ItemOwner.Stash)
 					{
 						_slot.setMarkcImageVisible(_item.markc);
 						_slot.setFavoriteImageVisible(_item.favorite);
-						if(_item.showDratio === true && _item[CharacterScreenIdentifier.Item.Amount] != '')
+						if (_item.showDratio === true && _item[CharacterScreenIdentifier.Item.Amount] != '')
 						{
 							_slot.setDratioVisible('' + dratioa, _item[CharacterScreenIdentifier.Item.AmountColor]);
 						}

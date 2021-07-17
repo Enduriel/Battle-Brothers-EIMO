@@ -26,16 +26,16 @@ gt.Const.EIMO <- {};
 		if (!("Assets" in this.World)) return 1;
 
 		local fullValue = item.m.Value; // we would like to use item.getValue() but it's inconsistent as to whether certain modifiers are applied
-		if("Assets" in World) // this is false in the tutorial, for example
+		if ("Assets" in World) // this is false in the tutorial, for example
 		{
 			fullValue *= World.Assets.getSellPriceMult() * Const.Difficulty.SellPriceMult[World.Assets.getEconomicDifficulty()];
 		}
 
-		if(item.isItemType(Const.Items.ItemType.Food | Const.Items.ItemType.TradeGood)) return fullValue; // trade goods sell for full value and don't deteriorate
+		if (item.isItemType(Const.Items.ItemType.Food | Const.Items.ItemType.TradeGood)) return fullValue; // trade goods sell for full value and don't deteriorate
 
-		if(item.isItemType(Const.Items.ItemType.Loot)) return fullValue * Const.World.Assets.BaseLootSellPrice; // loot sells for nearly full value and doesn't deteriorate
+		if (item.isItemType(Const.Items.ItemType.Loot)) return fullValue * Const.World.Assets.BaseLootSellPrice; // loot sells for nearly full value and doesn't deteriorate
 
-		if(item.isItemType(Const.Items.ItemType.Supply)) return fullValue * 1.5; // food and supplies are not sold, so use the replacement cost (w/ 50% markup)
+		if (item.isItemType(Const.Items.ItemType.Supply)) return fullValue * 1.5; // food and supplies are not sold, so use the replacement cost (w/ 50% markup)
 
 		return this.Math.floor(fullValue * Const.World.Assets.BaseSellPrice);
 	}
@@ -43,7 +43,7 @@ gt.Const.EIMO <- {};
 	local getMaxArmorSellPrice = function(armor)
 	{
 		local upgrade = armor.getUpgrade();
-		if(upgrade != null)
+		if (upgrade != null)
 		{
 			return getMaxItemSellPrice(upgrade) + getMaxItemSellPrice(armor);
 		}
@@ -54,7 +54,7 @@ gt.Const.EIMO <- {};
 	}
 	gt.Const.EIMO.getMaxSellPrice <- function (item)
 	{
-		if(::mods_isClass(item, "armor") != null)
+		if (::mods_isClass(item, "armor") != null)
 		{
 			return getMaxArmorSellPrice(item);
 		}
@@ -71,7 +71,7 @@ gt.Const.EIMO <- {};
 
 	gt.Const.EIMO.getDratio <- function (item)
 	{
-		if(item.getConditionMax == item.getCondition())
+		if (item.getConditionMax == item.getCondition())
 		{
 			return 100
 		}
@@ -98,7 +98,7 @@ gt.Const.EIMO <- {};
 	gt.Const.EIMO.getShowSettingsFlag <- @() "EIMO.ShowSettings";
 	gt.Const.EIMO.getBroItemSlotFlag <- function (_item, _bagslot)
 	{
-		if(_item.getCurrentSlotType() == this.Const.ItemSlot.Bag) return "EIMO." + this.Const.ItemSlot.Bag + "." + _bagslot;
+		if (_item.getCurrentSlotType() == this.Const.ItemSlot.Bag) return "EIMO." + this.Const.ItemSlot.Bag + "." + _bagslot;
 		else return "EIMO." + _item.getCurrentSlotType();
 	}
 

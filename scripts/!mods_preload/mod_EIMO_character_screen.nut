@@ -154,7 +154,7 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 		o.EIMOgetRepairPrice <- function (_item) // Legends needs to use repairmax not conditionmax
 		{
 			local town = this.EIMOcanRepair();
-			if(town == null) return null;
+			if (town == null) return null;
 
 			local price = (_item.getConditionMax() - _item.getCondition()) * this.Const.World.Assets.CostToRepairPerPoint;
 			local value = _item.m.Value * (1.0 - _item.getCondition() / _item.getConditionMax()) * 0.2 * town.getPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];

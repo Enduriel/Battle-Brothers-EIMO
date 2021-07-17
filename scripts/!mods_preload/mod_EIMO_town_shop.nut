@@ -27,7 +27,7 @@ this.getroottable().Const.EIMO.hookTownShop <- function()
 								this.World.Assets.addMoney(removedItem.getSellPrice());
 								shopStash.add(removedItem);
 
-								if(removedItem.isBought())
+								if (removedItem.isBought())
 								{
 									removedItem.setBought(false);
 								}
