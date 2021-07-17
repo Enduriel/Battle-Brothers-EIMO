@@ -8,7 +8,7 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 			//this.logInfo("Serializing");
 			local items = this.m.Assets.getStash().getItems();
 			
-			if(this.Const.EIMO.visibilityLevel != 0)
+			if (this.Const.EIMO.visibilityLevel != 0)
 			{
 				this.World.Flags.set(this.Const.EIMO.getVisibilityLevelFlag(), visibilityLevel);
 			}
@@ -40,9 +40,9 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 			{
 				foreach (item in bro.getItems().getAllItems())
 				{
-					if(item != null)
+					if (item != null)
 					{
-						if(bro.getFlags().has("EIMO" + item.getCurrentSlotType())) bro.getFlags().remove("EIMO" + item.getCurrentSlotType());
+						if (bro.getFlags().has("EIMO" + item.getCurrentSlotType())) bro.getFlags().remove("EIMO" + item.getCurrentSlotType());
 					}
 				}
 			}
@@ -53,13 +53,19 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 		{
 			foreach(bro in this.World.getPlayerRoster().getAll())
 			{
+				local bagslot = 0;
 				foreach (item in bro.getItems().getAllItems())
 				{
-					if(item != null)
+					if (item != null)
 					{
-						if(item.isFavorite())
+						if (item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
+						if (item.isFavorite())
 						{
-							bro.getFlags().add("EIMO" + item.getCurrentSlotType());
+							bro.getFlags().add(this.Const.EIMO.getBroItemSlotFlag(item, bagslot));
+						}
+						else if (bro.getFlags().has(this.Const.EIMO.getBroItemSlotFlag(item, bagslot)))
+						{
+							bro.getFlags().remove(this.Const.EIMO.getBroItemSlotFlag(item, bagslot));
 						}
 					}
 				}
@@ -74,7 +80,7 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 			onDeserialize( _in );
 			local items = this.m.Assets.getStash().getItems();
 			
-			if(this.World.Flags.has(this.Const.EIMO.getVisibilityLevelFlag()) && this.World.Flags.get(this.Const.EIMO.getVisibilityLevelFlag()) >= 0)
+			if (this.World.Flags.has(this.Const.EIMO.getVisibilityLevelFlag()) && this.World.Flags.get(this.Const.EIMO.getVisibilityLevelFlag()) >= 0)
 			{
 				this.Const.EIMO.visibilityLevel = this.World.Flags.get(this.Const.EIMO.getVisibilityLevelFlag());
 			}
@@ -83,13 +89,13 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 				this.Const.EIMO.visibilityLevel = 0;
 			}
 
-			if(this.World.Flags.has(this.Const.EIMO.getRepairThresholdFlag())) this.Const.EIMO.RepairThreshold = this.World.Flags.get(this.Const.EIMO.getRepairThresholdFlag())
+			if (this.World.Flags.has(this.Const.EIMO.getRepairThresholdFlag())) this.Const.EIMO.RepairThreshold = this.World.Flags.get(this.Const.EIMO.getRepairThresholdFlag())
 			else this.Const.EIMO.RepairThreshold = 125;
-			if(this.World.Flags.has(this.Const.EIMO.getSellThresholdFlag())) this.Const.EIMO.SellThreshold = this.World.Flags.get(this.Const.EIMO.getSellThresholdFlag())
+			if (this.World.Flags.has(this.Const.EIMO.getSellThresholdFlag())) this.Const.EIMO.SellThreshold = this.World.Flags.get(this.Const.EIMO.getSellThresholdFlag())
 			else this.Const.EIMO.SellThreshold = 150;
-			if(this.World.Flags.has(this.Const.EIMO.getSalvageThresholdFlag())) this.Const.EIMO.SalvageThreshold = this.World.Flags.get(this.Const.EIMO.getSalvageThresholdFlag())
+			if (this.World.Flags.has(this.Const.EIMO.getSalvageThresholdFlag())) this.Const.EIMO.SalvageThreshold = this.World.Flags.get(this.Const.EIMO.getSalvageThresholdFlag())
 			else this.Const.EIMO.SalvageThreshold = 40;
-			if(this.World.Flags.has(this.Const.EIMO.getShowSettingsFlag())) this.Const.EIMO.ShowSettings = this.World.Flags.get(this.Const.EIMO.getShowSettingsFlag())
+			if (this.World.Flags.has(this.Const.EIMO.getShowSettingsFlag())) this.Const.EIMO.ShowSettings = this.World.Flags.get(this.Const.EIMO.getShowSettingsFlag())
 			else this.Const.EIMO.ShowSettings = true;
 
 			for( local i = 0; i != items.len(); i = ++i )
@@ -108,14 +114,16 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 
 			foreach(bro in this.World.getPlayerRoster().getAll())
 			{
+				local bagslot = 0;
 				foreach (item in bro.getItems().getAllItems())
 				{
-					if(item != null)
+					if (item != null)
 					{
-						if(bro.getFlags().has("EIMO" + item.getCurrentSlotType()))
+						if (item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
+						if (bro.getFlags().has(this.Const.EIMO.getBroItemSlotFlag(item, bagslot)))
 						{
 							item.setFavorite(true);
-							bro.getFlags().remove("EIMO" + item.getCurrentSlotType())
+							bro.getFlags().remove(this.Const.EIMO.getBroItemSlotFlag(item, bagslot))
 						}
 					}
 				}

@@ -9,6 +9,32 @@ this.getroottable().Const.EIMO.hookItemsStash <- function()
 		{
 			this.m.IsFavorite = _bool
 		}
+
+		o.isSetForSale <- function ()
+		{
+			local sell = this.World.Flags.has(this.Const.EIMO.getItemSaleFlag(this)) && this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(this)) == 1;
+			if (this.Const.EIMO.isLayered(this) && sell)
+			{
+				foreach(layer in this.m.Upgrades)
+				{
+					if (layer != null && !layer.isSetForSale()) return false;
+				}
+			}
+			return sell;
+		}
+
+		o.setForSale <- function (_bool)
+		{
+			if (this.Const.EIMO.isLayered(this))
+			{
+				foreach(layer in this.m.Upgrades)
+				{
+					if (layer != null) layer.setForSale(_bool);
+				}
+			}
+			if (_bool) this.World.Flags.set(this.Const.EIMO.getItemSaleFlag(this), 1);
+			else this.World.Flags.remove(this.Const.EIMO.getItemSaleFlag(this));
+		}
 	});
 
 	::mods_hookNewObject("items/stash_container", function (o)

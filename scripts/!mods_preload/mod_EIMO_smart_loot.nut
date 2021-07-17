@@ -10,16 +10,16 @@
 
 		local function sellValue(i)
 		{
-			if(isFood(i)) // use a fixed valuation formula for food based on its desirability and
+			if (isFood(i)) // use a fixed valuation formula for food based on its desirability and
 			{                         // the amount we can expect to eat (assuming 10 per day until it spoils)
 				return Math.min(i.getAmount(), i.getSpoilInDays()*10) * (i.isDesirable() ? 6 : 4);
 			}
 			else
 			{
 				local value = this.Const.EIMO.getMaxSellPrice(i), condition = i.getCondition(), maxCondition = i.getConditionMax();
-				if(condition < maxCondition)
+				if (condition < maxCondition)
 				{
-					if(this.Const.EIMO.getDratio(i) >= this.Const.EIMO.SellThreshold)
+					if (this.Const.EIMO.getDratio(i) >= this.Const.EIMO.SellThreshold)
 					{
 						local toolsRequired = (maxCondition - condition) / 15.0;
 						value -= toolsRequired * CostPerTool;
@@ -36,22 +36,22 @@
 		local show = o.show;
 		o.show = function()
 		{
-			if(!isVisible())
+			if (!isVisible())
 			{
 				local function foodValue(i) { return i.getAmount() * i.getSpoilInDays(); }
 				Tactical.CombatResultLoot.getItems().sort(function(a, b) // order loot value (but put some types at the beginning)
 				{
 					local ac = isFood(a), bc = isFood(b); // put food first
-					if(ac) return bc ? foodValue(b) <=> foodValue(a) : -1;
-					else if(bc) return 1;
+					if (ac) return bc ? foodValue(b) <=> foodValue(a) : -1;
+					else if (bc) return 1;
 
 					ac = a.isItemType(ItemType.Supply), bc = b.isItemType(ItemType.Supply); // put supply items second
-					if(ac && !bc) return -1;
-					else if(bc && !ac) return 1;
+					if (ac && !bc) return -1;
+					else if (bc && !ac) return 1;
 
 					ac = a.isItemType(ItemType.Crafting), bc = b.isItemType(ItemType.Crafting); // put crafting items third
-					if(ac && !bc) return -1;
-					else if(bc && !ac) return 1;
+					if (ac && !bc) return -1;
+					else if (bc && !ac) return 1;
 
 					return sellValue(b) <=> sellValue(a); // and in general order by sell value, descending
 				});
@@ -61,7 +61,7 @@
 
 		o.onSmartLootButtonPressed <- function()
 		{
-			if(Tactical.CombatResultLoot.isEmpty()) return Const.UI.convertErrorToUIData(Const.UI.Error.FoundLootListIsEmpty);
+			if (Tactical.CombatResultLoot.isEmpty()) return Const.UI.convertErrorToUIData(Const.UI.Error.FoundLootListIsEmpty);
 
 			local si = 0, stash = Stash.getItems(), loot = Tactical.CombatResultLoot.getItems(), shrinkLoot = false, soundPlayed = false;
 
@@ -75,18 +75,18 @@
 			local function onItemTaken(i, idx)
 			{
 				i.onAddedToStash(Stash.getID());
-				if(i != null && i.getItemType() < this.Const.Items.ItemType.Ammo)
+				if (i != null && i.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
-					if(this.Const.EIMO.getDratio(i) > this.Const.EIMO.SellThreshold) 
+					if (this.Const.EIMO.getDratio(i) > this.Const.EIMO.SellThreshold) 
 					{
 						i.setToBeRepaired(true, idx);
 					}
 					else if (this.Const.EIMO.getSratio(i) < this.Const.EIMO.SalvageThreshold)
 					{
-						if(i.canBeSalvaged()) i.setToBeSalvaged(true, idx);
+						if (i.canBeSalvaged()) i.setToBeSalvaged(true, idx);
 					}
 				}
-				if(!soundPlayed)
+				if (!soundPlayed)
 				{
 					i.playInventorySound(this.Const.Items.InventoryEventType.PlacedInBag);
 					soundPlayed = true;
@@ -97,7 +97,7 @@
 			for(li = 0; li < lootis.len(); ++li)
 			{
 				local item = loot[lootis[li]];
-				if(item.isItemType(ItemType.Supply))
+				if (item.isItemType(ItemType.Supply))
 				{
 					item.consume();
 					loot[lootis[li]] = null;
@@ -109,17 +109,17 @@
 			for(li = 0; li < lootis.len(); ++li)
 			{
 				local item = loot[lootis[li]];
-				if(item == null) continue; // we already took it, move to the next
+				if (item == null) continue; // we already took it, move to the next
 				// find an empty stash slot, if any
 				while(si < stash.len() && stash[si] != null) ++si;
-				if(si == stash.len()) break; // if there were no free stash slots, we're done
+				if (si == stash.len()) break; // if there were no free stash slots, we're done
 				stash[si++] = item; // otherwise, take the item
 				loot[lootis[li]] = null;
 				onItemTaken(item, si-1);
 				shrinkLoot = true;
 			}
 
-			if(li < lootis.len()) // if we couldn't take all the items...
+			if (li < lootis.len()) // if we couldn't take all the items...
 			{
 				// food is treated specially. although not valuable in coin, we can't afford to run out, so value it as the number of days it'll
 				// feed us and always save some. one complication is that food is eaten by bros in a certain order, with desirable food eaten before
@@ -128,14 +128,14 @@
 				local foodItems = [], foodPerDay = "Assets" in World ? World.Assets.getDailyFoodCost() * World.Assets.m.FoodConsumptionMult : 30;
 				foreach(i in stash)
 				{
-					if(isFood(i)) foodItems.append(i);
+					if (isFood(i)) foodItems.append(i);
 				}
 
 				local foodOrder = "Assets" in World ? World.Assets.sortFoodByFreshness : function(a, b)
 				{
 					local ac = a.isDesirable(), bc = b.isDesirable();
-					if(ac && !bc) return -1;
-					else if(bc && !ac) return 1;
+					if (ac && !bc) return -1;
+					else if (bc && !ac) return 1;
 					else return a.getBestBeforeTime() <=> b.getBestBeforeTime();
 				};
 				foodItems.sort(foodOrder);
@@ -147,8 +147,8 @@
 					while(left <= right)
 					{
 						local mid = (left+right) / 2, cmp = foodOrder(foodItems[mid], i);
-						if(cmp < 0) left = mid + 1;
-						else if(cmp > 0) right = mid - 1;
+						if (cmp < 0) left = mid + 1;
+						else if (cmp > 0) right = mid - 1;
 						else { left = mid; break; } 
 					}
 					foodItems.insert(left, i);
@@ -162,7 +162,7 @@
 						for(local amount = i.getAmount(); amount > 0 && i.getSpoilInDays() > days; )
 						{
 							remaining -= amount;
-							if(remaining >= 0) break; // if we consumed the remainder of the food item, we're done with it
+							if (remaining >= 0) break; // if we consumed the remainder of the food item, we're done with it
 							amount = -remaining; // otherwise, we ate all the food we need for today, so put the rest back
 							++days; // and advance to the next day
 							remaining = foodPerDay;
@@ -170,11 +170,11 @@
 					}
 					foreach(item in foodItems)
 					{
-						if(item == withoutItem) continue;
-						if(withItem != null && foodOrder(item, withItem) >= 0) { consume(withItem); withItem = null; }
+						if (item == withoutItem) continue;
+						if (withItem != null && foodOrder(item, withItem) >= 0) { consume(withItem); withItem = null; }
 						consume(item);
 					}
-					if(withItem != null) consume(withItem);
+					if (withItem != null) consume(withItem);
 					return days + (foodPerDay-remaining) / foodPerDay.tofloat(); // give credit for partial days
 				}
 
@@ -190,10 +190,10 @@
 				local function isEligible(i)
 				{
 					local type = i.getItemType();
-					if((type & IneligibleTypes) || type == ItemType.Misc) return false; // don't drop important or special items
-					if((type & ItemType.Accessory) && i.getSlotType() != Const.ItemSlot.Bag) return false; // or important accessories
-					if(isFood(i) && countFoodDays(i) < 4) return false; // don't drop food if it'd leave us with less than four days' worth
-					if(i.isFavorite()) return false; //Keep favorite items from EIMO
+					if ((type & IneligibleTypes) || type == ItemType.Misc) return false; // don't drop important or special items
+					if ((type & ItemType.Accessory) && i.getSlotType() != Const.ItemSlot.Bag) return false; // or important accessories
+					if (isFood(i) && countFoodDays(i) < 4) return false; // don't drop food if it'd leave us with less than four days' worth
+					if (i.isFavorite()) return false; //Keep favorite items from EIMO
 					return true;
 				}
 
@@ -201,16 +201,16 @@
 				for(si = 0; li < lootis.len(); ++li)
 				{
 					local lootItem = loot[lootis[li]], stashItem;
-					if(lootItem == null) continue;
+					if (lootItem == null) continue;
 					// find the next stash item eligible for swapping
 					while(si < stashis.len() && !isEligible(stashItem = stash[stashis[si]])) ++si;
 					// if we couldn't find one, or if it's no longer profitable to swap, then we're done
-					if(si == stashis.len() || sellValue(lootItem) <= sellValue(stashItem)) break;
+					if (si == stashis.len() || sellValue(lootItem) <= sellValue(stashItem)) break;
 					// otherwise, swap the items
 					stash[stashis[si++]] = lootItem;
 					loot[lootis[li]] = stashItem;
-					if(isFood(stashItem)) removeFoodItem(stashItem);
-					if(isFood(lootItem)) addFoodItem(lootItem);
+					if (isFood(stashItem)) removeFoodItem(stashItem);
+					if (isFood(lootItem)) addFoodItem(lootItem);
 					onItemDropped(stashItem);
 					onItemTaken(lootItem, si-1);
 				}
@@ -219,7 +219,7 @@
 				// coin doesn't really matter. what matters is the nutritional value. unfortunately, due to the way food is consumed, we'd have to
 				// consider various combinations of items to maximize food days. (for example, it might be better to remove all desirable food to
 				// force bros to eat undesirable food sooner.) and that gets complicated, so we'll just use a simple, fixed valuation function
-				if(foodItems.len() != 0)
+				if (foodItems.len() != 0)
 				{
 					local foodValueMult = Math.minf(0.2, foodItems.len() / foodPerDay.tofloat()); // assume we eat at least 5 per day from each pile
 					local function foodValue(i) // value each food pile as the number of days it'll feed us (falsely
@@ -241,11 +241,11 @@
 					for(li = 0, si = 0; li < lootis.len() && si < stashis.len(); ++li)
 					{
 						local lootItem = loot[lootis[li]];
-						if(lootItem == null) continue;
+						if (lootItem == null) continue;
 						local stashItem = stash[stashis[si]];
-						if(!isFood(lootItem) || !isFood(stashItem) || foodValue(lootItem) <= foodValue(stashItem)) break;
+						if (!isFood(lootItem) || !isFood(stashItem) || foodValue(lootItem) <= foodValue(stashItem)) break;
 						local newFoodDays = countFoodDays(stashItem, lootItem);
-						if(newFoodDays > foodDays)
+						if (newFoodDays > foodDays)
 						{
 							stash[stashis[si++]] = lootItem;
 							loot[lootis[li]] = stashItem;
@@ -259,7 +259,7 @@
 				}
 			}
 
-			if(shrinkLoot) Tactical.CombatResultLoot.shrink();
+			if (shrinkLoot) Tactical.CombatResultLoot.shrink();
 			return {
 				stash = UIDataHelper.convertStashToUIData(true),
 				foundLoot = UIDataHelper.convertCombatResultLootToUIData()

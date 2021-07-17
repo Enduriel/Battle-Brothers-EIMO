@@ -51,18 +51,9 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 			local item = this.World.Assets.getStash().getItemByInstanceID(data).item;
 			if (item != null)
 			{
-				if (!this.World.Flags.has(this.Const.EIMO.getItemSaleFlag(item)) || this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(item)) == 0)
-				{
-					this.World.Flags.set(this.Const.EIMO.getItemSaleFlag(item), 1);
-					this.loadStashList();
-					return true;
-				}
-				else if (item != null && this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(item)) == 1)
-				{
-					this.World.Flags.set(this.Const.EIMO.getItemSaleFlag(item), 0);
-					this.loadStashList();
-					return true;
-				}
+				item.setForSale(!item.isSetForSale());
+				this.loadStashList();
+				return true;
 			}
 			else
 			{
@@ -182,11 +173,11 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 		o.EIMOgetRepairPrice <- function (_item) // Legends needs to use repairmax not conditionmax
 		{
 			local town = this.EIMOcanRepair();
-			if(town == null) return null;
+			if (town == null) return null;
 
 			local condition;
 			local conditionMax;
-			if(::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null)
+			if (::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null)
 			{
 				condition = _item.getRepair();
 				conditionMax = _item.getRepairMax();
@@ -216,7 +207,7 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 
 		o.EIMOpaidRepair <- function (_item)
 		{
-			if(::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null)
+			if (::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null)
 			{
 				_item.setCondition(_item.getRepairMax());
 			}

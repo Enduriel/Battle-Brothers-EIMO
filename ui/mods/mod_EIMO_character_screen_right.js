@@ -115,7 +115,7 @@
 		content.append(layout);
 		this.mEIMO.OptionsMenu.RepairBrother = layout.createImageButton(Path.GFX + EIMO.BUTTON_REPAIR_ONE_DISABLED, function ()
 		{
-			if(self.mEIMO.OptionsMenu.RepairBrother.Enabled) self.mDataSource.EIMOpaidRepairBrother();
+			if (self.mEIMO.OptionsMenu.RepairBrother.Enabled) self.mDataSource.EIMOpaidRepairBrother();
 		}, '', 3);
 		this.mEIMO.OptionsMenu.RepairBrother.Enabled = false
 
@@ -123,7 +123,7 @@
 		content.append(layout);
 		this.mEIMO.OptionsMenu.RepairCompany = layout.createImageButton(Path.GFX + EIMO.BUTTON_REPAIR_ALL_DISABLED, function ()
 		{
-			if(self.mEIMO.OptionsMenu.RepairCompany.Enabled) self.mDataSource.EIMOpaidRepairCompany();
+			if (self.mEIMO.OptionsMenu.RepairCompany.Enabled) self.mDataSource.EIMOpaidRepairCompany();
 		}, '', 3);
 		this.mEIMO.OptionsMenu.RepairCompany.Enabled = false;
 
@@ -301,8 +301,8 @@
 
 	CharacterScreenRightPanelHeaderModule.prototype.EIMORepairBrotherButtonState = function (_enable)
 	{
-		if(!this.mEIMO.CanRepair) _enable = false;
-		if(this.mEIMO.OptionsMenu.RepairBrother.Enabled === _enable) return;
+		if (!this.mEIMO.CanRepair) _enable = false;
+		if (this.mEIMO.OptionsMenu.RepairBrother.Enabled === _enable) return;
 		this.mEIMO.OptionsMenu.RepairBrother.Enabled = _enable;
 		if (_enable === true)
 			this.mEIMO.OptionsMenu.RepairBrother.changeButtonImage(Path.GFX + EIMO.BUTTON_REPAIR_ONE_ENABLED);
@@ -312,8 +312,8 @@
 
 	CharacterScreenRightPanelHeaderModule.prototype.EIMORepairCompanyButtonState = function (_enable)
 	{
-		if(!this.mEIMO.CanRepair) _enable = false;
-		if(this.mEIMO.OptionsMenu.RepairCompany.Enabled === _enable) return;
+		if (!this.mEIMO.CanRepair) _enable = false;
+		if (this.mEIMO.OptionsMenu.RepairCompany.Enabled === _enable) return;
 		this.mEIMO.OptionsMenu.RepairCompany.Enabled = _enable;
 		if (_enable === true)
 			this.mEIMO.OptionsMenu.RepairCompany.changeButtonImage(Path.GFX + EIMO.BUTTON_REPAIR_ALL_ENABLED);
@@ -334,7 +334,7 @@
 			self.mEIMO.SettingsValues.waitThreshold.Control.update(res.waitThreshold);
 			self.mEIMO.SettingsValues.salvageThreshold.Control.update(res.salvageThreshold);
 
-			if(res.isVisible) self.EIMOshow();
+			if (res.isVisible) self.EIMOshow();
 			else self.EIMOhide();
 
 			self.mEIMO.CanRepair = res.canRepair;

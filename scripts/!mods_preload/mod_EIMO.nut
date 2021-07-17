@@ -19,7 +19,7 @@ gt.Const.EIMO <- {};
 
 	local getRepairCost = function(item)
 	{
-		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
+		if (::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
 		{
 			return getToolBuyPrice() / 20 * (item.getRepairMax() - item.getRepair()) / 15;
 		}
@@ -34,16 +34,16 @@ gt.Const.EIMO <- {};
 		if (!("Assets" in this.World)) return 1;
 
 		local fullValue = item.m.Value; // we would like to use item.getValue() but it's inconsistent as to whether certain modifiers are applied
-		if("Assets" in World) // this is false in the tutorial, for example
+		if ("Assets" in World) // this is false in the tutorial, for example
 		{
 			fullValue *= World.Assets.getSellPriceMult() * Const.Difficulty.SellPriceMult[World.Assets.getEconomicDifficulty()];
 		}
 
-		if(item.isItemType(Const.Items.ItemType.Food | Const.Items.ItemType.TradeGood)) return fullValue; // trade goods sell for full value and don't deteriorate
+		if (item.isItemType(Const.Items.ItemType.Food | Const.Items.ItemType.TradeGood)) return fullValue; // trade goods sell for full value and don't deteriorate
 
-		if(item.isItemType(Const.Items.ItemType.Loot)) return fullValue * Const.World.Assets.BaseLootSellPrice; // loot sells for nearly full value and doesn't deteriorate
+		if (item.isItemType(Const.Items.ItemType.Loot)) return fullValue * Const.World.Assets.BaseLootSellPrice; // loot sells for nearly full value and doesn't deteriorate
 
-		if(item.isItemType(Const.Items.ItemType.Supply)) return fullValue * 1.5; // food and supplies are not sold, so use the replacement cost (w/ 50% markup)
+		if (item.isItemType(Const.Items.ItemType.Supply)) return fullValue * 1.5; // food and supplies are not sold, so use the replacement cost (w/ 50% markup)
 
 		return this.Math.floor(fullValue * Const.World.Assets.BaseSellPrice);
 	}
@@ -51,7 +51,7 @@ gt.Const.EIMO <- {};
 	local getMaxArmorSellPrice = function(armor)
 	{
 		local upgrade = armor.getUpgrade();
-		if(upgrade != null)
+		if (upgrade != null)
 		{
 			return getMaxItemSellPrice(upgrade) + getMaxItemSellPrice(armor);
 		}
@@ -66,17 +66,17 @@ gt.Const.EIMO <- {};
 		local sellPrice = getMaxItemSellPrice(armor);
 		foreach(upgrade in armor.m.Upgrades)
 		{
-			if(upgrade != null) sellPrice += getMaxItemSellPrice(upgrade);
+			if (upgrade != null) sellPrice += getMaxItemSellPrice(upgrade);
 		}
 		return sellPrice;
 	}
 	gt.Const.EIMO.getMaxSellPrice <- function (item)
 	{
-		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
+		if (::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
 		{
 			return getMaxLegendArmorSellPrice(item);
 		}
-		else if(::mods_isClass(item, "armor") != null)
+		else if (::mods_isClass(item, "armor") != null)
 		{
 			return getMaxArmorSellPrice(item);
 		}
@@ -88,7 +88,7 @@ gt.Const.EIMO <- {};
 
 	local getValueChange = function (item)
 	{
-		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
+		if (::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null)
 		{
 			local valueChange = getMaxItemSellPrice(item) * (1 - (item.getCondition() / item.getConditionMax()));
 			foreach(upgrade in item.m.Upgrades)
@@ -108,11 +108,11 @@ gt.Const.EIMO <- {};
 
 	gt.Const.EIMO.getDratio <- function (item)
 	{
-		if((::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null) && item.getRepairMax() == item.getRepair())
+		if ((::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null) && item.getRepairMax() == item.getRepair())
 		{
 			return 100
 		}
-		if(!(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null) && item.getConditionMax() == item.getCondition())
+		if (!(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null) && item.getConditionMax() == item.getCondition())
 		{
 			return 100
 		}
@@ -124,7 +124,7 @@ gt.Const.EIMO <- {};
 	gt.Const.EIMO.getSratio <- function (item)
 	{
 		local durability;
-		if(::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null) durability = item.getRepairMax();
+		if (::mods_isClass(item, "legend_armor") != null || ::mods_isClass(item, "legend_helmet") != null) durability = item.getRepairMax();
 		else durability = item.getConditionMax();
 		
 		return 100 * this.Const.EIMO.getMaxSellPrice(item) / (getToolBuyPrice() / 20 * durability / 15);
@@ -135,8 +135,8 @@ gt.Const.EIMO <- {};
 		return getValueChange(item) - getRepairCost(item);
 	}
 
+	gt.Const.EIMO.isLayered <- @(_item) ::mods_isClass(_item, "legend_armor") != null || ::mods_isClass(_item, "legend_helmet") != null 
 	gt.Const.EIMO.characterScreen <- null;
-
 	gt.Const.EIMO.visibilityLevel <- 0;
 
 	gt.Const.EIMO.getVisibilityLevelFlag <- @() "EIMO.VL";
@@ -146,6 +146,11 @@ gt.Const.EIMO <- {};
 	gt.Const.EIMO.getSellThresholdFlag <- @() "EIMO.SellThreshold";
 	gt.Const.EIMO.getSalvageThresholdFlag <- @() "EIMO.SalvageThreshold";
 	gt.Const.EIMO.getShowSettingsFlag <- @() "EIMO.ShowSettings";
+	gt.Const.EIMO.getBroItemSlotFlag <- function (_item, _bagslot)
+	{
+		if (_item.getCurrentSlotType() == this.Const.ItemSlot.Bag) return "EIMO." + this.Const.ItemSlot.Bag + "." + _bagslot;
+		else return "EIMO." + _item.getCurrentSlotType();
+	}
 
 
 	::mods_registerJS("mod_EIMO.js");

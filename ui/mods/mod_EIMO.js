@@ -4,7 +4,7 @@ var EIMOGlobalVisibilityLevel;
 	CharacterScreenInventoryListModule.prototype.createItemSlots = function (_owner, _size, _itemArray, _itemContainer)
 	{
 		createItemSlots.call(this, _owner, _size, _itemArray, _itemContainer);
-		if(EIMOGlobalVisibilityLevel == undefined || EIMOGlobalVisibilityLevel == null)
+		if (EIMOGlobalVisibilityLevel == undefined || EIMOGlobalVisibilityLevel == null)
 		{
 			this.mDataSource.EIMOgetVisibilityLevel();
 		}
@@ -47,7 +47,7 @@ var EIMOGlobalVisibilityLevel;
 		var imageLayer = this.find('.markc-layer:first');
 		if (imageLayer.length > 0)
 		{
-			if(_isVisible)
+			if (_isVisible)
 			{
 				imageLayer.removeClass('display-none');
 				imageLayer.addClass('display-block');
@@ -65,7 +65,7 @@ var EIMOGlobalVisibilityLevel;
 		var imageLayer = this.find('.favorite-layer:first');
 		if (imageLayer.length > 0)
 		{
-			if(_isVisible)
+			if (_isVisible)
 			{
 				imageLayer.removeClass('display-none');
 				imageLayer.addClass('display-block');
@@ -111,7 +111,7 @@ var EIMOGlobalVisibilityLevel;
 	CharacterScreenInventoryListModule.prototype.assignItemToSlot = function(_entityId, _owner, _slot, _item)
 	{
 		csAssignItemToSlot.call(this, _entityId, _owner, _slot, _item);
-		if((CharacterScreenIdentifier.Item.Id in _item) && (CharacterScreenIdentifier.Item.ImagePath in _item))
+		if ((CharacterScreenIdentifier.Item.Id in _item) && (CharacterScreenIdentifier.Item.ImagePath in _item))
 		{
 			var itemData = _slot.data('item');
 			itemData.markc = _item.markc;
@@ -128,7 +128,7 @@ var EIMOGlobalVisibilityLevel;
 				case 0: default:
 					_slot.setMarkcImageVisible(_item.markc);
 					_slot.setFavoriteImageVisible(_item.favorite);
-					if(_item.showDratio === true && _item[CharacterScreenIdentifier.Item.Amount] != '')
+					if (_item.showDratio === true && _item[CharacterScreenIdentifier.Item.Amount] != '')
 					{
 						_slot.setDratioVisible('' + dratioa, _item[CharacterScreenIdentifier.Item.AmountColor]);
 					}
