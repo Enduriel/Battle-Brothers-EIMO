@@ -125,4 +125,14 @@
 	{
 		SQ.call(this.mSQHandle, 'EIMOgetRepairButtonData', null, _callback);
 	};
+
+	CharacterScreenDatasource.prototype.EIMOsalvageAllButtonClicked = function()
+	{
+	   this.notifyBackendEIMOSalvageAllButtonClicked();
+	};
+
+	CharacterScreenDatasource.prototype.notifyBackendEIMOSalvageAllButtonClicked = function (_sourceItemId, _callback)
+	{
+		SQ.call(this.mSQHandle, 'EIMOonSalvageAllButtonClicked', _sourceItemId, _callback);
+	};
 }

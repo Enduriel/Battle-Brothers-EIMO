@@ -29,12 +29,12 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 			this.loadStashList();
 		}
 
-		o.onSalvageAllButtonClicked <- function()
+		o.EIMOonSalvageAllButtonClicked <- function()
 		{
 			local items = this.World.Assets.getStash().getItems();
 			foreach (i, item in items)
 			{
-				if (item != null && item.canBeSalvaged() && !item.m.isFavorite)
+				if (item != null && item.canBeSalvaged() && !item.isFavorite())
 				{
 					if (this.Const.EIMO.getSratio(item) < this.Const.EIMO.SalvageThreshold)
 					{
