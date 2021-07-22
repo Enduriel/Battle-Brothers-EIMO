@@ -92,6 +92,7 @@ this.getroottable().Const.EIMO.hookTooltipEvents <- function()
 					type = "description",
 					text = "Below this threshold of profitability items will be salvaged when using smart loot or the salvage all button.\n\nA value of 50% means twice the value gained in tools from salvaging compared to selling the item."
 				}];
+			case "EIMO.SellAllButton":
 				return [
 				{
 					id = 1,
