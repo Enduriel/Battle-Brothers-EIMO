@@ -2,6 +2,8 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 {
 	::mods_hookNewObjectOnce("ui/screens/character/character_screen", function(o) {
 
+		o.m.RepairTown <- null;
+
 		o.onFavoriteInventoryItem <- function(itemID)
 		{
 			if (!("Assets" in this.World)) return;
@@ -125,11 +127,15 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 				{
 					foreach(building in s.getBuildings())
 					{
-						if (building == null) continue; //Should really be unnecessary but apparently Legends Settlements can have null buildings? Needs looking at
-						if (building.isRepairOffered()) return s;
+						if (building.isRepairOffered()) 
+						{
+							this.m.RepairTown = s;
+							return s;
+						}
 					}
 				}
-			} 
+			}
+			this.m.RepairTown = null;
 			return null;
 		}
 
@@ -172,7 +178,7 @@ this.getroottable().Const.EIMO.hookCharacterScreen <- function()
 
 		o.EIMOgetRepairPrice <- function (_item) // Legends needs to use repairmax not conditionmax
 		{
-			local town = this.EIMOcanRepair();
+			local town = this.m.RepairTown;
 			if (town == null) return null;
 
 			local condition;
