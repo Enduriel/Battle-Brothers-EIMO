@@ -4,7 +4,15 @@ this.getroottable().Const.EIMO.hookSettlement <- function()
 	{
 		o.getBuildings <- function ()
 		{
-			return this.m.Buildings;
+			local ret = [];
+			foreach (b in this.m.Buildings)
+			{
+				if (b != null)
+				{
+					ret.push(b);
+				}
+			}
+			return ret;
 		}
 	});
 }
