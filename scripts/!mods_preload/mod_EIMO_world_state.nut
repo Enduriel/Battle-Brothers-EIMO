@@ -10,7 +10,7 @@ this.getroottable().Const.EIMO.hookWorldState <- function()
 			
 			if (this.Const.EIMO.visibilityLevel != 0)
 			{
-				this.World.Flags.set(this.Const.EIMO.getVisibilityLevelFlag(), visibilityLevel);
+				this.World.Flags.set(this.Const.EIMO.getVisibilityLevelFlag(), this.Const.EIMO.visibilityLevel);
 			}
 			else if (this.World.Flags.has(this.Const.EIMO.getVisibilityLevelFlag()))
 			{
