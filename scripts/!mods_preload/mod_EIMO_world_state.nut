@@ -1,5 +1,7 @@
 this.getroottable().Const.EIMO.hookWorldState <- function()
 {
+
+	//I wanna get rid of basically all of this by replacing it with an MSU system.
 	::mods_hookNewObjectOnce("states/world_state", function ( o )
 	{
 		local onSerialize = o.onSerialize;
