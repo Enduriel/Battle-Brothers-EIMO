@@ -7,12 +7,16 @@
 
 		local result = convertItemToUIData(_item, _forceSmallIcon, _owner);
 		
-		result.showRepairRatio <-_item.getCondition() < _item.getConditionMax()
-		result.repairRatio <- ::EIMO.getRepairProfit(_item);
+		result.EIMO <- {};
 
-		if ("Flags" in this.World) result.forSale <- _item.isSetForSale();
+		if (_item.getCondition() < _item.getConditionMax())
+		{
+			result.EIMO.repairProfit <- ::EIMO.getRepairProfit(_item);
+		}
 
-		result.favorite <- _item.isFavorite()
+		if ("Flags" in this.World) result.EIMO.forSale <- _item.EIMO.isSetForSale();
+
+		result.EIMO.favorite <- _item.EIMO.isFavorite()
 
 		return result;
 	}

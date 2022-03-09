@@ -26,10 +26,18 @@ local visibilityLevel = this.MSU.Class.EnumSetting(::EIMO.VisibilityLevelID, "Fu
 visibilityLevel.setDescription("Allows hiding of the item info that EIMO provides if you don't want to use those features.");
 page.add(visibilityLevel);
 
+::EIMO.InventoryAddonsID <- "inventoryAddons";
+local inventoryAddons = this.MSU.Class.BooleanSetting(::EIMO.InventoryAddonsID, true, "Show Inventory Addons");
+inventoryAddons.setDescription("Shows an extra screen in party inventory with some additional minor uses.");
+page.add(inventoryAddons);
+
 page.add(this.MSU.Class.SettingsDivider("debug", "Debug Settings"));
 
-
+::EIMO.repairBrothersData <- {
+	SelectedBrotherPrice = 0,
+	CompanyPrice = 0
+}
 
 ::includeFile("eimo/", "global_functions.nut");
 ::includeLoad("eimo/", "hooks");
-
+::includeLoad("eimo/", "ui");

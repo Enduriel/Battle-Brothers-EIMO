@@ -1,36 +1,65 @@
 ::mods_hookBaseClass("items/item", function ( o )
 {
-	while(!("setBought" in o)) o = o[o.SuperName];
-	o.m.IsFavorite <- false;
-	o.isFavorite <- @() this.m.IsFavorite
-	o.setFavorite <- function (_bool)
-	{
-		this.m.IsFavorite = _bool
+	o = o[o.SuperName];
+
+	o.m.EIMO <- {
+		IsFavorite = false;
 	}
 
-	o.isSetForSale <- function ()
-	{
-		local sell = this.World.Flags.has(this.Const.EIMO.getItemSaleFlag(this)) && this.World.Flags.get(this.Const.EIMO.getItemSaleFlag(this)) == 1;
-		if (this.Const.EIMO.isLayered(this) && sell)
+	o.EIMO <- {
+		function IsFavorite()
 		{
-			foreach(layer in this.m.Upgrades)
-			{
-				if (layer != null && !layer.isSetForSale()) return false;
-			}
+			return this.m.EIMO.IsFavorite;
 		}
-		return sell;
-	}
 
-	o.setForSale <- function (_bool)
-	{
-		if (this.Const.EIMO.isLayered(this))
+		function setFavorite( _bool )
 		{
-			foreach(layer in this.m.Upgrades)
+			this.m.EIMO.IsFavorite = _bool;
+		}
+
+		function isSetForSale()
+		{
+			if (!("Flags" in this.World)) return false;
+
+			local sell = this.World.Flags.has(::EIMO.getItemSaleFlag(this));
+			if (::EIMO.isLegendArmor(this) && sell)
 			{
-				if (layer != null) layer.setForSale(_bool);
+				foreach (upgrade in this.m.Upgrades)
+				{
+					if (upgrade != null && !upgrade.isSetForSale())
+					{
+						return false;
+					}
+				}
+			}
+			return sell;
+		}
+
+		function setForSale( _bool )
+		{
+			if (::EIMO.isLegendArmor(this))
+			{
+				foreach (upgrade in this.m.Upgrades)
+				{
+					if (upgrade != null)
+					{
+						upgrade.setForSale(_bool);
+					}
+				}
+			}
+			if (_bool)
+			{
+				this.World.Flags.set(::EIMO.getItemSaleFlag(this), true);
+			}
+			else
+			{
+				this.World.Flags.remove(::EIMO.getItemSaleFlag(this));
 			}
 		}
-		if (_bool) this.World.Flags.set(this.Const.EIMO.getItemSaleFlag(this), 1);
-		else this.World.Flags.remove(this.Const.EIMO.getItemSaleFlag(this));
-	}
+
+		function shouldBeSold()
+		{
+			return this.isSetForSale() && !this.isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > getModSetting(::EIMO.ID, ::EIMO.WaitThresholdID))
+		}
+	}.setdelegate(o);
 });

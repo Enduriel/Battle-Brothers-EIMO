@@ -2,7 +2,7 @@
 
 ::EIMO.ID <- "mod_eimo";
 ::EIMO.Name <- "End's Inventory Management Overhaul";
-::EIMO.Version <- "1.10.0-alpha";
+::EIMO.Version <- "2.0.0-alpha";
 
 ::mods_registerMod(this.EIMO.ID, 10, this.EIMO.Name);
 ::mods_queue(null, "mod_MSU, >mod_smartLoot", function()

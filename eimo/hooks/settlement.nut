@@ -1,16 +1,17 @@
 ::mods_hookExactClass("entity/world/settlement", function (o)
 {
-	// Unnecessary in Legends (it adds the same function)
-	o.getBuildings <- function ()
-	{
-		local ret = [];
-		foreach (b in this.m.Buildings)
+	o.EIMO <- {
+		function getBuildings()
 		{
-			if (b != null)
+			local ret = [];
+			foreach (building in this.m.Buildings)
 			{
-				ret.push(b);
+				if (building != null)
+				{
+					ret.push(b);
+				}
 			}
+			return ret;
 		}
-		return ret;
-	}
+	}.setdelegate(o);
 });

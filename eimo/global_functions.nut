@@ -169,3 +169,9 @@ local function getSalvageIncome( _item )
 {
 	return getRatio(_item, getSalvageValueChange, getSalvageIncome);
 }
+
+// Flag functions
+::EIMO.getItemSaleFlag <- function( _item )
+{
+	return "EIMO.SaleFlag" + item.getID();
+}

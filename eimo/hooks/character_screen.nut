@@ -1,180 +1,171 @@
 ::mods_hookNewObjectOnce("ui/screens/character/character_screen", function(o) {
 
-	o.m.RepairTown <- null;
-
-	o.onFavoriteInventoryItem <- function( _itemID )
-	{
-		if (!("Assets" in this.World)) return;
-		local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
-		item.setFavorite(!item.isFavorite())
-
-		return true;
-	}
-	
-	o.onRepairAllButtonClicked <- function()
-	{
-		if (!("Assets" in this.World)) return;
-		local items = this.World.Assets.getStash().getItems();
-		foreach( item in items )
-		{
-			if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
-			{
-				local ratio = ::EIMO.getRepairRatio(item);
-				if (ratio > ::getModSetting(::EIMO.ID, ::EIMO.RepairThresholdID))
-				{
-					item.setToBeRepaired(true);
-				}
-			}
-		}
-		this.loadStashList();
+	o.m.EIMO <- {
+		RepairTown = null,
+		SelectedBrother = null
 	}
 
-	o.onSetForSaleInventoryItem <- function( _itemID )
-	{
-		if (!("Assets" in this.World)) return;
-		local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
-		if (item != null)
+	o.EIMO <- {
+		function onFavoriteInventoryItem( _itemID )
 		{
-			item.setForSale(!item.isSetForSale());
-			this.loadStashList();
+			if (!("Assets" in this.World)) return;
+			local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
+			item.EIMO.setFavorite(!item.EIMO.isFavorite())
 			return true;
 		}
-		else
+
+		function onRepairAllButtonClicked()
 		{
-			return false;
-		}
-	}
-
-	o.EIMOgetSettings <- function()
-	{
-		this.Const.EIMO.characterScreen = this.weakref();
-		local ret = {
-			isVisible = this.Const.EIMO.ShowSettings,
-			canRepair = this.EIMOcanRepair() != null
-		};
-		return ret;
-	}
-
-	o.EIMOsetSettings <- function (_data)
-	{
-		this.Const.EIMO.RepairThreshold = _data.repairThreshold;
-		this.Const.EIMO.SellThreshold = _data.waitThreshold;
-	}
-
-	o.EIMOsetVisible <- function (_data)
-	{
-		this.Const.EIMO.ShowSettings = _data;
-	}
-
-	o.m.EIMOSelectedBrother <- null;
-
-	o.EIMOgetSelectedBrother <- @() this.m.EIMOSelectedBrother
-
-	o.EIMOsetSelectedBrother <- function (_entityID)
-	{
-		this.m.EIMOSelectedBrother = _entityID == null ? null : this.Tactical.getEntityByID(_entityID);
-	}
-
-	o.EIMOcanRepair <- function ()
-	{
-		local settlements = this.World.EntityManager.getSettlements();
-		local playerTile = this.World.State.getPlayer().getTile();
-		foreach(s in settlements)
-		{
-			if (s.getTile().getDistanceTo(playerTile) <= 2 && s.isAlliedWithPlayer()) //Not sure about the isAlliedWithPlayer part
+			if (!("Assets" in this.World)) return;
+			local items = this.World.Assets.getStash().getItems();
+			foreach( item in items )
 			{
-				foreach(building in s.getBuildings())
+				if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
-					if (building.isRepairOffered()) 
+					local ratio = ::EIMO.getRepairRatio(item);
+					if (ratio > ::getModSetting(::EIMO.ID, ::EIMO.RepairThresholdID))
 					{
-						this.m.RepairTown = s;
-						return s;
+						item.setToBeRepaired(true);
 					}
 				}
 			}
+			this.loadStashList();
 		}
-		this.m.RepairTown = null;
-		return null;
-	}
 
-	o.EIMOgetRepairButtonData <- function ()
-	{
-		local broPrice = this.EIMOgetRepairPriceBrother(this.EIMOgetSelectedBrother());
-		local companyPrice = this.EIMOgetRepairPriceCompany();
-
-		local ret = {
-			canRepairBrother = broPrice != null && broPrice != 0,
-			canRepairCompany = companyPrice != null && companyPrice != 0
-		};
-		return ret;
-	}
-
-	o.EIMOgetRepairPriceCompany <- function ()
-	{
-		local price = 0;
-		foreach(brother in this.World.getPlayerRoster().getAll())
+		function onSetForSaleInventoryItem( _itemID )
 		{
-			local val = this.EIMOgetRepairPriceBrother(brother);
-			if (val == null) return null;
-			price += val;
+			if (!("Assets" in this.World)) return false;
+			local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
+			if (item != null)
+			{
+				item.setForSale(!item.isSetForSale());
+				this.loadStashList();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		return price;
-	}
 
-	o.EIMOgetRepairPriceBrother <- function (_brother)
-	{
-		local price = 0;
-		
-		foreach(item in _brother.getItems().getAllItems())
+		function getSettings()
 		{
-			local val = this.EIMOgetRepairPrice(item);
-			if (val == null) return null;
-			price += val;
+			//TODO
 		}
-		return price;
-	}
 
-	o.EIMOgetRepairPrice <- function (_item) // Legends needs to use repairmax not conditionmax
-	{
-		local town = this.m.RepairTown;
-		if (town == null) return null;
-
-		local price = (_item.getConditionMax() - _item.getCondition()) * this.Const.World.Assets.CostToRepairPerPoint;
-		local value = _item.m.Value * (1.0 - _item.getCondition() / _item.getConditionMax()) * 0.2 * town.getPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
-		return this.Math.max(price, value);
-	}
-
-	//Assumes that checks have been made for price etc
-	o.EIMOpaidRepairBrother <- function (_brother)
-	{
-		local price = this.EIMOgetRepairPriceBrother(_brother);
-		foreach(item in _brother.getItems().getAllItems())
+		function getSelectedBrother()
 		{
-			this.EIMOpaidRepair(item);
+			return this.m.EIMO.SelectedBrother;
 		}
-		this.Sound.play("sounds/ambience/buildings/blacksmith_hammering_0" + this.Math.rand(0, 6) + ".wav", 1.0);
-		this.World.Assets.addMoney(-price);
-	}
 
-	o.EIMOpaidRepair <- function (_item)
-	{
-		_item.setCondition(_item.getConditionMax());
-		_item.setToBeRepaired(false);	//Legends may need to remove from a queue?
-		this.World.Statistics.getFlags().increment("ItemsRepaired");
-	}
-
-	o.EIMOjspaidRepairBrother <- function ()
-	{
-		this.EIMOpaidRepairBrother(this.EIMOgetSelectedBrother());
-		this.loadData();
-	}
-
-	o.EIMOjspaidRepairCompany <- function ()
-	{
-		foreach(brother in this.World.getPlayerRoster().getAll())
+		function setSelectedBrother( _entityID )
 		{
-			this.EIMOpaidRepairBrother(brother);
+			this.m.EIMO.SelectedBrother = _entityID == null ? null : this.Tactical.getEntityByID(_entityID);
 		}
-		this.loadData();
-	}
+
+		function canRepairNearby()
+		{
+			local settlements = this.World.EntityManager.getSettlements();
+			local playerTile = this.World.State.getPlayer().getTile();
+
+			foreach (settlement in settlements)
+			{
+				if (settlement.getTile().getDistanceTo(playerTile) <= 2 && settlement.isAlliedWithPlayer())
+				{
+					foreach (building in settlement.EIMO.getBuildings())
+					{
+						if (building.isRepairOffered())
+						{
+							this.m.EIMO.RepairTown = settlement;
+							return true;
+						}
+					}
+				}
+			}
+
+			this.m.EIMO.RepairTown = null;
+			return false;
+		}
+
+		function getRepairData()
+		{
+			// TODO Might need updating more often (eg when brother has equipment added/removed)
+			::EIMO.repairBrothersData.SelectedBrotherPrice = this.getRepairPriceBrother(this.getSelectedBrother());
+			::EIMO.repairBrothersData.CompanyPrice = this.getRepairPriceCompany();
+
+			return ::EIMO.repairBrothersData;
+		}
+
+		function getRepairPriceCompany()
+		{
+			local price = 0;
+			foreach (brother in this.World.getPlayerRoster().getAll())
+			{
+				price += this.getRepairPriceBrother(brother);
+			}
+			return price;
+		}
+
+		function getRepairPriceBrother( _brother, _repairTown )
+		{
+			local price = 0;
+			foreach (item in _brother.getItems().getAllItems())
+			{
+				price += this.getRepairPriceItem(item);
+			}
+			return price;
+		}
+
+		// Copy of vanilla code, should get checked after updates
+		function getRepairPriceItem( _item )
+		{
+			local price = (_item.getConditionMax() - _item.getCondition()) * this.Const.World.Assets.CostToRepairPerPoint;
+			local value = _item.m.Value * (1.0 - _item.getCondition() / _item.getConditionMax()) * 0.2 * this.m.EIMO.RepairTown.getPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+			return this.Math.max(price, value);
+		}
+
+		function paidRepairBrother( _brother )
+		{
+			local price = this.getRepairPriceBrother(_brother);
+			foreach(item in _brother.getItems().getAllItems())
+			{
+				this.paidRepairItem(item);
+			}
+			this.Sound.play("sounds/ambience/buildings/blacksmith_hammering_0" + this.Math.rand(0, 6) + ".wav", 1.0);
+			this.World.Assets.addMoney(-price);
+		}
+
+		function paidRepairItem( _item )
+		{
+			_item.setCondition(_item.getConditionMax());
+			_item.setToBeRepaired(false);	//Legends may need to remove from a queue?
+			this.World.Statistics.getFlags().increment("ItemsRepaired");
+		}
+
+		function jsPaidRepairBrother()
+		{
+			this.paidRepairBrother(this.getSelectedBrother());
+			this.loadData();
+		}
+
+		function jsPaidRepairCompany()
+		{
+			foreach (brother in this.World.getPlayerRoster().getAll())
+			{
+				paidRepairBrother(brother);
+			}
+			this.loadData();
+		}
+
+		function getSettings()
+		{
+			//this.Const.EIMO.characterScreen = this.weakref();
+			local ret = {
+				isVisible = getModSetting(::EIMO.ID, ::EIMO.InventoryAddonsID),
+				canRepair = this.canRepairNearby()
+			};
+			return ret;
+		}
+
+	};.setdelegate(o);
 });
