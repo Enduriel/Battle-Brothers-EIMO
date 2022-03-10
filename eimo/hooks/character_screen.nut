@@ -23,7 +23,7 @@
 				if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
 					local ratio = ::EIMO.getRepairRatio(item);
-					if (ratio > ::getModSetting(::EIMO.ID, ::EIMO.RepairThresholdID))
+					if (ratio > ::getModSetting(::EIMO.ID, ::EIMO.RepairThresholdID).getValue())
 					{
 						item.setToBeRepaired(true);
 					}
@@ -157,7 +157,6 @@
 			//this.Const.EIMO.characterScreen = this.weakref();
 			local ret = {
 				legends = ::mods_getRegisteredMod("mod_legends") != null;
-				isVisible = getModSetting(::EIMO.ID, ::EIMO.InventoryAddonsID),
 				canRepair = this.canRepairNearby()
 			};
 			return ret;

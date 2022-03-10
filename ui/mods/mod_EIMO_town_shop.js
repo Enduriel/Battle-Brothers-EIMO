@@ -36,7 +36,7 @@ WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _s
 		itemData.forSale = _item.forSale;
 		itemData.favorite = _item.favorite;
 		itemData.repairProfit = Math.floor(_item.repairProfit === undefined ? 0 : _item.repairProfit);
-		switch (getModSettingValue("mod_EIMO", "visibilityLevel"))
+		switch (getModSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
 		{
 			case "Reduced":
 				_slot.setForSaleImageVisible(_item.forSale);

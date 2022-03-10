@@ -59,7 +59,7 @@
 
 		function shouldBeSold()
 		{
-			return this.isSetForSale() && !this.isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > getModSetting(::EIMO.ID, ::EIMO.WaitThresholdID))
+			return this.isSetForSale() && !this.isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > getModSetting(::EIMO.ID, ::EIMO.WaitThresholdID).getValue())
 		}
 	}.setdelegate(o);
 });

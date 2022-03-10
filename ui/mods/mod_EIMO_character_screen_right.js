@@ -63,7 +63,7 @@ CharacterScreenRightPanelHeaderModule.prototype.createDIV = function (_parentDiv
 	}, '', 3);
 	this.mEIMO.Buttons.RepairCompanyButton.Enabled = false;
 
-	if (this.mDataSource.isTacticalMode())
+	if (this.mDataSource.isTacticalMode() || !getModSettingValue(EIMO.ID, EIMO.InventoryAddonsID))
 	{
 		this.EIMOhide();
 		this.mEIMO.SettingsButton.removeClass('opacity-full is-top').addClass('opacity-none no-pointer-events');
@@ -176,8 +176,6 @@ CharacterScreenRightPanelHeaderModule.prototype.createDIV = function (_parentDiv
 		var self = this;
 		this.mDataSource.EIMOnotifyBackendGetSettings(function(res)
 		{
-			if (res.isVisible) self.EIMOshow();
-			else self.EIMOhide();
 			self.mEIMO.Legends = res.legends;
 			self.mEIMO.CanRepair = res.canRepair;
 		});
