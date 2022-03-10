@@ -48,11 +48,6 @@
 			}
 		}
 
-		function getSettings()
-		{
-			//TODO
-		}
-
 		function getSelectedBrother()
 		{
 			return this.m.EIMO.SelectedBrother;
@@ -161,6 +156,7 @@
 		{
 			//this.Const.EIMO.characterScreen = this.weakref();
 			local ret = {
+				legends = ::mods_getRegisteredMod("mod_legends") != null;
 				isVisible = getModSetting(::EIMO.ID, ::EIMO.InventoryAddonsID),
 				canRepair = this.canRepairNearby()
 			};

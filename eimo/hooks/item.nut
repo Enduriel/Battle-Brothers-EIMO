@@ -7,7 +7,7 @@
 	}
 
 	o.EIMO <- {
-		function IsFavorite()
+		function isFavorite()
 		{
 			return this.m.EIMO.IsFavorite;
 		}

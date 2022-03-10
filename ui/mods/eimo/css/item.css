@@ -1,0 +1,78 @@
+.ui-control.item > .repair-profit-layer
+{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	padding: 0.4rem;
+	z-index: 3;
+
+	pointer-events: none;
+}
+
+.ui-control.item > .repair-profit-layer img
+{
+	left: 0.3rem;
+	bottom: 5.95rem;
+	width: 1.2rem;
+	height: 1.2rem;
+	position: absolute;
+
+	pointer-events: none;
+}
+
+.ui-control.item > .repair-profit-layer .label
+{
+	left: 1.5rem;
+	bottom: 6.05rem;
+	height: 1.0rem;
+	position: absolute;
+
+	text-align: left;
+	line-height: 1.0rem;
+
+	pointer-events: none;
+}
+
+.ui-control.item > .for-sale-layer
+{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	padding: 0.4rem;
+	z-index: 3;
+
+	pointer-events: none;
+}
+
+.ui-control.item > .for-sale-layer img
+{
+	left: 0.3rem;
+	bottom: 4.75rem;
+	width: 1.15rem;
+	height: 1.15rem;
+	position: absolute;
+
+	pointer-events: none;
+}
+
+.ui-control.item > .favorite-layer
+{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	padding: 0.4rem;
+	z-index: 4;
+
+	pointer-events: none;
+}
+
+.ui-control.item > .favorite-layer img
+{
+	left: 0.25rem;
+	bottom: 3.55rem;
+	width: 1.2rem;
+	height: 1.2rem;
+	position: absolute;
+
+	pointer-events: none;
+}
