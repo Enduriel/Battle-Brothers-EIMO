@@ -1,11 +1,22 @@
-::mods_registerJS("mod_EIMO.js");
-::mods_registerJS("mod_EIMO_assets.js");
-::mods_registerJS("mod_EIMO_character_screen_datasource.js");
-::mods_registerJS("mod_EIMO_character_screen_right.js");
-::mods_registerJS("mod_EIMO_town_shop.js")
-::mods_registerJS("mod_EIMO_nohook.js");
-::mods_registerCSS("mod_EIMO.css");
+local function registerJS( _file )
+{
+	::mods_registerJS("eimo/" + _file);
+}
 
-::mods_registerJS("smart_loot/mod_EIMO_smart_loot.js");
-::mods_registerCSS("smart_loot/mod_EIMO_smart_loot.css");
-// these should all be moved into eimo/
+local function registerCSS( _file )
+{
+	::mods_registerCSS("eimo/css/" + file);
+}
+
+registerJS("assets.js");
+registerJS("character_screen_datasource.js");
+registerJS("character_screen_inventory_list_module.js");
+registerJS("character_screen_right_panel_header_module.js");
+registerJS("item.js");
+registerJS("tactical_combat_result_screen_loot_panel.js");
+registerJS("world_town_screen_shop_dialog_module.js");
+
+registerCSS("character_screen.css");
+registerCSS("item.css");
+registerCSS("tactical_combat_result_screen_loot_panel.css");
+registerCSS("world_town_screen_shop_dialog_module.css")
