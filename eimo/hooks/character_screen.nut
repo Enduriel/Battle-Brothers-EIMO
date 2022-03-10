@@ -14,18 +14,39 @@
 			return true;
 		}
 
-		function onRepairAllButtonClicked()
+		function onRatioRepairButtonClicked()
 		{
-			if (!("Assets" in this.World)) return;
 			local items = this.World.Assets.getStash().getItems();
-			foreach( item in items )
+			foreach( idx, item in items )
 			{
 				if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
-					local ratio = ::EIMO.getRepairRatio(item);
-					if (ratio > ::getModSetting(::EIMO.ID, ::EIMO.RepairThresholdID).getValue())
+					if (::EIMO.getRepairRatio(item) > ::getModSetting(::EIMO.ID, ::EIMO.RepairThresholdID).getValue())
 					{
-						item.setToBeRepaired(true);
+						if (::mods_getRegisteredMod("mod_legends") == null)
+						{
+							item.setToBeRepaired(true);
+						}
+						else
+						{
+							item.setToBeRepaired(true, idx)
+						}
+					}
+				}
+			}
+			this.loadStashList();
+		}
+
+		function onRatioSalvageButtonClicked()
+		{
+			local items = this.World.Assets.getStash().getItems();
+			foreach (idx, item in items)
+			{
+				if (item != null && item.canBeSalvaged() && !item.isFavorite())
+				{
+					if (::EIMO.getSalvageRatio(item) < ::getModSetting(::EIMO.ID, ::EIMO.SalvageThresholdID).getValue())
+					{
+						item.setToBeSalvaged(true, idx);
 					}
 				}
 			}
@@ -114,8 +135,21 @@
 		// Copy of vanilla code, should get checked after updates
 		function getRepairPriceItem( _item )
 		{
-			local price = (_item.getConditionMax() - _item.getCondition()) * this.Const.World.Assets.CostToRepairPerPoint;
-			local value = _item.m.Value * (1.0 - _item.getCondition() / _item.getConditionMax()) * 0.2 * this.m.EIMO.RepairTown.getPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+			local condition, conditionMax;
+
+			if (::mods_getRegisteredMod("mod_legends") == null)
+			{
+				conditionMax = _item.getConditionMax();
+				condition = _item.getCondition();
+			}
+			else
+			{
+				conditionMax = _item.getRepairMax();
+				condition = _item.getRepair();
+			}
+
+			local price = (conditionMax - condition) * this.Const.World.Assets.CostToRepairPerPoint;
+			local value = _item.EIMO.getMaxValue() * (1.0 - condition / conditionMax) * 0.2 * this.m.EIMO.RepairTown.getPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
 			return this.Math.max(price, value);
 		}
 
@@ -132,8 +166,16 @@
 
 		function paidRepairItem( _item )
 		{
-			_item.setCondition(_item.getConditionMax());
-			_item.setToBeRepaired(false);	//Legends may need to remove from a queue?
+			if (::mods_getRegisteredMod("mod_legends") == null)
+			{
+				_item.setCondition(_item.getConditionMax());
+				_item.setToBeRepaired(false);
+			}
+			else
+			{
+				_item.setCondition(_item.getRepairMax());
+				_item.setToBeRepaired(false, 0);
+			}
 			this.World.Statistics.getFlags().increment("ItemsRepaired");
 		}
 

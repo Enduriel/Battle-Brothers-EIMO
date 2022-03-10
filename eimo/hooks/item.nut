@@ -61,5 +61,23 @@
 		{
 			return this.isSetForSale() && !this.isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > getModSetting(::EIMO.ID, ::EIMO.WaitThresholdID).getValue())
 		}
+
+		// Should be replaced by getRawValue once legends gets that
+		function getMaxValue()
+		{
+			if (::EIMO.isLegendArmor(this))
+			{
+				local ret = this.m.Value;
+				foreach (upgrade in this.m.Upgrades)
+				{
+					if (upgrade != null)
+					{
+						ret += upgrade.m.Value;
+					}
+				}
+				return ret;
+			}
+			return this.m.Value;
+		}
 	}.setdelegate(o);
 });

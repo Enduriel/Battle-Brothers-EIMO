@@ -30,6 +30,19 @@
 				icon = "ui/icons/EIMO_mouse_right_button_ctrl_shift.png",
 				text = "Ctrl-Shift-click on items to mark them as favorite (they will then not be sold)"
 			}];
+		case "EIMO.SalvageButton":
+			return [
+			{
+				id = 1,
+				type = "title",
+				text = "Mark Items For Salvage"
+			},
+			{
+				id = 2,
+				type = "description",
+				text = "Marks all salvageable items in your iventory with low enough ratio for salvage"
+			}];
+		}
 		case "EIMO.SettingsButton":
 			return [
 			{

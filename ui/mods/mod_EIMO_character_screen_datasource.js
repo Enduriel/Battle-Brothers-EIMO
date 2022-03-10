@@ -3,14 +3,24 @@ CharacterScreenDatasource.prototype.EIMOnotifyBackendGetSettings = function (_ca
 	SQ.call(this.mSQHandle, 'EIMO.getSettings', null, _callback);
 }
 
-CharacterScreenDatasource.prototype.EIMOrepairAllButtonClicked = function(_itemId, _callback)
+CharacterScreenDatasource.prototype.EIMOratioRepairButtonClicked = function(_itemId, _callback)
 {
-	this.EIMOnotifyBackendRepairAllButtonClicked(_itemId, _callback);
+	this.EIMOnotifyBackendRatioRepairButtonClicked(_itemId, _callback);
 };
 
-CharacterScreenDatasource.prototype.EIMOnotifyBackendRepairAllButtonClicked = function (_sourceItemId, _callback)
+CharacterScreenDatasource.prototype.EIMOnotifyBackendRatioRepairButtonClicked = function (_sourceItemId, _callback)
 {
-	SQ.call(this.mSQHandle, 'EIMO.onRepairAllButtonClicked', _sourceItemId, _callback);
+	SQ.call(this.mSQHandle, 'EIMO.onRatioRepairButtonClicked', _sourceItemId, _callback);
+};
+
+CharacterScreenDatasource.prototype.EIMOratioSalvageButtonClicked = function(_itemId, _callback)
+{
+	this.EIMOnotifyBackendRatioSalvageButtonClicked(_itemId, _callback);
+};
+
+CharacterScreenDatasource.prototype.EIMOnotifyBackendRatioSalvageButtonClicked = function (_sourceItemId, _callback)
+{
+	SQ.call(this.mSQHandle, 'EIMO.onRatioSalvageButtonClicked', _sourceItemId, _callback);
 };
 
 CharacterScreenDatasource.prototype.EIMOsetForSaleInventoryItem = function(_itemId, _callback)

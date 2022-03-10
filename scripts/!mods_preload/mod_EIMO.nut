@@ -5,7 +5,7 @@
 ::EIMO.Version <- "2.0.0-alpha";
 
 ::mods_registerMod(this.EIMO.ID, 10, this.EIMO.Name);
-::mods_queue(null, "mod_MSU, !mod_smartLoot", function()
+::mods_queue(null, "mod_MSU, !mod_smartLoot, >mod_legends", function()
 {
 	this.MSU.registerMod(this.EIMO.ID, this.EIMO.Version, this.EIMO.Name);
 	this.include("eimo/load.nut");
