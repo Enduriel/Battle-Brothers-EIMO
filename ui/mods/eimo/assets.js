@@ -2,7 +2,7 @@ var EIMO =
 {
 	ID: "mod_EIMO",
 	InventoryAddonsID: "inventoryAddons",
-	VisibilityLevelID: "visibilityLevel"
+	VisibilityLevelID: "visibilityLevel",
 
 	BUTTON_REPAIR: 						"ui/icons/EIMO_repair.png",
 	BUTTON_REPAIR_ONE_ENABLED: 			"ui/icons/EIMO_repair_one.png",

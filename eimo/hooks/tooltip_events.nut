@@ -42,7 +42,6 @@
 				type = "description",
 				text = "Marks all salvageable items in your iventory with low enough ratio for salvage"
 			}];
-		}
 		case "EIMO.SettingsButton":
 			return [
 			{
@@ -104,13 +103,13 @@
 				text = "Repair current brother's equipment at the local smith instantly by paying a fee.\n\nRequires you to be within 2 world tiles of a town with a smith and have enough money for the repair."
 			}];
 
-			if (this.World.State.m.CharacterScreen.EIMO.canRepairNearby())
+			if (::EIMO.RepairBrothersData.CanRepairNearby)
 			{
 				ret.push({
 					id = 3,
 					type = "hint",
 					icon = "ui/icons/asset_money.png",
-					text = "Repair Cost: " + this.World.State.m.CharacterScreen.EIMO.getRepairPriceBrother(this.World.State.m.CharacterScreen.EIMO.getSelectedBrother())
+					text = "Repair Cost: " + ::EIMO.RepairBrothersData.SelectedBrotherPrice
 				});
 			}
 			return ret;
@@ -127,13 +126,13 @@
 				text = "Repair your entire company's equipment at the local smith instantly by paying a fee.\n\nRequires you to be within 2 world tiles of a town with a smith and have enough money for the repair."
 			}];
 
-			if (this.World.State.m.CharacterScreen.EIMO.canRepairNearby())
+			if (::EIMO.RepairBrothersData.CanRepairNearby)
 			{
 				ret.push({
 					id = 3,
 					type = "hint",
 					icon = "ui/icons/asset_money.png",
-					text = "Repair Cost: " + this.World.State.m.CharacterScreen.EIMO.getRepairPriceCompany()
+					text = "Repair Cost: " + ::EIMO.RepairBrothersData.CompanyPrice
 				});
 			}
 			return ret;

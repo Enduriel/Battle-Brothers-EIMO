@@ -25,7 +25,7 @@ local function getToolPriceMult()
 
 local function getMaxItemSellPrice( _item )
 {
-	local fullValue = _item.m.value;
+	local fullValue = _item.m.Value;
 	fullValue *= this.World.Assets.getSellPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
 
 	if (_item.isItemType(this.Const.Items.ItemType.Food | this.Const.Items.ItemType.TradeGood))
@@ -47,7 +47,7 @@ local function getMaxItemSellPrice( _item )
 local function getMaxArmorSellPrice( _armor )
 {
 	local upgrade = _armor.getUpgrade();
-	return getMaxItemSellPrice(_armor) + upgrade == null ? 0 : getMaxItemSellPrice(upgrade);
+	return getMaxItemSellPrice(_armor) + (upgrade == null ? 0 : getMaxItemSellPrice(upgrade));
 }
 
 local function getMaxLegendsArmorSellPrice( _armor )
@@ -173,5 +173,5 @@ local function getSalvageIncome( _item )
 // Flag functions
 ::EIMO.getItemSaleFlag <- function( _item )
 {
-	return "EIMO.SaleFlag" + item.getID();
+	return "EIMO.SaleFlag" + _item.getID();
 }

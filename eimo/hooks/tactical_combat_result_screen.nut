@@ -57,7 +57,7 @@
 	}
 
 	o.EIMO <- {
-		o.onSmartLootButtonPressed <- function()
+		function onSmartLootButtonPressed()
 		{
 			if (Tactical.CombatResultLoot.isEmpty()) return Const.UI.convertErrorToUIData(Const.UI.Error.FoundLootListIsEmpty);
 

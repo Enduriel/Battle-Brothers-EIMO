@@ -5,7 +5,7 @@ local function registerJS( _file )
 
 local function registerCSS( _file )
 {
-	::mods_registerCSS("eimo/css/" + file);
+	::mods_registerCSS("eimo/css/" + _file);
 }
 
 registerJS("assets.js");

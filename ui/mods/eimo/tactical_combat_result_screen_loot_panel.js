@@ -45,34 +45,35 @@ TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot = function(_slo
 {
 	_slot.setForSaleImageVisible(false);
 	_slot.setFavoriteImageVisible(false);
-	_slot.setRepairProfitVisible(null,"#ffffff");
+	_slot.setRepairProfitVisible(null);
 	tcRemoveItemFromSlot.call(this, _slot);
 };
 
 var tcAssignItemToSlot = TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot;
-WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _slot, _item)
+TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot = function(_owner, _slot, _item)
 {
-	wtAssignItemToSlot.call(this, _owner, _slot, _item);
+	tcAssignItemToSlot.call(this, _owner, _slot, _item);
 	if ((TacticalCombatResultScreenIdentifier.Item.Id in _item) && (TacticalCombatResultScreenIdentifier.Item.ImagePath in _item))
 	{
 		var itemData = _slot.data('item');
-		itemData.forSale = _item.forSale;
-		itemData.favorite = _item.favorite;
-		itemData.repairProfit = Math.floor(_item.repairProfit === undefined ? 0 : _item.repairProfit);
+		itemData.EIMO = {};
+		itemData.EIMO.forSale = _item.EIMO.forSale;
+		itemData.EIMO.favorite = _item.EIMO.favorite;
+		itemData.EIMO.repairProfit = Math.round(_item.EIMO.repairProfit === undefined ? 0 : _item.EIMO.repairProfit);
 		switch (getModSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
 		{
 			case "Reduced":
-				_slot.setForSaleImageVisible(_item.forSale);
-				_slot.setFavoriteImageVisible(_item.favorite);
+				_slot.setForSaleImageVisible(_item.EIMO.forSale);
+				_slot.setFavoriteImageVisible(_item.EIMO.favorite);
 				break;
 			case "Off":
 				break;
 			case "Normal": default:
-				_slot.setForSaleImageVisible(_item.forSale);
-				_slot.setFavoriteImageVisible(_item.favorite);
-				if (_item.repairProfit != 0)
+				_slot.setForSaleImageVisible(_item.EIMO.forSale);
+				_slot.setFavoriteImageVisible(_item.EIMO.favorite);
+				if (itemData.EIMO.repairProfit != 0 && itemData.EIMO.repairProfit !== undefined)
 				{
-					_slot.setRepairProfitVisible(itemData.repairProfit.toString(), _item[CharacterScreenIdentifier.Item.AmountColor]);
+					_slot.setRepairProfitVisible(itemData.EIMO.repairProfit.toString(), _item[CharacterScreenIdentifier.Item.AmountColor]);
 				}
 		}
 	}

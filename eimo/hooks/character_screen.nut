@@ -88,10 +88,11 @@
 			{
 				if (settlement.getTile().getDistanceTo(playerTile) <= 2 && settlement.isAlliedWithPlayer())
 				{
-					foreach (building in settlement.EIMO.getBuildings())
+					foreach (building in settlement.EIMO_getBuildings())
 					{
 						if (building.isRepairOffered())
 						{
+							::printLog("Can repair nearby", ::EIMO.ID);
 							this.m.EIMO.RepairTown = settlement;
 							return true;
 						}
@@ -99,6 +100,7 @@
 				}
 			}
 
+			::printLog("Can't repair nearby", ::EIMO.ID);
 			this.m.EIMO.RepairTown = null;
 			return false;
 		}
@@ -106,10 +108,12 @@
 		function getRepairData()
 		{
 			// TODO Might need updating more often (eg when brother has equipment added/removed)
-			::EIMO.repairBrothersData.SelectedBrotherPrice = this.getRepairPriceBrother(this.getSelectedBrother());
-			::EIMO.repairBrothersData.CompanyPrice = this.getRepairPriceCompany();
+			::EIMO.RepairBrothersData.SelectedBrotherPrice = this.getRepairPriceBrother(this.getSelectedBrother());
+			::EIMO.RepairBrothersData.CompanyPrice = this.getRepairPriceCompany();
 
-			return ::EIMO.repairBrothersData;
+			::printLog(format("SelectedBrotherPrice: %s, CompanyPrice: %s", ::EIMO.RepairBrothersData.SelectedBrotherPrice.tostring(), ::EIMO.RepairBrothersData.CompanyPrice.tostring()), ::EIMO.ID);
+
+			return ::EIMO.RepairBrothersData;
 		}
 
 		function getRepairPriceCompany()
@@ -122,7 +126,7 @@
 			return price;
 		}
 
-		function getRepairPriceBrother( _brother, _repairTown )
+		function getRepairPriceBrother( _brother )
 		{
 			local price = 0;
 			foreach (item in _brother.getItems().getAllItems())
@@ -196,13 +200,48 @@
 
 		function getSettings()
 		{
+			::EIMO.RepairBrothersData.CanRepairNearby = this.canRepairNearby();
 			//this.Const.EIMO.characterScreen = this.weakref();
 			local ret = {
-				legends = ::mods_getRegisteredMod("mod_legends") != null;
-				canRepair = this.canRepairNearby()
+				legends = ::mods_getRegisteredMod("mod_legends") != null,
+				canRepair = ::EIMO.RepairBrothersData.CanRepairNearby
 			};
 			return ret;
 		}
+	}.setdelegate(o);
 
-	};.setdelegate(o);
+	o.EIMOJSgetSettings <- function()
+	{
+		return o.EIMO.getSettings();
+	}
+
+	o.EIMOJSonRatioRepairButtonClicked <- function()
+	{
+		return o.EIMO.onRatioRepairButtonClicked();
+	}
+
+	o.EIMOJSonRatioSalvageButtonClicked <- function()
+	{
+		return o.EIMO.onRatioSalvageButtonClicked();
+	}
+
+	o.EIMOJSpaidRepairBrother <- function()
+	{
+		return o.EIMO.jsPaidRepairBrother();
+	}
+
+	o.EIMOJSpaidRepairCompany <- function()
+	{
+		return o.EIMO.jsPaidRepairCompany();
+	}
+
+	o.EIMOJSsetSelectedBrother <- function( _entityID )
+	{
+		return o.EIMO.setSelectedBrother(_entityID);
+	}
+
+	o.EIMOJSgetRepairData <- function()
+	{
+		return o.EIMO.getRepairData();
+	}
 });

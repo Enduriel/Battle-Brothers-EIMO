@@ -3,7 +3,7 @@
 	o = o[o.SuperName];
 
 	o.m.EIMO <- {
-		IsFavorite = false;
+		IsFavorite = false
 	}
 
 	o.EIMO <- {

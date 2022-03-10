@@ -1,17 +1,15 @@
 ::mods_hookExactClass("entity/world/settlement", function (o)
 {
-	o.EIMO <- {
-		function getBuildings()
+	o.EIMO_getBuildings <- function()
+	{
+		local ret = [];
+		foreach (building in this.m.Buildings)
 		{
-			local ret = [];
-			foreach (building in this.m.Buildings)
+			if (building != null)
 			{
-				if (building != null)
-				{
-					ret.push(b);
-				}
+				ret.push(building);
 			}
-			return ret;
 		}
-	}.setdelegate(o);
+		return ret;
+	}
 });

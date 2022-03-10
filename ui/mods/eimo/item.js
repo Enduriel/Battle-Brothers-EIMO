@@ -26,8 +26,8 @@ $.fn.createListItem = function(_withPriceLayer, _backgroundImage, _classes)
 	favoriteImage.attr('src', Path.GFX + EIMO.ICON_FAVORITE);
 	favoriteLayer.append(favoriteImage);
 
-	return result
-}
+	return result;
+};
 
 $.fn.setForSaleImageVisible = function(_isVisible)
 {
@@ -55,9 +55,10 @@ $.fn.setFavoriteImageVisible = function(_isVisible)
 	}
 };
 
-$.fn.setRepairProfitVisible = function(_value, _color = '#ffffff')
+$.fn.setRepairProfitVisible = function(_value, _color)
 {
-	var layer = this.find('.dratio-layer:first');
+	if (_color === undefined) {_color = '#ffffff'}
+	var layer = this.find('.repair-profit-layer:first');
 	var label = layer.find('.label:first');
 	if (_value !== undefined && _value !== null)
 	{
