@@ -21,7 +21,7 @@
 			{
 				if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
 				{
-					if (::EIMO.getRepairRatio(item) > ::getModSetting(::EIMO.ID, ::EIMO.RepairThresholdID).getValue())
+					if (::EIMO.getRepairRatio(item) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.RepairThresholdID).getValue())
 					{
 						if (::mods_getRegisteredMod("mod_legends") == null)
 						{
@@ -44,7 +44,7 @@
 			{
 				if (item != null && item.canBeSalvaged() && !item.isFavorite())
 				{
-					if (::EIMO.getSalvageRatio(item) < ::getModSetting(::EIMO.ID, ::EIMO.SalvageThresholdID).getValue())
+					if (::EIMO.getSalvageRatio(item) < ::EIMO.Mod.ModSettings.getSetting(::EIMO.SalvageThresholdID).getValue())
 					{
 						item.setToBeSalvaged(true, idx);
 					}
@@ -92,15 +92,14 @@
 					{
 						if (building.isRepairOffered())
 						{
-							::printLog("Can repair nearby", ::EIMO.ID);
+							::EIMO.Mod.Debug.printLog("Can repair nearby");
 							this.m.EIMO.RepairTown = settlement;
 							return true;
 						}
 					}
 				}
 			}
-
-			::printLog("Can't repair nearby", ::EIMO.ID);
+			::EIMO.Mod.Debug.printLog("Can't repair nearby");
 			this.m.EIMO.RepairTown = null;
 			return false;
 		}
@@ -111,7 +110,7 @@
 			::EIMO.RepairBrothersData.SelectedBrotherPrice = this.getRepairPriceBrother(this.getSelectedBrother());
 			::EIMO.RepairBrothersData.CompanyPrice = this.getRepairPriceCompany();
 
-			::printLog(format("SelectedBrotherPrice: %s, CompanyPrice: %s", ::EIMO.RepairBrothersData.SelectedBrotherPrice.tostring(), ::EIMO.RepairBrothersData.CompanyPrice.tostring()), ::EIMO.ID);
+			::EIMO.Mod.Debug.printLog(format("SelectedBrotherPrice: %s, CompanyPrice: %s", ::EIMO.RepairBrothersData.SelectedBrotherPrice.tostring(), ::EIMO.RepairBrothersData.CompanyPrice.tostring()));
 
 			return ::EIMO.RepairBrothersData;
 		}

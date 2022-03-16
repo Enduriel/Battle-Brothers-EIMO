@@ -7,6 +7,6 @@
 ::mods_registerMod(this.EIMO.ID, 10, this.EIMO.Name);
 ::mods_queue(null, "mod_MSU, !mod_smartLoot, >mod_legends", function()
 {
-	this.MSU.registerMod(this.EIMO.ID, this.EIMO.Version, this.EIMO.Name);
+	::EIMO.Mod <- ::MSU.Class.Mod(::EIMO.ID, ::EIMO.Version, ::EIMO.Name)
 	this.include("eimo/load.nut");
 });

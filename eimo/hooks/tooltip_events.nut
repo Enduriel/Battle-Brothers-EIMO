@@ -76,7 +76,7 @@
 			{
 				id = 2,
 				type = "description",
-				text = "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Items above a ratio of " + ::getModSetting(::EIMO.ID, ::EIMO.WaitThresholdID).getValue() + " will only be sold when in full condition."
+				text = "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Items above a ratio of " + ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue() + " will only be sold when in full condition."
 			}];
 		case "EIMO.SmartLootButton":
 			return [

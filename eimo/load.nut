@@ -1,10 +1,8 @@
-this.MSU.System.ModSettings.registerMod(this.EIMO.ID);
-this.MSU.System.Debug.registerMod(::EIMO.ID);
-
-local panel = this.MSU.System.ModSettings.get(this.EIMO.ID);
+::EIMO.Mod.register(::MSU.System.Debug);
+::EIMO.Mod.register(::MSU.System.ModSettings);
 
 local page = this.MSU.Class.SettingsPage("Save Settings");
-panel.addPage(page);
+::EIMO.Mod.ModSettings.addPage(page);
 
 ::EIMO.RepairThresholdID <- "repairThreshold";
 local repairThreshold = this.MSU.Class.RangeSetting(::EIMO.RepairThresholdID, 125, 100, 500, 10, "Repair Threshold");
@@ -40,7 +38,7 @@ page.add(this.MSU.Class.SettingsDivider("debug", "Debug Settings"));
 local log = this.MSU.Class.BooleanSetting(::EIMO.LogID, false, "Enable Logging");
 log.addCallback(function ( _newValue )
 {
-	this.MSU.System.Debug.setFlag(::EIMO.ID, this.MSU.System.Debug.DefaultFlag, _newValue)
+	::EIMO.Mod.Debug.setFlag(::MSU.System.Debug.DefaultFlag, _newValue);
 });
 page.add(log);
 

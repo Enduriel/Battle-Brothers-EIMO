@@ -59,7 +59,7 @@
 
 		function shouldBeSold()
 		{
-			return this.isSetForSale() && !this.isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > getModSetting(::EIMO.ID, ::EIMO.WaitThresholdID).getValue())
+			return this.isSetForSale() && !this.isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
 		}
 
 		// Should be replaced by getRawValue once legends gets that

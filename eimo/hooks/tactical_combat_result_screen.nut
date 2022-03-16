@@ -16,7 +16,7 @@
 			local value = ::EIMO.getMaxSellPrice(i), condition = i.getCondition(), maxCondition = i.getConditionMax();
 			if (condition < maxCondition)
 			{
-				if (::EIMO.getRepairRatio(i) >= ::getModSetting(::EIMO.ID, ::EIMO.WaitThresholdID).getValue())
+				if (::EIMO.getRepairRatio(i) >= ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
 				{
 					local toolsRequired = (maxCondition - condition) / 15.0;
 					value -= toolsRequired * CostPerTool;
@@ -77,14 +77,14 @@
 				{
 					if (::mods_getRegisteredMod("mod_legends") == null)
 					{
-						if (::EIMO.getRepairRatio(i) > ::getModSetting(::EIMO.ID, ::EIMO.WaitThresholdID))
+						if (::EIMO.getRepairRatio(i) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID))
 						{
 							i.setToBeRepaired(true);
 						}
 					}
 					else
 					{
-						if (::EIMO.getRepairRatio(i) > ::getModSetting(::EIMO.ID, ::EIMO.SalvageThresholdID))
+						if (::EIMO.getRepairRatio(i) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.SalvageThresholdID))
 						{
 							i.setToBeRepaired(true, idx);
 						}

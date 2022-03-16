@@ -22,7 +22,7 @@
 			if (item != null && item.EIMO.isFavorite() )
 			{
 				this.World.Flags.add(getStashIndexFavoriteFlag(i));
-				::printLog(format("item %s at index %s saved as favorite", item.getID(), i.tostring()), ::EIMO.ID);
+				::EIMO.Mod.Debug.printLog(format("item %s at index %s saved as favorite", item.getID(), i.tostring()))
 			}
 		}
 		onSerialize( _out );
@@ -59,7 +59,7 @@
 					if (item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
 					if (item.EIMO.isFavorite())
 					{
-						::printLog(format("item %s in slot %s on bro %s saved as favorite", item.getID(), item.getCurrentSlotType().tostring(), bro.getName()), ::EIMO.ID);
+						::EIMO.Mod.Debug.printLog(format("item %s in slot %s on bro %s saved as favorite", item.getID(), item.getCurrentSlotType().tostring(), bro.getName()));
 						bro.getFlags().add(getBroItemSlotFlag(item, bagslot));
 					}
 				}
