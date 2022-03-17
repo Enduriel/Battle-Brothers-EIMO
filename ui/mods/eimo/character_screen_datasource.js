@@ -20,7 +20,7 @@ CharacterScreenDatasource.prototype.EIMOratioSalvageButtonClicked = function()
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendRatioSalvageButtonClicked = function ()
 {
-	SQ.call(this.mSQHandle, 'EIMO.onRatioSalvageButtonClicked');
+	SQ.call(this.mSQHandle, 'EIMOJSonRatioSalvageButtonClicked');
 };
 
 CharacterScreenDatasource.prototype.EIMOsetForSaleInventoryItem = function(_itemId, _callback)
@@ -30,7 +30,7 @@ CharacterScreenDatasource.prototype.EIMOsetForSaleInventoryItem = function(_item
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendSetForSaleInventoryItem = function (_sourceItemId, _callback)
 {
-	SQ.call(this.mSQHandle, 'EIMO.onSetForSaleInventoryItem', _sourceItemId, _callback);
+	SQ.call(this.mSQHandle, 'EIMOJSonSetForSaleInventoryItem', _sourceItemId, _callback);
 };
 
 CharacterScreenDatasource.prototype.EIMOfavoriteInventoryItem = function(_itemId, _callback)
@@ -40,7 +40,7 @@ CharacterScreenDatasource.prototype.EIMOfavoriteInventoryItem = function(_itemId
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendFavoriteInventoryItem = function (_sourceItemId, _callback)
 {
-	SQ.call(this.mSQHandle, 'EIMO.onFavoriteInventoryItem', _sourceItemId, _callback);
+	SQ.call(this.mSQHandle, 'EIMOJSonFavoriteInventoryItem', _sourceItemId, _callback);
 };
 
 CharacterScreenDatasource.prototype.EIMOpaidRepairBrother = function()

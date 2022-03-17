@@ -36,3 +36,50 @@ CharacterScreenInventoryListModule.prototype.assignItemToSlot = function(_entity
 		}
 	}
 };
+
+var csCreateItemSlots = CharacterScreenInventoryListModule.prototype.createItemSlots;
+CharacterScreenInventoryListModule.prototype.createItemSlots = function( _owner, _size, _itemArray, _itemContainer )
+{
+	var self = this;
+	_itemContainer.createListItem = function(_withPriceLayer, _backgroundImage, _classes)
+	{
+		var result = $.fn.createListItem.call(this, _withPriceLayer, _backgroundImage, _classes);
+		result.mousedown(function(_event)
+		{
+			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "setForSale", _event))
+			{
+				var data = $(this).data('item');
+				_event.stopImmediatePropagation();
+
+				self.mDataSource.EIMOsetForSaleInventoryItem(data.itemId, function (_notNull)
+				{
+					if (_notNull)
+					{
+						data.EIMO.forSale = !data.EIMO.forSale;
+						result.setForSaleImageVisible(data.EIMO.forSale);
+					}
+				});
+				return false;
+			}
+			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "setFavorite", _event))
+			{
+				var data = $(this).data('item');
+				_event.stopImmediatePropagation();
+
+				self.mDataSource.EIMOfavoriteInventoryItem(data.itemId, function (_notNull)
+				{
+					if (_notNull)
+					{
+						data.EIMO.favorite = !data.EIMO.favorite;
+						result.setFavoriteImageVisible(data.EIMO.favorite);
+					}
+				});
+				return false;
+			}
+			return;
+		});
+		return result;
+	}
+	csCreateItemSlots.call(this, _owner, _size, _itemArray, _itemContainer);
+	delete _itemContainer.createListItem;
+}

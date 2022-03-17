@@ -48,6 +48,11 @@ page.add(log);
 	CanRepairNearby = false
 }
 
+::EIMO.Mod.register(::MSU.System.Keybinds);
+::EIMO.Mod.Keybinds.addJSKeybind("setForSale", "shift+rightclick", "Mark Item Type For Sale", "All items marked for sale will be automatically sold when using autosell");
+::EIMO.Mod.Keybinds.addJSKeybind("setFavorite", "ctrl+alt+rightclick", "Favorite Item", "Favorited items will never be automatically sold and will be sorted above non-favorite items when autosorting.");
+// ::MSU.GlobalKeyHandler.AddHandlerFunction("asdfg", "j", function () {this.logInfo("worked")})
+
 ::includeFile("eimo/", "global_functions.nut");
 ::includeLoad("eimo/", "hooks");
 ::includeLoad("eimo/", "ui");

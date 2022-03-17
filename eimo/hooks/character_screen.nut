@@ -10,8 +10,12 @@
 		{
 			if (!("Assets" in this.World)) return;
 			local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
-			item.EIMO.setFavorite(!item.EIMO.isFavorite())
-			return true;
+			if (item != null)
+			{
+				item.EIMO.setFavorite(!item.EIMO.isFavorite())
+				return true;
+			}
+			return false;
 		}
 
 		function onRatioRepairButtonClicked()
@@ -59,7 +63,8 @@
 			local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
 			if (item != null)
 			{
-				item.setForSale(!item.isSetForSale());
+				::EIMO.Mod.Debug.printLog("setting " + item.getID() + " for sale");
+				item.EIMO.setForSale(!item.EIMO.isSetForSale());
 				this.loadStashList();
 				return true;
 			}
@@ -242,5 +247,15 @@
 	o.EIMOJSgetRepairData <- function()
 	{
 		return o.EIMO.getRepairData();
+	}
+
+	o.EIMOJSonFavoriteInventoryItem <- function( _itemID )
+	{
+		return this.EIMO.onFavoriteInventoryItem(_itemID);
+	}
+
+	o.EIMOJSonSetForSaleInventoryItem <- function( _itemID )
+	{
+		return this.EIMO.onSetForSaleInventoryItem(_itemID);
 	}
 });
