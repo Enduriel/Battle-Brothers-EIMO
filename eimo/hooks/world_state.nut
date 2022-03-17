@@ -19,7 +19,7 @@
 		for( local i = 0; i != items.len(); i = ++i )
 		{
 			local item = items[i];
-			if (item != null && item.EIMO.isFavorite() )
+			if (item != null && item.eimo_isFavorite() )
 			{
 				this.World.Flags.add(getStashIndexFavoriteFlag(i));
 				::EIMO.Mod.Debug.printLog(format("item %s at index %s saved as favorite", item.getID(), i.tostring()))
@@ -57,7 +57,7 @@
 				{
 					// I think this should get tested, I'm suprised it works if it does
 					if (item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
-					if (item.EIMO.isFavorite())
+					if (item.eimo_isFavorite())
 					{
 						::EIMO.Mod.Debug.printLog(format("item %s in slot %s on bro %s saved as favorite", item.getID(), item.getCurrentSlotType().tostring(), bro.getName()));
 						bro.getFlags().add(getBroItemSlotFlag(item, bagslot));
@@ -81,7 +81,7 @@
 
 			if (item != null && this.World.Flags.has(getStashIndexFavoriteFlag(i)))
 			{
-				item.EIMO.setFavorite(true);
+				item.eimo_setFavorite(true);
 				this.World.Flags.remove(getStashIndexFavoriteFlag(i));
 			}
 		}
@@ -96,7 +96,7 @@
 					if (item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
 					if (bro.getFlags().has(getBroItemSlotFlag(item, bagslot)))
 					{
-						item.EIMO.setFavorite(true);
+						item.eimo_setFavorite(true);
 						bro.getFlags().remove(getBroItemSlotFlag(item, bagslot))
 					}
 				}

@@ -2,82 +2,77 @@
 {
 	o = o[o.SuperName];
 
-	o.m.EIMO <- {
-		IsFavorite = false
+	o.m.eimo_IsFavorite <- false;
+
+	o.eimo_isFavorite <- function()
+	{
+		return this.m.eimo_IsFavorite;
 	}
 
-	o.EIMO <- {
-		function isFavorite()
-		{
-			return this.m.EIMO.IsFavorite;
-		}
+	o.eimo_setFavorite <- function( _bool )
+	{
+		this.m.eimo_IsFavorite = _bool;
+	}
 
-		function setFavorite( _bool )
-		{
-			this.m.EIMO.IsFavorite = _bool;
-		}
+	o.eimo_isSetForSale <- function()
+	{
+		if (!("Flags" in this.World)) return false;
 
-		function isSetForSale()
+		local sell = this.World.Flags.has(::EIMO.getItemSaleFlag(this));
+		if (::EIMO.isLegendArmor(this) && sell)
 		{
-			if (!("Flags" in this.World)) return false;
-
-			local sell = this.World.Flags.has(::EIMO.getItemSaleFlag(this));
-			if (::EIMO.isLegendArmor(this) && sell)
+			foreach (upgrade in this.m.Upgrades)
 			{
-				foreach (upgrade in this.m.Upgrades)
+				if (upgrade != null && !upgrade.eimo_isSetForSale())
 				{
-					if (upgrade != null && !upgrade.isSetForSale())
-					{
-						return false;
-					}
+					return false;
 				}
 			}
-			return sell;
 		}
+		return sell;
+	}
 
-		function setForSale( _bool )
+	o.eimo_setForSale <- function( _bool )
+	{
+		if (::EIMO.isLegendArmor(this))
 		{
-			if (::EIMO.isLegendArmor(this))
+			foreach (upgrade in this.m.Upgrades)
 			{
-				foreach (upgrade in this.m.Upgrades)
+				if (upgrade != null)
 				{
-					if (upgrade != null)
-					{
-						upgrade.setForSale(_bool);
-					}
+					upgrade.eimo_setForSale(_bool);
 				}
 			}
-			if (_bool)
-			{
-				this.World.Flags.set(::EIMO.getItemSaleFlag(this), true);
-			}
-			else
-			{
-				this.World.Flags.remove(::EIMO.getItemSaleFlag(this));
-			}
 		}
-
-		function shouldBeSold()
+		if (_bool)
 		{
-			return this.isSetForSale() && !this.isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
+			this.World.Flags.set(::EIMO.getItemSaleFlag(this), true);
 		}
-
-		// Should be replaced by getRawValue once legends gets that
-		function getMaxValue()
+		else
 		{
-			if (::EIMO.isLegendArmor(this))
+			this.World.Flags.remove(::EIMO.getItemSaleFlag(this));
+		}
+	}
+
+	o.eimo_shouldBeSold <- function()
+	{
+		return this.eimo_isSetForSale() && !this.eimo_isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
+	}
+
+	o.eimo_getMaxValue <- function()
+	{
+		if (::EIMO.isLegendArmor(this))
+		{
+			local ret = this.m.Value;
+			foreach (upgrade in this.m.Upgrades)
 			{
-				local ret = this.m.Value;
-				foreach (upgrade in this.m.Upgrades)
+				if (upgrade != null)
 				{
-					if (upgrade != null)
-					{
-						ret += upgrade.m.Value;
-					}
+					ret += upgrade.m.Value;
 				}
-				return ret;
 			}
-			return this.m.Value;
+			return ret;
 		}
-	}.setdelegate(o);
+		return this.m.Value;
+	}
 });

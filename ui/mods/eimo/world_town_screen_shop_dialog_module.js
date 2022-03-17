@@ -33,24 +33,23 @@ WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _s
 	if ((WorldTownScreenIdentifier.Item.Id in _item) && (WorldTownScreenIdentifier.Item.ImagePath in _item))
 	{
 		var itemData = _slot.data('item');
-		itemData.EIMO = {};
-		itemData.EIMO.forSale = _item.EIMO.forSale;
-		itemData.EIMO.favorite = _item.EIMO.favorite;
-		itemData.EIMO.repairProfit = Math.round(_item.EIMO.repairProfit === undefined ? 0 : _item.EIMO.repairProfit);
+		itemData.eimo_forSale = _item.eimo_forSale;
+		itemData.eimo_favorite = _item.eimo_favorite;
+		itemData.eimo_repairProfit = Math.round(_item.eimo_repairProfit === undefined ? 0 : _item.eimo_repairProfit);
 		switch (getModSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
 		{
 			case "Reduced":
-				_slot.setForSaleImageVisible(_item.EIMO.forSale);
-				_slot.setFavoriteImageVisible(_item.EIMO.favorite);
+				_slot.setForSaleImageVisible(_item.eimo_forSale);
+				_slot.setFavoriteImageVisible(_item.eimo_favorite);
 				break;
 			case "Off":
 				break;
 			case "Normal": default:
-				_slot.setForSaleImageVisible(_item.EIMO.forSale);
-				_slot.setFavoriteImageVisible(_item.EIMO.favorite);
-				if (itemData.EIMO.repairProfit != 0 && itemData.EIMO.repairProfit !== undefined)
+				_slot.setForSaleImageVisible(_item.eimo_forSale);
+				_slot.setFavoriteImageVisible(_item.eimo_favorite);
+				if (itemData.eimo_repairProfit != 0 && itemData.eimo_repairProfit !== undefined)
 				{
-					_slot.setRepairProfitVisible(itemData.EIMO.repairProfit.toString(), _item[CharacterScreenIdentifier.Item.AmountColor]);
+					_slot.setRepairProfitVisible(itemData.eimo_repairProfit.toString(), _item[CharacterScreenIdentifier.Item.AmountColor]);
 				}
 		}
 	}

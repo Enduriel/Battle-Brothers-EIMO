@@ -65,7 +65,7 @@ local function getMaxLegendsArmorSellPrice( _armor )
 
 ::EIMO.getMaxSellPrice <- function( _item )
 {
-	if (this.EIMO.isLegendArmor(_item))
+	if (::EIMO.isLegendArmor(_item))
 	{
 		return getMaxLegendsArmorSellPrice(_item);
 	}
@@ -78,7 +78,7 @@ local function getMaxLegendsArmorSellPrice( _armor )
 
 local function getRatio( _item, _valueChangeFunction, _priceFunction )
 {
-	if (this.EIMO.isLegendArmor(_item))
+	if (::EIMO.isLegendArmor(_item))
 	{
 		if (_item.getRepair() == _item.getRepairMax())
 		{
@@ -97,7 +97,7 @@ local function getRatio( _item, _valueChangeFunction, _priceFunction )
 
 local function getValueChange( _item, _function )
 {
-	if (this.EIMO.isLegendArmor(_item))
+	if (::EIMO.isLegendArmor(_item))
 	{
 		local valueChange = _function(_item);
 		foreach (upgrade in _item.m.Upgrades)
@@ -126,7 +126,7 @@ local function getRepairValueChange( _item )
 
 local function getRepairCost( _item )
 {
-	if (this.EIMO.isLegendArmor(_item))
+	if (::EIMO.isLegendArmor(_item))
 	{
 		return getToolPriceMult() * (_item.getRepairMax() - _item.getRepair());
 	}
@@ -158,7 +158,7 @@ local function getSalvageValueChange( _item )
 
 local function getSalvageIncome( _item )
 {
-	if (this.EIMO.isLegendArmor(_item))
+	if (::EIMO.isLegendArmor(_item))
 	{
 		return getToolPriceMult() * _item.getRepair();
 	}

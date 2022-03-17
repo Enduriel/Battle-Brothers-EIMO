@@ -6,8 +6,8 @@
 		if (_item1 == null && _item2 == null) return 0;
 		if (_item1 != null && _item2 != null)
 		{
-			if (!_item1.EIMO.isFavorite() && _item2.EIMO.isFavorite()) return 1;
-			if (_item1.EIMO.isFavorite() && !_item2.EIMO.isFavorite()) return -1;
+			if (!_item1.eimo_isFavorite() && _item2.eimo_isFavorite()) return 1;
+			if (_item1.eimo_isFavorite() && !_item2.eimo_isFavorite()) return -1;
 		}
 		local ret = onItemCompare(_item1, _item2);
 		if (ret == 0)

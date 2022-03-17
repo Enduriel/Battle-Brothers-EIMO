@@ -66,7 +66,6 @@ CharacterScreenRightPanelHeaderModule.prototype.createDIV = function (_parentDiv
 	if (this.mDataSource.isTacticalMode() || !getModSettingValue(EIMO.ID, EIMO.InventoryAddonsID))
 	{
 		this.EIMOhide();
-		this.mEIMO.SettingsButton.removeClass('opacity-full is-top').addClass('opacity-none no-pointer-events');
 	}
 	else
 	{

@@ -1,6 +1,6 @@
 CharacterScreenDatasource.prototype.EIMOnotifyBackendGetSettings = function (_callback)
 {
-	SQ.call(this.mSQHandle, 'EIMOJSgetSettings', null, _callback);
+	SQ.call(this.mSQHandle, 'eimo_getSettings', null, _callback);
 }
 
 CharacterScreenDatasource.prototype.EIMOratioRepairButtonClicked = function()
@@ -10,7 +10,7 @@ CharacterScreenDatasource.prototype.EIMOratioRepairButtonClicked = function()
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendRatioRepairButtonClicked = function ()
 {
-	SQ.call(this.mSQHandle, 'EIMOJSonRatioRepairButtonClicked');
+	SQ.call(this.mSQHandle, 'eimo_onRatioRepairButtonClicked');
 };
 
 CharacterScreenDatasource.prototype.EIMOratioSalvageButtonClicked = function()
@@ -20,7 +20,7 @@ CharacterScreenDatasource.prototype.EIMOratioSalvageButtonClicked = function()
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendRatioSalvageButtonClicked = function ()
 {
-	SQ.call(this.mSQHandle, 'EIMOJSonRatioSalvageButtonClicked');
+	SQ.call(this.mSQHandle, 'eimo_onRatioSalvageButtonClicked');
 };
 
 CharacterScreenDatasource.prototype.EIMOsetForSaleInventoryItem = function(_itemId, _callback)
@@ -30,7 +30,7 @@ CharacterScreenDatasource.prototype.EIMOsetForSaleInventoryItem = function(_item
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendSetForSaleInventoryItem = function (_sourceItemId, _callback)
 {
-	SQ.call(this.mSQHandle, 'EIMOJSonSetForSaleInventoryItem', _sourceItemId, _callback);
+	SQ.call(this.mSQHandle, 'eimo_onSetForSaleInventoryItem', _sourceItemId, _callback);
 };
 
 CharacterScreenDatasource.prototype.EIMOfavoriteInventoryItem = function(_itemId, _callback)
@@ -40,7 +40,7 @@ CharacterScreenDatasource.prototype.EIMOfavoriteInventoryItem = function(_itemId
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendFavoriteInventoryItem = function (_sourceItemId, _callback)
 {
-	SQ.call(this.mSQHandle, 'EIMOJSonFavoriteInventoryItem', _sourceItemId, _callback);
+	SQ.call(this.mSQHandle, 'eimo_onFavoriteInventoryItem', _sourceItemId, _callback);
 };
 
 CharacterScreenDatasource.prototype.EIMOpaidRepairBrother = function()
@@ -50,7 +50,7 @@ CharacterScreenDatasource.prototype.EIMOpaidRepairBrother = function()
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendPaidRepairBrother = function ()
 {
-	SQ.call(this.mSQHandle, 'EIMOJSpaidRepairBrother');
+	SQ.call(this.mSQHandle, 'eimo_paidRepairBrotherFromJS');
 };
 
 CharacterScreenDatasource.prototype.EIMOpaidRepairCompany = function()
@@ -60,7 +60,7 @@ CharacterScreenDatasource.prototype.EIMOpaidRepairCompany = function()
 
 CharacterScreenDatasource.prototype.notifyBackendEIMOPaidRepairCompany = function ()
 {
-	SQ.call(this.mSQHandle, 'EIMOJSpaidRepairCompany');
+	SQ.call(this.mSQHandle, 'eimo_paidRepairCompanyFromJS');
 };
 
 CharacterScreenDatasource.prototype.EIMOsetSelectedBrother = function(_entityId)
@@ -70,7 +70,7 @@ CharacterScreenDatasource.prototype.EIMOsetSelectedBrother = function(_entityId)
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendSetSelectedBrother = function (_entityId)
 {
-	SQ.call(this.mSQHandle, 'EIMOJSsetSelectedBrother',_entityId);
+	SQ.call(this.mSQHandle, 'eimo_setSelectedBrother',_entityId);
 };
 
 CharacterScreenDatasource.prototype.EIMOgetRepairData = function(_callback)
@@ -80,5 +80,5 @@ CharacterScreenDatasource.prototype.EIMOgetRepairData = function(_callback)
 
 CharacterScreenDatasource.prototype.EIMOnotifyBackendgetRepairData = function (_callback)
 {
-	SQ.call(this.mSQHandle, 'EIMOJSgetRepairData', null, _callback);
+	SQ.call(this.mSQHandle, 'eimo_getRepairData', null, _callback);
 };

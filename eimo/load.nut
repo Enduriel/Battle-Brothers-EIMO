@@ -1,4 +1,5 @@
 ::EIMO.Mod.register(::MSU.System.Debug);
+::EIMO.Mod.Debug.setFlag("default", true);
 ::EIMO.Mod.register(::MSU.System.ModSettings);
 
 local page = this.MSU.Class.SettingsPage("Save Settings");
