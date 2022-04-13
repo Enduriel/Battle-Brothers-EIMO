@@ -10,6 +10,7 @@ local function registerCSS( _file )
 
 registerJS("assets.js");
 registerJS("character_screen_datasource.js");
+registerJS("character_screen.js");
 registerJS("character_screen_inventory_list_module.js");
 registerJS("character_screen_right_panel_header_module.js");
 registerJS("item.js");

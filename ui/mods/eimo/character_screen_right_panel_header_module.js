@@ -1,7 +1,6 @@
 var createDiv = CharacterScreenRightPanelHeaderModule.prototype.createDIV;
 CharacterScreenRightPanelHeaderModule.prototype.createDIV = function (_parentDiv)
 {
-
 	createDiv.call(this, _parentDiv);
 	var self = this;
 
@@ -63,14 +62,7 @@ CharacterScreenRightPanelHeaderModule.prototype.createDIV = function (_parentDiv
 	}, '', 3);
 	this.mEIMO.Buttons.RepairCompanyButton.Enabled = false;
 
-	if (this.mDataSource.isTacticalMode() || !getModSettingValue(EIMO.ID, EIMO.InventoryAddonsID))
-	{
-		this.EIMOhide();
-	}
-	else
-	{
-		this.EIMOregisterDatasourceListener();
-	}
+	this.EIMOregisterDatasourceListener();
 }
 
 var destroyDiv = CharacterScreenRightPanelHeaderModule.prototype.destroyDIV;
@@ -133,6 +125,11 @@ CharacterScreenRightPanelHeaderModule.prototype.EIMOshow = function()
 	this.mEIMO.Buttons.removeClass('opacity-none no-pointer-events').addClass('opacity-full is-top');
 }
 
+CharacterScreenRightPanelHeaderModule.prototype.eimo_isVisible = function()
+{
+	return this.mEIMO.Buttons.hasClass('opacity-full');
+}
+
 CharacterScreenRightPanelHeaderModule.prototype.EIMOonSelectBrother = function(_datasource, _brother)
 {
 	this.mDataSource.EIMOsetSelectedBrother(_brother[CharacterScreenIdentifier.Entity.Id]);
@@ -181,11 +178,20 @@ CharacterScreenRightPanelHeaderModule.prototype.EIMOrepairCompanyButtonState = f
 
 CharacterScreenRightPanelHeaderModule.prototype.EIMOgetSettings = function()
 {
-	var self = this;
-	this.mDataSource.EIMOnotifyBackendGetSettings(function(res)
+	if (this.eimo_isVisible())
 	{
-		self.mEIMO.Legends = res.legends;
-		self.mEIMO.CanRepair = res.canRepair;
-		self.EIMOupdateRepairButtons();
-	});
+		var self = this;
+		this.mDataSource.EIMOnotifyBackendGetSettings(function(res)
+		{
+			self.mEIMO.Legends = res.legends;
+			self.mEIMO.CanRepair = res.canRepair;
+			self.EIMOupdateRepairButtons();
+		});
+	}
+	else
+	{
+		this.mEIMO.Legends = false;
+		this.mEIMO.CanRepair = false;
+		this.EIMOupdateRepairButtons();
+	}
 }

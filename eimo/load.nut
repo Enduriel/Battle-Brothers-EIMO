@@ -30,7 +30,7 @@ page.add(visibilityLevel);
 
 ::EIMO.InventoryAddonsID <- "inventoryAddons";
 local inventoryAddons = this.MSU.Class.BooleanSetting(::EIMO.InventoryAddonsID, true, "Inventory Addons");
-inventoryAddons.setDescription("Shows an extra screen in party inventory with some additional minor uses.");
+inventoryAddons.setDescription("Shows a sidebar in your party inventory with some additional uses.");
 page.add(inventoryAddons);
 
 page.add(this.MSU.Class.SettingsDivider("debug", "Debug Settings"));
