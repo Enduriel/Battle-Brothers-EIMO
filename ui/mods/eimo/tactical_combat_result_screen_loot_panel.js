@@ -59,7 +59,7 @@ TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot = function(_owner
 		itemData.eimo_forSale = _item.eimo_forSale;
 		itemData.eimo_favorite = _item.eimo_favorite;
 		itemData.eimo_repairProfit = Math.round(_item.eimo_repairProfit === undefined ? 0 : _item.eimo_repairProfit);
-		switch (getModSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
+		switch (MSU.getSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
 		{
 			case "Reduced":
 				_slot.setForSaleImageVisible(_item.eimo_forSale);
