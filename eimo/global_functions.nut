@@ -7,7 +7,7 @@
 // General utility functions
 ::EIMO.isLegendArmor <- function(_item)
 {
-	return ::MSU.isKindOf(_item, "legend_armor") != null || ::MSU.isKindOf(_item, "legend_helmet") != null;
+	return ::MSU.isKindOf(_item, "legend_armor") || ::MSU.isKindOf(_item, "legend_helmet");
 }
 
 // Repair & Salvage calculations
@@ -69,7 +69,7 @@ local function getMaxLegendsArmorSellPrice( _armor )
 	{
 		return getMaxLegendsArmorSellPrice(_item);
 	}
-	else if (::MSU.isKindOf(_item, "armor") != null)
+	else if (::MSU.isKindOf(_item, "armor"))
 	{
 		return getMaxArmorSellPrice(_item)
 	}
