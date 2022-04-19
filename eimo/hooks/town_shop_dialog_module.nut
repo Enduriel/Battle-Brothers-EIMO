@@ -7,7 +7,7 @@
 
 		for (local i = this.World.Assets.getStash().getCapacity() - 1; i >= 0 ; --i)
 		{
-			if (this.Stash.getItemAtIndex(i) != null)
+			if (this.Stash.getItemAtIndex(i).item != null)
 			{
 				if (this.Stash.getItemAtIndex(i).item.eimo_shouldBeSold())
 				{

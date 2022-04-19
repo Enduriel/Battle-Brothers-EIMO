@@ -14,7 +14,7 @@ WorldTownScreenShopDialogModule.prototype.EIMOsellAllButtonClicked = function ()
 
 WorldTownScreenShopDialogModule.prototype.EIMOnotifyBackendSellAllButtonClicked = function (_callback)
 {
-	SQ.call(this.mSQHandle, 'EIMO.onSellAllButtonClicked', null, _callback);
+	SQ.call(this.mSQHandle, 'eimo_onSellAllButtonClicked', null, _callback);
 };
 
 var wtRemoveItemFromSlot = WorldTownScreenShopDialogModule.prototype.removeItemFromSlot;
