@@ -201,7 +201,7 @@
 				if ((type & IneligibleTypes) || type == ItemType.Misc) return false; // don't drop important or special items
 				if ((type & ItemType.Accessory) && i.getSlotType() != Const.ItemSlot.Bag) return false; // or important accessories
 				if (isFood(i) && countFoodDays(i) < 4) return false; // don't drop food if it'd leave us with less than four days' worth
-				if (i.isFavorite()) return false; //Keep favorite items from EIMO
+				if (i.eimo_isFavorite()) return false; //Keep favorite items from EIMO
 				return true;
 			}
 
