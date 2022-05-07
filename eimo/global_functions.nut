@@ -53,7 +53,7 @@ local function getMaxArmorSellPrice( _armor )
 local function getMaxLegendsArmorSellPrice( _armor )
 {
 	local sellPrice = getMaxItemSellPrice(_armor);
-	foreach (upgrade in armor.m.Upgrades)
+	foreach (upgrade in _armor.m.Upgrades)
 	{
 		if (upgrade != null)
 		{
