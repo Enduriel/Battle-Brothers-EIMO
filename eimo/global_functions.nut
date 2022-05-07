@@ -1,9 +1,3 @@
-::EIMO.RepairThreshold <- 125;
-::EIMO.SellThreshold <- 150;
-::EIMO.ShowSettings <- true;
-//Above are obselete
-
-//Removed Asset checks may throw errors
 // General utility functions
 ::EIMO.isLegendArmor <- function(_item)
 {

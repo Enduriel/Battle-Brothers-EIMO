@@ -41,7 +41,6 @@ log.addCallback(function ( _newValue )
 
 ::EIMO.Mod.Keybinds.addJSKeybind("setForSale", "shift+rightclick", "Mark Item Type For Sale", "All items marked for sale will be automatically sold when using autosell");
 ::EIMO.Mod.Keybinds.addJSKeybind("setFavorite", "ctrl+alt+rightclick", "Favorite Item", "Favorited items will never be automatically sold and will be sorted above non-favorite items when autosorting.");
-// ::MSU.GlobalKeyHandler.AddHandlerFunction("asdfg", "j", function () {this.logInfo("worked")})
 
 ::includeFile("eimo/", "global_functions.nut");
 ::includeLoad("eimo/", "hooks");
