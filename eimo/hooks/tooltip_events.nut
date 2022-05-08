@@ -22,13 +22,13 @@
 				id = 3,
 				type = "hint",
 				icon = "ui/icons/EIMO_mouse_right_button_shift.png",
-				text = ::MSU.String.capitalizeFirst(::EIMO.Mod.ModSettings.getSetting("setForSale").getValue()) + " on items to mark their type for sale"
+				text = ::MSU.String.capitalizeFirst(::EIMO.Mod.ModSettings.getSetting("SetForSale").getValue()) + " on items to mark their type for sale"
 			},
 			{
 				id = 4,
 				type = "hint",
 				icon = "ui/icons/EIMO_mouse_right_button_ctrl_shift.png",
-				text = ::MSU.String.capitalizeFirst(::EIMO.Mod.ModSettings.getSetting("setFavorite").getValue()) + " on items to mark them as favorite (they will then not be sold)"
+				text = ::MSU.String.capitalizeFirst(::EIMO.Mod.ModSettings.getSetting("SetFavorite").getValue()) + " on items to mark them as favorite (they will then not be sold)"
 			}];
 		case "EIMO.SalvageButton":
 			return [

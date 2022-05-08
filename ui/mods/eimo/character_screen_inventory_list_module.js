@@ -45,7 +45,7 @@ CharacterScreenInventoryListModule.prototype.createItemSlots = function( _owner,
 		var result = $.fn.createListItem.call(this, _withPriceLayer, _backgroundImage, _classes);
 		result.mousedown(function(_event)
 		{
-			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "setForSale", _event))
+			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "SetForSale", _event))
 			{
 				var data = $(this).data('item');
 				_event.stopImmediatePropagation();
@@ -60,7 +60,7 @@ CharacterScreenInventoryListModule.prototype.createItemSlots = function( _owner,
 				});
 				return false;
 			}
-			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "setFavorite", _event))
+			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "SetFavorite", _event))
 			{
 				var data = $(this).data('item');
 				_event.stopImmediatePropagation();
