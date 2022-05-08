@@ -38,6 +38,12 @@
 			local function foodValue(i) { return i.getAmount() * i.getSpoilInDays(); }
 			Tactical.CombatResultLoot.getItems().sort(function(a, b) // order loot value (but put some types at the beginning)
 			{
+				if (a == null || b == null)
+				{
+					if (b != null) return 1;
+					if (a != null) return -1;
+					return 0;
+				}
 				local ac = isFood(a), bc = isFood(b); // put food first
 				if (ac) return bc ? foodValue(b) <=> foodValue(a) : -1;
 				else if (bc) return 1;
