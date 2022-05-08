@@ -1,15 +1,15 @@
 local page = ::EIMO.Mod.ModSettings.addPage("Save Settings");
 
 ::EIMO.RepairThresholdID <- "RepairThreshold";
-page.addRangeSetting(::EIMO.RepairThresholdID, 125, 100, 500, 10, "Repair Threshold", "Above this threshold of profitability items will be marked for repair by the repair button (Smart Loot uses the wait Threshold).\n\nA value of 150% means 50% profit from selling a repaired item compared to the cost of buying tools");
+page.addRangeSetting(::EIMO.RepairThresholdID, 125, 100, 500, 10, "Repair Threshold", "Above this threshold of repair profitability items will be marked for repair by the repair button (Smart Loot uses the wait Threshold).\n\nHigher values mean increased profitability");
 
 ::EIMO.WaitThresholdID <- "WaitThreshold";
-page.addRangeSetting(::EIMO.WaitThresholdID, 150, 100, 500, 10, "Wait Threshold", "Above this threshold of profitability items will not be sold until they are fully repaired and will be set to repair when using smart loot.\n\nA value of 150% means 50% profit from selling a repaired item compared to the cost of buying tools");
+page.addRangeSetting(::EIMO.WaitThresholdID, 150, 100, 500, 10, "Wait Threshold", "Above this threshold of repair profitability items will not be sold until they are fully repaired and will be set to repair when using smart loot.\n\nHigher values mean increased profitability");
 
 if (::mods_getRegisteredMod("mod_legends") != null)
 {
 	::EIMO.SalvageThresholdID <- "SalvageThreshold";
-	page.addRangeSetting(::EIMO.SalvageThresholdID, 40, 0, 200, 5, "Salvage Threshold", "Below this threshold of profitability items will be salvaged when using smart loot or the salvage all button.\n\nA value of 50% means twice the value gained in tools from salvaging compared to selling the item.")
+	page.addRangeSetting(::EIMO.SalvageThresholdID, 40, 0, 200, 5, "Salvage Threshold", "Below this threshold of repair profitability items will be salvaged when using smart loot or the salvage all button.\n\nLower values mean increased profitability")
 }
 
 ::EIMO.VisibilityLevelID <- "VisibilityLevel";
