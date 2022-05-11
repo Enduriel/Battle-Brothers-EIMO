@@ -197,14 +197,15 @@
 		this.loadData();
 	}
 
-	o.eimo_getSettings <- function()
+	local queryData = o.queryData;
+	o.queryData = function()
 	{
-		::EIMO.RepairBrothersData.CanRepairNearby = this.eimo_canRepairNearby();
-		//this.Const.EIMO.characterScreen = this.weakref();
-		local ret = {
+		::EIMO.RepairBrothersData.CanRepairNearby = ::Tactical.isActive() ? false : this.eimo_canRepairNearby();
+		local ret = queryData();
+		ret.EIMO <- {
 			legends = ::mods_getRegisteredMod("mod_legends") != null,
 			canRepair = ::EIMO.RepairBrothersData.CanRepairNearby
-		};
+		}
 		return ret;
 	}
 });

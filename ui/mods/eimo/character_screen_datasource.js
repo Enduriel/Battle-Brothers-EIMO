@@ -1,8 +1,3 @@
-CharacterScreenDatasource.prototype.EIMOnotifyBackendGetSettings = function (_callback)
-{
-	SQ.call(this.mSQHandle, 'eimo_getSettings', null, _callback);
-}
-
 CharacterScreenDatasource.prototype.EIMOratioRepairButtonClicked = function()
 {
 	this.EIMOnotifyBackendRatioRepairButtonClicked();

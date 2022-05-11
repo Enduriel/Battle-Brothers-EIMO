@@ -88,7 +88,6 @@ CharacterScreenRightPanelHeaderModule.prototype.destroyDIV = function()
 
 CharacterScreenRightPanelHeaderModule.prototype.EIMOregisterDatasourceListener = function()
 {
-	this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Brother.ListLoaded, jQuery.proxy(this.EIMOgetSettings, this));
 	this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Brother.Selected, jQuery.proxy(this.EIMOonSelectBrother, this));
 	this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Inventory.StashItemUpdated.Key, jQuery.proxy(this.EIMOupdateRepairButtons, this));
 }
@@ -120,8 +119,11 @@ CharacterScreenRightPanelHeaderModule.prototype.EIMOhide = function()
 	this.mEIMO.Buttons.removeClass('opacity-full is-top').addClass('opacity-none no-pointer-events');
 }
 
-CharacterScreenRightPanelHeaderModule.prototype.EIMOshow = function()
+CharacterScreenRightPanelHeaderModule.prototype.EIMOshow = function(_data)
 {
+	this.mEIMO.Legends = _data.EIMO.legends;
+	this.mEIMO.CanRepair = _data.EIMO.canRepair;
+	this.EIMOupdateRepairButtons();
 	this.mEIMO.Buttons.removeClass('opacity-none no-pointer-events').addClass('opacity-full is-top');
 }
 
@@ -139,7 +141,7 @@ CharacterScreenRightPanelHeaderModule.prototype.EIMOonSelectBrother = function(_
 CharacterScreenRightPanelHeaderModule.prototype.EIMOupdateRepairButtons = function()
 {
 	var self = this;
-	if (self.mEIMO.CanRepair)
+	if (this.mEIMO.CanRepair)
 	{
 		this.mDataSource.EIMOgetRepairData(function(data)
 		{
@@ -175,23 +177,3 @@ CharacterScreenRightPanelHeaderModule.prototype.EIMOrepairCompanyButtonState = f
 	else
 		this.mEIMO.Buttons.RepairCompanyButton.changeButtonImage(Path.GFX + EIMO.BUTTON_REPAIR_ALL_DISABLED);
 };
-
-CharacterScreenRightPanelHeaderModule.prototype.EIMOgetSettings = function()
-{
-	if (this.eimo_isVisible())
-	{
-		var self = this;
-		this.mDataSource.EIMOnotifyBackendGetSettings(function(res)
-		{
-			self.mEIMO.Legends = res.legends;
-			self.mEIMO.CanRepair = res.canRepair;
-			self.EIMOupdateRepairButtons();
-		});
-	}
-	else
-	{
-		this.mEIMO.Legends = false;
-		this.mEIMO.CanRepair = false;
-		this.EIMOupdateRepairButtons();
-	}
-}
