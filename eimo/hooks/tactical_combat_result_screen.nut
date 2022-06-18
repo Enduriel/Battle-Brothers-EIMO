@@ -33,7 +33,7 @@
 	local show = o.show;
 	o.show = function()
 	{
-		if (!isVisible())
+		if (!isVisible() && "Assets" in ::World)
 		{
 			local function foodValue(i) { return i.getAmount() * i.getSpoilInDays(); }
 			Tactical.CombatResultLoot.getItems().sort(function(a, b) // order loot value (but put some types at the beginning)
@@ -64,6 +64,7 @@
 
 	o.eimo_onSmartLootButtonPressed <- function()
 	{
+
 		if (Tactical.CombatResultLoot.isEmpty()) return Const.UI.convertErrorToUIData(Const.UI.Error.FoundLootListIsEmpty);
 
 		local si = 0, stash = Stash.getItems(), loot = Tactical.CombatResultLoot.getItems(), shrinkLoot = false, soundPlayed = false;
