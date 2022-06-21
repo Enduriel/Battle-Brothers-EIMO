@@ -8,6 +8,13 @@ local function registerCSS( _file )
 	::mods_registerCSS("eimo/css/" + _file);
 }
 
+local function includeFile( _file )
+{
+	::includeFile("eimo/ui/", _file);
+}
+
+includeFile("tooltips");
+
 registerJS("assets.js");
 registerJS("character_screen_datasource.js");
 registerJS("character_screen.js");

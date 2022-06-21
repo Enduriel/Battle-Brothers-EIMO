@@ -84,7 +84,7 @@ var wtBindTooltips = WorldTownScreenShopDialogModule.prototype.bindTooltips;
 WorldTownScreenShopDialogModule.prototype.bindTooltips = function ()
 {
 	wtBindTooltips.call(this);
-	this.mSellAllButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.SellAllButton' });
+	this.mSellAllButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID, elementId:  'TownShopDialogModule.SellAllButton' });
 };
 
 var wtUnbindTooltips = WorldTownScreenShopDialogModule.prototype.unbindTooltips;

@@ -97,10 +97,10 @@ CharacterScreenRightPanelHeaderModule.prototype.bindTooltips = function ()
 {
 	csBindTooltips.call(this)
 
-	this.mEIMO.Buttons.RatioRepairButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairButton' });
-	this.mEIMO.Buttons.RatioSalvageButton.bindTooltip({ contentType: 'ui-element', elementId: 'EIMO.SalvageButton' });
-	this.mEIMO.Buttons.RepairBrotherButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairBrotherButton' });
-	this.mEIMO.Buttons.RepairCompanyButton.bindTooltip({ contentType: 'ui-element', elementId:  'EIMO.RepairCompanyButton' });
+	this.mEIMO.Buttons.RatioRepairButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID,  elementId:  'CharacterScreen.RepairButton' });
+	this.mEIMO.Buttons.RatioSalvageButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID, elementId: 'CharacterScreen.SalvageButton' });
+	this.mEIMO.Buttons.RepairBrotherButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID, elementId:  'CharacterScreen.RepairBrotherButton' });
+	this.mEIMO.Buttons.RepairCompanyButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID, elementId:  'CharacterScreen.RepairCompanyButton' });
 }
 
 var csUnbindTooltips = CharacterScreenRightPanelHeaderModule.prototype.unbindTooltips;
