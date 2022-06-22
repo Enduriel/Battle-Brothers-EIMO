@@ -15,8 +15,8 @@
 
 					if (removedItem != null)
 					{
+						shopStash.add(removedItem)
 						this.World.Assets.addMoney(removedItem.getSellPrice());
-
 						if (removedItem.isBought())
 						{
 							removedItem.setBought(false);
