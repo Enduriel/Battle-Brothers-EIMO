@@ -44,7 +44,6 @@ CharacterScreenRightPanelHeaderModule.prototype.createDIV = function (_parentDiv
 	{
 		self.mDataSource.EIMOratioSalvageButtonClicked();
 	}, '', 3);
-	if (!this.mEIMO.Legends) button.addClass('opacity-none no-pointer-events');
 
 	button = $('<div class="l-button repair-brother"/>');
 	content.append(button);
@@ -153,6 +152,14 @@ CharacterScreenRightPanelHeaderModule.prototype.EIMOupdateRepairButtons = functi
 	{
 		this.EIMOrepairBrotherButtonState(false);
 		this.EIMOrepairCompanyButtonState(false);
+	}
+	if (this.mEIMO.Legends)
+	{
+		this.mEIMO.Buttons.RatioSalvageButton.removeClass('opacity-none no-pointer-events')
+	}
+	else
+	{
+		this.mEIMO.Buttons.RatioSalvageButton.addClass('opacity-none no-pointer-events')
 	}
 }
 
