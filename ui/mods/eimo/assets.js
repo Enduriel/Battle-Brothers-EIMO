@@ -12,5 +12,6 @@ var EIMO =
 	BUTTON_SALVAGE: 					"ui/icons/EIMO_salvage.png",
 
 	ICON_FAVORITE: 						"ui/icons/EIMO_star.png",
+	ICON_FAVORITE_ID:					"ui/icons/EIMO_three_stars.png",
 	ICON_MONEY: 						"ui/icons/EIMO_money.png",
 }

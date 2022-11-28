@@ -16,9 +16,7 @@
 
 	o.eimo_isSetForSale <- function()
 	{
-		if (!("Flags" in ::World)) return false;
-
-		local sell = ::World.Flags.has(::EIMO.getItemSaleFlag(this));
+		local sell = this.getID() in ::EIMO.ForSaleIDs;
 		if (::EIMO.isLegendArmor(this) && sell)
 		{
 			foreach (upgrade in this.m.Upgrades)
@@ -46,17 +44,55 @@
 		}
 		if (_bool)
 		{
-			::World.Flags.set(::EIMO.getItemSaleFlag(this), true);
+			::EIMO.ForSaleIDs[this.getID()] <- true;
 		}
-		else
+		else if (this.getID() in ::EIMO.ForSaleIDs)
 		{
-			::World.Flags.remove(::EIMO.getItemSaleFlag(this));
+			delete ::EIMO.ForSaleIDs[this.getID()];
+		}
+	}
+
+	o.eimo_isIDFavorite <- function()
+	{
+		local sell = this.getID() in ::EIMO.FavoriteIDs;
+		if (::EIMO.isLegendArmor(this) && sell)
+		{
+			foreach (upgrade in this.m.Upgrades)
+			{
+				if (upgrade != null && !upgrade.eimo_isIDFavorite())
+				{
+					return false;
+				}
+			}
+		}
+		return sell;
+	}
+
+	o.eimo_setIDFavorite <- function( _bool )
+	{
+		if (::EIMO.isLegendArmor(this))
+		{
+			foreach (upgrade in this.m.Upgrades)
+			{
+				if (upgrade != null)
+				{
+					upgrade.eimo_setIDFavorite(_bool);
+				}
+			}
+		}
+		if (_bool)
+		{
+			::EIMO.FavoriteIDs[this.getID()] <- true;
+		}
+		else if (this.getID() in ::EIMO.FavoriteIDs)
+		{
+			delete ::EIMO.FavoriteIDs[this.getID()];
 		}
 	}
 
 	o.eimo_shouldBeSold <- function()
 	{
-		return this.eimo_isSetForSale() && !this.eimo_isFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
+		return this.eimo_isSetForSale() && !this.eimo_isFavorite() && !this.eimo_isIDFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
 	}
 
 	o.eimo_getMaxValue <- function()

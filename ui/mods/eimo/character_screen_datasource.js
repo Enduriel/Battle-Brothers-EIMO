@@ -28,6 +28,16 @@ CharacterScreenDatasource.prototype.EIMOnotifyBackendSetForSaleInventoryItem = f
 	SQ.call(this.mSQHandle, 'eimo_onSetForSaleInventoryItem', _sourceItemId, _callback);
 };
 
+CharacterScreenDatasource.prototype.EIMOfavoriteItemsWithID = function(_itemId, _callback)
+{
+	this.EIMOnotifyBackendFavoriteItemsWithID(_itemId, _callback);
+};
+
+CharacterScreenDatasource.prototype.EIMOnotifyBackendFavoriteItemsWithID = function (_sourceItemId, _callback)
+{
+	SQ.call(this.mSQHandle, 'eimo_onFavoriteItemsWithID', _sourceItemId, _callback);
+};
+
 CharacterScreenDatasource.prototype.EIMOfavoriteInventoryItem = function(_itemId, _callback)
 {
 	this.EIMOnotifyBackendFavoriteInventoryItem(_itemId, _callback);

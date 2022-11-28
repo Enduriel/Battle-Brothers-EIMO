@@ -76,6 +76,28 @@
 		}
 	}
 
+	o.eimo_onFavoriteItemsWithID <- function( _instanceID )
+	{
+		if (!("Assets" in ::World)) return null;
+		local item = ::World.Assets.getStash().getItemByInstanceID(_instanceID).item;
+
+		if (item != null)
+		{
+			item.eimo_setIDFavorite(!item.eimo_isIDFavorite());
+			local id = item.getID();
+			local items = ::World.Assets.getStash().getItems();
+			local retItems = [];
+			foreach (idx, item in items)
+				if (item != null && item.eimo_isIDFavorite())
+					retItems.push(idx);
+			return retItems;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
 	o.eimo_getSelectedBrother <- function()
 	{
 		return this.m.eimo_SelectedBrother;

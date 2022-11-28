@@ -45,6 +45,7 @@ $.fn.setForSaleImageVisible = function(_isVisible)
 $.fn.setFavoriteImageVisible = function(_isVisible)
 {
 	var imageLayer = this.find('.favorite-layer:first');
+	if (imageLayer.find('>img').filter(':first').attr('src') != Path.GFX + EIMO.ICON_FAVORITE) return;
 	if (_isVisible)
 	{
 		imageLayer.removeClass('display-none').addClass('display-block');
@@ -52,6 +53,22 @@ $.fn.setFavoriteImageVisible = function(_isVisible)
 	else
 	{
 		imageLayer.addClass('display-none').removeClass('display-block');
+	}
+};
+
+$.fn.setFavoriteIDImageVisible = function(_isVisible)
+{
+	var imageLayer = this.find('>.favorite-layer').filter(':first');
+	if (_isVisible)
+	{
+		imageLayer.find('>img').filter(':first').attr('src', Path.GFX + EIMO.ICON_FAVORITE_ID)
+		imageLayer.removeClass('display-none').addClass('display-block');
+	}
+	else
+	{
+		imageLayer.find('>img').filter(':first').attr('src', Path.GFX + EIMO.ICON_FAVORITE)
+		if (!($(this).data('item').eimo_favorite))
+			imageLayer.addClass('display-none').removeClass('display-block');
 	}
 };
 

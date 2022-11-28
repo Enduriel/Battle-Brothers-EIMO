@@ -14,93 +14,77 @@
 	local onSerialize = o.onSerialize;
 	o.onSerialize = function( _out )
 	{
-		local items = this.m.Assets.getStash().getItems();
-
-		for( local i = 0; i != items.len(); i = ++i )
-		{
-			local item = items[i];
-			if (item != null && item.eimo_isFavorite() )
-			{
-				::World.Flags.add(getStashIndexFavoriteFlag(i));
-				::EIMO.Mod.Debug.printLog(format("item %s at index %s saved as favorite", item.getID(), i.tostring()))
-			}
-		}
-		onSerialize( _out );
-		foreach(bro in ::World.getPlayerRoster().getAll())
-		{
-			foreach (item in bro.getItems().getAllItems())
-			{
-				if (item != null)
-				{
-					if (bro.getFlags().has("EIMO" + item.getCurrentSlotType())) bro.getFlags().remove("EIMO" + item.getCurrentSlotType());
-				}
-			}
-		}
-		for (local i = 0; i < items.len(); ++i)
-		{
-			if (::World.Flags.has(getStashIndexFavoriteFlag(i)))
-			{
-				::World.Flags.remove(getStashIndexFavoriteFlag(i));
-			}
-		}
+		local favoritedItems = [];
+		foreach (idx, item in this.m.Assets.getStash().getItems())
+			if (item != null && item.eimo_isFavorite())
+				favoritedItems.push(idx);
+		::EIMO.Mod.Serialization.flagSerialize("Favs", favoritedItems);
+		::EIMO.Mod.Serialization.flagSerialize("FavIDs", ::EIMO.FavoriteIDs);
+		::EIMO.Mod.Serialization.flagSerialize("ForSaleIDs", ::EIMO.ForSaleIDs);
+		return onSerialize( _out );
 	}
 
-	local onBeforeSerialize = o.onBeforeSerialize;
-	o.onBeforeSerialize = function ( _out )
+	local onBeforeDeserialize = o.onBeforeDeserialize;
+	o.onBeforeDeserialize = function( _in )
 	{
-		foreach(bro in ::World.getPlayerRoster().getAll())
-		{
-			local bagslot = 0;
-			foreach (item in bro.getItems().getAllItems())
-			{
-				if (item != null)
-				{
-					// I think this should get tested, I'm suprised it works if it does
-					if (item.getCurrentSlotType() == ::Const.ItemSlot.Bag) bagslot++;
-					if (item.eimo_isFavorite())
-					{
-						::EIMO.Mod.Debug.printLog(format("item %s in slot %s on bro %s saved as favorite", item.getID(), item.getCurrentSlotType().tostring(), bro.getName()));
-						bro.getFlags().add(getBroItemSlotFlag(item, bagslot));
-					}
-				}
-			}
-		}
-		onBeforeSerialize( _out );
+		::EIMO.FavoriteIDs.clear()
+		::EIMO.ForSaleIDs.clear()
+		return onBeforeDeserialize(_in);
 	}
 
 	local onDeserialize = o.onDeserialize;
 	o.onDeserialize = function( _in )
 	{
-		//this.logInfo("Deserializing");
 		onDeserialize( _in );
-		local items = this.m.Assets.getStash().getItems();
 
-		for( local i = 0; i != items.len(); i = ++i )
+		if (::EIMO.Mod.Serialization.isSavedVersionAtLeast("9.1.0", _in.getMetaData()))
 		{
-			local item = items[i];
-
-			if (item != null && ::World.Flags.has(getStashIndexFavoriteFlag(i)))
-			{
-				item.eimo_setFavorite(true);
-				::World.Flags.remove(getStashIndexFavoriteFlag(i));
-			}
+			local favoriteStashIndices = ::EIMO.Mod.Serialization.flagDeserialize("Favs");
+			local items = this.m.Assets.getStash().getItems();
+			foreach (idx in favoriteStashIndices)
+				items[idx].eimo_setFavorite(true);
+			::EIMO.Mod.Serialization.flagDeserialize("FavIDs", ::EIMO.FavoriteIDs);
+			::EIMO.Mod.Serialization.flagDeserialize("ForSaleIDs", ::EIMO.ForSaleIDs);
 		}
-
-		foreach(bro in ::World.getPlayerRoster().getAll())
+		else
 		{
-			local bagslot = 0;
-			foreach (item in bro.getItems().getAllItems())
+			local items = this.m.Assets.getStash().getItems();
+
+			for( local i = 0; i != items.len(); i = ++i )
 			{
-				if (item != null)
+				local item = items[i];
+
+				if (item != null && ::World.Flags.has(getStashIndexFavoriteFlag(i)))
 				{
-					if (item.getCurrentSlotType() == ::Const.ItemSlot.Bag) bagslot++;
-					if (bro.getFlags().has(getBroItemSlotFlag(item, bagslot)))
+					item.eimo_setFavorite(true);
+					::World.Flags.remove(getStashIndexFavoriteFlag(i));
+				}
+			}
+
+			foreach(bro in ::World.getPlayerRoster().getAll())
+			{
+				local bagslot = 0;
+				foreach (item in bro.getItems().getAllItems())
+				{
+					if (item != null)
 					{
-						item.eimo_setFavorite(true);
-						bro.getFlags().remove(getBroItemSlotFlag(item, bagslot))
+						if (item.getCurrentSlotType() == ::Const.ItemSlot.Bag) bagslot++;
+						if (bro.getFlags().has(getBroItemSlotFlag(item, bagslot)))
+						{
+							item.eimo_setFavorite(true);
+							bro.getFlags().remove(getBroItemSlotFlag(item, bagslot))
+						}
 					}
 				}
 			}
 		}
+	}
+
+	local onFinish = o.onFinish;
+	o.onFinish = function()
+	{
+		::EIMO.FavoriteIDs.clear();
+		::EIMO.ForSaleIDs.clear();
+		return onFinish();
 	}
 });

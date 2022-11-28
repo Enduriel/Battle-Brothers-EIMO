@@ -45,6 +45,7 @@ TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot = function(_slo
 {
 	_slot.setForSaleImageVisible(false);
 	_slot.setFavoriteImageVisible(false);
+	_slot.setFavoriteIDImageVisible(false);
 	_slot.setRepairProfitVisible(null);
 	tcRemoveItemFromSlot.call(this, _slot);
 };
@@ -58,17 +59,20 @@ TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot = function(_owner
 		var itemData = _slot.data('item');
 		itemData.eimo_forSale = _item.eimo_forSale;
 		itemData.eimo_favorite = _item.eimo_favorite;
+		itemData.eimo_idFavorite = _item.eimo_idFavorite;
 		itemData.eimo_repairProfit = Math.round(_item.eimo_repairProfit === undefined ? 0 : _item.eimo_repairProfit);
 		switch (MSU.getSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
 		{
 			case "Reduced":
 				_slot.setForSaleImageVisible(_item.eimo_forSale);
+				_slot.setFavoriteIDImageVisible(_item.eimo_idFavorite);
 				_slot.setFavoriteImageVisible(_item.eimo_favorite);
 				break;
 			case "Off":
 				break;
 			case "Normal": default:
 				_slot.setForSaleImageVisible(_item.eimo_forSale);
+				_slot.setFavoriteIDImageVisible(_item.eimo_idFavorite);
 				_slot.setFavoriteImageVisible(_item.eimo_favorite);
 				if (itemData.eimo_repairProfit != 0 && itemData.eimo_repairProfit !== undefined)
 				{

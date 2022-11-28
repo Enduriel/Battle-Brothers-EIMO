@@ -12,9 +12,8 @@
 			result.eimo_repairProfit <- ::EIMO.getRepairProfit(_item);
 		}
 
-		if ("Flags" in ::World) result.eimo_forSale <- _item.eimo_isSetForSale();
-
-
+		result.eimo_forSale <- _item.eimo_isSetForSale();
+		result.eimo_idFavorite <- _item.eimo_isIDFavorite();
 		result.eimo_favorite <- _item.eimo_isFavorite()
 
 		return result;
