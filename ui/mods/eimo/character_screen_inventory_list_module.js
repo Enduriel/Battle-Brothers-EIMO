@@ -49,13 +49,29 @@ CharacterScreenInventoryListModule.prototype.createItemSlots = function( _owner,
 			{
 				var data = $(this).data('item');
 				_event.stopImmediatePropagation();
-
-				self.mDataSource.EIMOsetForSaleInventoryItem(data.itemId, function (_notNull)
+				self.mDataSource.EIMOsetForSaleInventoryItem($(this).data('item').itemId, function (_data)
 				{
-					if (_notNull)
+					if (_data !== null)
 					{
-						data.eimo_forSale = !data.eimo_forSale;
-						result.setForSaleImageVisible(data.eimo_forSale);
+						var j = 0;
+						for (var i = 0; i < _itemArray.length; i++)
+						{
+							var data = $(_itemArray[i]).data('item');
+							if (i == _data[j])
+							{
+								++j;
+								if (data.eimo_forSale !== true)
+								{
+									data.eimo_forSale = true;
+									_itemArray[i].setForSaleImageVisible(true);
+								}
+							}
+							else if (data.eimo_forSale)
+							{
+								data.eimo_forSale = false;
+								_itemArray[i].setForSaleImageVisible(false);
+							}
+						}
 					}
 				});
 				return false;

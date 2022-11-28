@@ -56,17 +56,23 @@
 
 	o.eimo_onSetForSaleInventoryItem <- function( _itemID )
 	{
-		if (!("Assets" in this.World)) return false;
+		if (!("Assets" in this.World)) return null;
 		local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
+
 		if (item != null)
 		{
 			item.eimo_setForSale(!item.eimo_isSetForSale());
-			this.loadStashList();
-			return true;
+			local id = item.getID();
+			local items = ::World.Assets.getStash().getItems();
+			local retItems = [];
+			foreach (idx, item in items)
+				if (item != null && item.eimo_isSetForSale())
+					retItems.push(idx);
+			return retItems;
 		}
 		else
 		{
-			return false;
+			return null;
 		}
 	}
 
