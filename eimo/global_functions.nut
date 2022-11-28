@@ -9,7 +9,7 @@
 local function getToolBuyPrice()
 {
 	local toolBuyPrice = this.new("scripts/items/supplies/armor_parts_item").getValue(); // Should maybe be cached
-	return 1.25 * this.Math.ceil(toolBuyPrice * this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()]); //1.25x to account for buy multipliers in large towns
+	return 1.25 * this.Math.ceil(toolBuyPrice * ("Assets" in ::World ? this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()] : 1.0)); //1.25x to account for buy multipliers in large towns
 }
 
 local function getToolPriceMult()
@@ -20,7 +20,7 @@ local function getToolPriceMult()
 local function getMaxItemSellPrice( _item )
 {
 	local fullValue = _item.m.Value;
-	fullValue *= this.World.Assets.getSellPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+	if ("Assets" in ::World) fullValue *= this.World.Assets.getSellPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
 
 	if (_item.isItemType(this.Const.Items.ItemType.Food | this.Const.Items.ItemType.TradeGood))
 	{
