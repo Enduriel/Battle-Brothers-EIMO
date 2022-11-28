@@ -2,7 +2,7 @@
 {
 	local function getBroItemSlotFlag( _item, _bagslot )
 	{
-		if (_item.getCurrentSlotType() == this.Const.ItemSlot.Bag) return "EIMO." + this.Const.ItemSlot.Bag + "." + _bagslot;
+		if (_item.getCurrentSlotType() == ::Const.ItemSlot.Bag) return "EIMO." + ::Const.ItemSlot.Bag + "." + _bagslot;
 		else return "EIMO." + _item.getCurrentSlotType();
 	}
 
@@ -21,12 +21,12 @@
 			local item = items[i];
 			if (item != null && item.eimo_isFavorite() )
 			{
-				this.World.Flags.add(getStashIndexFavoriteFlag(i));
+				::World.Flags.add(getStashIndexFavoriteFlag(i));
 				::EIMO.Mod.Debug.printLog(format("item %s at index %s saved as favorite", item.getID(), i.tostring()))
 			}
 		}
 		onSerialize( _out );
-		foreach(bro in this.World.getPlayerRoster().getAll())
+		foreach(bro in ::World.getPlayerRoster().getAll())
 		{
 			foreach (item in bro.getItems().getAllItems())
 			{
@@ -38,9 +38,9 @@
 		}
 		for (local i = 0; i < items.len(); ++i)
 		{
-			if (this.World.Flags.has(getStashIndexFavoriteFlag(i)))
+			if (::World.Flags.has(getStashIndexFavoriteFlag(i)))
 			{
-				this.World.Flags.remove(getStashIndexFavoriteFlag(i));
+				::World.Flags.remove(getStashIndexFavoriteFlag(i));
 			}
 		}
 	}
@@ -48,7 +48,7 @@
 	local onBeforeSerialize = o.onBeforeSerialize;
 	o.onBeforeSerialize = function ( _out )
 	{
-		foreach(bro in this.World.getPlayerRoster().getAll())
+		foreach(bro in ::World.getPlayerRoster().getAll())
 		{
 			local bagslot = 0;
 			foreach (item in bro.getItems().getAllItems())
@@ -56,7 +56,7 @@
 				if (item != null)
 				{
 					// I think this should get tested, I'm suprised it works if it does
-					if (item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
+					if (item.getCurrentSlotType() == ::Const.ItemSlot.Bag) bagslot++;
 					if (item.eimo_isFavorite())
 					{
 						::EIMO.Mod.Debug.printLog(format("item %s in slot %s on bro %s saved as favorite", item.getID(), item.getCurrentSlotType().tostring(), bro.getName()));
@@ -79,21 +79,21 @@
 		{
 			local item = items[i];
 
-			if (item != null && this.World.Flags.has(getStashIndexFavoriteFlag(i)))
+			if (item != null && ::World.Flags.has(getStashIndexFavoriteFlag(i)))
 			{
 				item.eimo_setFavorite(true);
-				this.World.Flags.remove(getStashIndexFavoriteFlag(i));
+				::World.Flags.remove(getStashIndexFavoriteFlag(i));
 			}
 		}
 
-		foreach(bro in this.World.getPlayerRoster().getAll())
+		foreach(bro in ::World.getPlayerRoster().getAll())
 		{
 			local bagslot = 0;
 			foreach (item in bro.getItems().getAllItems())
 			{
 				if (item != null)
 				{
-					if (item.getCurrentSlotType() == this.Const.ItemSlot.Bag) bagslot++;
+					if (item.getCurrentSlotType() == ::Const.ItemSlot.Bag) bagslot++;
 					if (bro.getFlags().has(getBroItemSlotFlag(item, bagslot)))
 					{
 						item.eimo_setFavorite(true);

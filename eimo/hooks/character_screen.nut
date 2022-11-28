@@ -5,8 +5,8 @@
 
 	o.eimo_onFavoriteInventoryItem <- function( _itemID )
 	{
-		if (!("Assets" in this.World)) return;
-		local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
+		if (!("Assets" in ::World)) return;
+		local item = ::World.Assets.getStash().getItemByInstanceID(_itemID).item;
 		if (item != null)
 		{
 			item.eimo_setFavorite(!item.eimo_isFavorite())
@@ -17,10 +17,10 @@
 
 	o.eimo_onRatioRepairButtonClicked <- function()
 	{
-		local items = this.World.Assets.getStash().getItems();
+		local items = ::World.Assets.getStash().getItems();
 		foreach( idx, item in items )
 		{
-			if (item != null && item.getItemType() < this.Const.Items.ItemType.Ammo)
+			if (item != null && item.getItemType() < ::Const.Items.ItemType.Ammo)
 			{
 				if (::EIMO.getRepairRatio(item) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.RepairThresholdID).getValue())
 				{
@@ -40,7 +40,7 @@
 
 	o.eimo_onRatioSalvageButtonClicked <- function()
 	{
-		local items = this.World.Assets.getStash().getItems();
+		local items = ::World.Assets.getStash().getItems();
 		foreach (idx, item in items)
 		{
 			if (item != null && item.canBeSalvaged() && !item.eimo_isFavorite())
@@ -56,8 +56,8 @@
 
 	o.eimo_onSetForSaleInventoryItem <- function( _itemID )
 	{
-		if (!("Assets" in this.World)) return null;
-		local item = this.World.Assets.getStash().getItemByInstanceID(_itemID).item;
+		if (!("Assets" in ::World)) return null;
+		local item = ::World.Assets.getStash().getItemByInstanceID(_itemID).item;
 
 		if (item != null)
 		{
@@ -88,8 +88,8 @@
 
 	o.eimo_canRepairNearby <- function()
 	{
-		local settlements = this.World.EntityManager.getSettlements();
-		local playerTile = this.World.State.getPlayer().getTile();
+		local settlements = ::World.EntityManager.getSettlements();
+		local playerTile = ::World.State.getPlayer().getTile();
 
 		foreach (settlement in settlements)
 		{
@@ -124,7 +124,7 @@
 	o.eimo_getRepairPriceCompany <- function()
 	{
 		local price = 0;
-		foreach (brother in this.World.getPlayerRoster().getAll())
+		foreach (brother in ::World.getPlayerRoster().getAll())
 		{
 			price += this.eimo_getRepairPriceBrother(brother);
 		}
@@ -157,9 +157,9 @@
 			condition = _item.getRepair();
 		}
 
-		local price = (conditionMax - condition) * this.Const.World.Assets.CostToRepairPerPoint;
-		local value = _item.eimo_getMaxValue() * (1.0 - condition / conditionMax) * 0.2 * this.m.eimo_RepairTown.getPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
-		return this.Math.max(price, value);
+		local price = (conditionMax - condition) * ::Const.World.Assets.CostToRepairPerPoint;
+		local value = _item.eimo_getMaxValue() * (1.0 - condition / conditionMax) * 0.2 * this.m.eimo_RepairTown.getPriceMult() * ::Const.Difficulty.SellPriceMult[::World.Assets.getEconomicDifficulty()];
+		return ::Math.max(price, value);
 	}
 
 	o.eimo_paidRepairBrother <- function( _brother )
@@ -169,8 +169,8 @@
 		{
 			this.eimo_paidRepairItem(item);
 		}
-		this.Sound.play("sounds/ambience/buildings/blacksmith_hammering_0" + this.Math.rand(0, 6) + ".wav", 1.0);
-		this.World.Assets.addMoney(-price);
+		::Sound.play("sounds/ambience/buildings/blacksmith_hammering_0" + ::Math.rand(0, 6) + ".wav", 1.0);
+		::World.Assets.addMoney(-price);
 	}
 
 	o.eimo_paidRepairItem <- function( _item )
@@ -185,7 +185,7 @@
 			_item.setCondition(_item.getRepairMax());
 			_item.setToBeRepaired(false, 0);
 		}
-		this.World.Statistics.getFlags().increment("ItemsRepaired");
+		::World.Statistics.getFlags().increment("ItemsRepaired");
 	}
 
 	o.eimo_paidRepairBrotherFromJS <- function()
@@ -196,7 +196,7 @@
 
 	o.eimo_paidRepairCompanyFromJS <- function()
 	{
-		foreach (brother in this.World.getPlayerRoster().getAll())
+		foreach (brother in ::World.getPlayerRoster().getAll())
 		{
 			this.eimo_paidRepairBrother(brother);
 		}

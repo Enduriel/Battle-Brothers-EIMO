@@ -16,9 +16,9 @@
 
 	o.eimo_isSetForSale <- function()
 	{
-		if (!("Flags" in this.World)) return false;
+		if (!("Flags" in ::World)) return false;
 
-		local sell = this.World.Flags.has(::EIMO.getItemSaleFlag(this));
+		local sell = ::World.Flags.has(::EIMO.getItemSaleFlag(this));
 		if (::EIMO.isLegendArmor(this) && sell)
 		{
 			foreach (upgrade in this.m.Upgrades)
@@ -46,11 +46,11 @@
 		}
 		if (_bool)
 		{
-			this.World.Flags.set(::EIMO.getItemSaleFlag(this), true);
+			::World.Flags.set(::EIMO.getItemSaleFlag(this), true);
 		}
 		else
 		{
-			this.World.Flags.remove(::EIMO.getItemSaleFlag(this));
+			::World.Flags.remove(::EIMO.getItemSaleFlag(this));
 		}
 	}
 

@@ -5,7 +5,7 @@
 		local removedItem;
 		local shopStash = this.m.Shop.getStash();
 
-		for (local i = this.World.Assets.getStash().getCapacity() - 1; i >= 0 ; --i)
+		for (local i = ::World.Assets.getStash().getCapacity() - 1; i >= 0 ; --i)
 		{
 			if (this.Stash.getItemAtIndex(i).item != null)
 			{
@@ -16,7 +16,7 @@
 					if (removedItem != null)
 					{
 						shopStash.add(removedItem)
-						this.World.Assets.addMoney(removedItem.getSellPrice());
+						::World.Assets.addMoney(removedItem.getSellPrice());
 						if (removedItem.isBought())
 						{
 							removedItem.setBought(false);
@@ -26,9 +26,9 @@
 							removedItem.setSold(true);
 						}
 
-						if (removedItem.isItemType(this.Const.Items.ItemType.TradeGood))
+						if (removedItem.isItemType(::Const.Items.ItemType.TradeGood))
 						{
-							this.World.Statistics.getFlags().increment("TradeGoodsSold");
+							::World.Statistics.getFlags().increment("TradeGoodsSold");
 						}
 					}
 				}
@@ -45,15 +45,15 @@
 			IsRepairOffered = this.m.Shop.isRepairOffered()
 		}
 
-		this.UIDataHelper.convertItemsToUIData(this.m.Shop.getStash().getItems(), result.Shop, this.Const.UI.ItemOwner.Shop);
-		result.Stash = this.UIDataHelper.convertStashToUIData(false, this.m.InventoryFilter);
+		::UIDataHelper.convertItemsToUIData(this.m.Shop.getStash().getItems(), result.Shop, ::Const.UI.ItemOwner.Shop);
+		result.Stash = ::UIDataHelper.convertStashToUIData(false, this.m.InventoryFilter);
 
-		if (this.World.Statistics.getFlags().has("TradeGoodsSold") && this.World.Statistics.getFlags().get("TradeGoodsSold") >= 10)
+		if (::World.Statistics.getFlags().has("TradeGoodsSold") && ::World.Statistics.getFlags().get("TradeGoodsSold") >= 10)
 		{
 			this.updateAchievement("Trader", 1, 1);
 		}
 
-		if (this.World.Statistics.getFlags().has("TradeGoodsSold") && this.World.Statistics.getFlags().get("TradeGoodsSold") >= 50)
+		if (::World.Statistics.getFlags().has("TradeGoodsSold") && ::World.Statistics.getFlags().get("TradeGoodsSold") >= 50)
 		{
 			this.updateAchievement("MasterTrader", 1, 1);
 		}

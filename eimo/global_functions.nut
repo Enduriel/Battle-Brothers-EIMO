@@ -9,7 +9,7 @@
 local function getToolBuyPrice()
 {
 	local toolBuyPrice = this.new("scripts/items/supplies/armor_parts_item").getValue(); // Should maybe be cached
-	return 1.25 * this.Math.ceil(toolBuyPrice * ("Assets" in ::World ? this.Const.Difficulty.BuyPriceMult[this.World.Assets.getEconomicDifficulty()] : 1.0)); //1.25x to account for buy multipliers in large towns
+	return 1.25 * ::Math.ceil(toolBuyPrice * ("Assets" in ::World ? ::Const.Difficulty.BuyPriceMult[::World.Assets.getEconomicDifficulty()] : 1.0)); //1.25x to account for buy multipliers in large towns
 }
 
 local function getToolPriceMult()
@@ -20,22 +20,22 @@ local function getToolPriceMult()
 local function getMaxItemSellPrice( _item )
 {
 	local fullValue = _item.m.Value;
-	if ("Assets" in ::World) fullValue *= this.World.Assets.getSellPriceMult() * this.Const.Difficulty.SellPriceMult[this.World.Assets.getEconomicDifficulty()];
+	if ("Assets" in ::World) fullValue *= ::World.Assets.getSellPriceMult() * ::Const.Difficulty.SellPriceMult[::World.Assets.getEconomicDifficulty()];
 
-	if (_item.isItemType(this.Const.Items.ItemType.Food | this.Const.Items.ItemType.TradeGood))
+	if (_item.isItemType(::Const.Items.ItemType.Food | ::Const.Items.ItemType.TradeGood))
 	{
 		return fullValue; // trade goods sell for full value and don't deteriorate
 	}
-	else if (_item.isItemType(this.Const.Items.ItemType.Loot)) // loot sells for nearly full value and doesn't deteriorate
+	else if (_item.isItemType(::Const.Items.ItemType.Loot)) // loot sells for nearly full value and doesn't deteriorate
 	{
-		return fullValue * this.Const.World.Assets.BaseLootSellPrice;
+		return fullValue * ::Const.World.Assets.BaseLootSellPrice;
 	}
-	else if (_item.isItemType(this.Const.Items.ItemType.Supply))
+	else if (_item.isItemType(::Const.Items.ItemType.Supply))
 	{
 		return fullValue * 1.5; // food and supplies are not sold, so use the replacement cost (w/ 50% markup)
 	}
 
-	return this.Math.floor(fullValue * this.Const.World.Assets.BaseSellPrice);
+	return ::Math.floor(fullValue * ::Const.World.Assets.BaseSellPrice);
 }
 
 local function getMaxArmorSellPrice( _armor )

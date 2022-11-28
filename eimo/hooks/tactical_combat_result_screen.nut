@@ -79,7 +79,7 @@
 		local function onItemTaken(i, idx)
 		{
 			i.onAddedToStash(Stash.getID());
-			if (i != null && i.getItemType() < this.Const.Items.ItemType.Ammo)
+			if (i != null && i.getItemType() < ::Const.Items.ItemType.Ammo)
 			{
 				if (::mods_getRegisteredMod("mod_legends") == null)
 				{
@@ -103,7 +103,7 @@
 
 			if (!soundPlayed)
 			{
-				i.playInventorySound(this.Const.Items.InventoryEventType.PlacedInBag);
+				i.playInventorySound(::Const.Items.InventoryEventType.PlacedInBag);
 				soundPlayed = true;
 			}
 		}
