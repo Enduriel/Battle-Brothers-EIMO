@@ -38,6 +38,10 @@ log.addCallback(function ( _newValue )
 ::EIMO.Mod.Keybinds.addJSKeybind("SetFavorite", "ctrl+shift+rightclick", "Favorite Item", "Favorited items will never be automatically sold and will be sorted above non-favorite items when autosorting.");
 ::EIMO.Mod.Keybinds.addJSKeybind("SetIDFavorite", "alt+shift+rightclick", "Favorite Item Type", "Favorite all items of this time, favorite items will never be automatically sold and will be sorted above non-favorite items when autosorting.");
 
+::EIMO.Mod.Registry.addModSource(::MSU.System.Registry.ModSourceDomain.GitHub, "https://github.com/Enduriel/Battle-Brothers-EIMO");
+::EIMO.Mod.Registry.setUpdateSource(::MSU.System.Registry.ModSourceDomain.GitHub);
+::EIMO.Mod.Registry.addModSource(::MSU.System.Registry.ModSourceDomain.NexusMods, "https://www.nexusmods.com/battlebrothers/mods/239");
+
 ::includeFile("eimo/", "global_functions.nut");
 ::includeLoad("eimo/", "hooks");
 ::includeLoad("eimo/", "ui");
