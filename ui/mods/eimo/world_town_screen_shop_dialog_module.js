@@ -45,7 +45,7 @@ WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _s
 				_slot.setFavoriteIDImageVisible(_item.eimo_idFavorite);
 				_slot.setFavoriteImageVisible(_item.eimo_favorite);
 				break;
-			case "Off":
+			case "None":
 				break;
 			case "Normal": default:
 				_slot.setForSaleImageVisible(_item.eimo_forSale);
