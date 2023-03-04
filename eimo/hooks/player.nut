@@ -21,7 +21,7 @@
 		onDeserialize(_in);
 		if (::EIMO.Mod.Serialization.isSavedVersionAtLeast("9.1.0", _in.getMetaData()))
 		{
-			local favorites = ::EIMO.Mod.Serialization.flagDeserialize("Favs", null, this.getFlags());
+			local favorites = ::EIMO.Mod.Serialization.flagDeserialize("Favs", [], null, this.getFlags());
 			local items = this.getItems().m.Items;
 			foreach (pair in favorites)
 			{
