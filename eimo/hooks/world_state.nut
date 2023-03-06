@@ -39,7 +39,7 @@
 
 		if (::EIMO.Mod.Serialization.isSavedVersionAtLeast("9.1.0", _in.getMetaData()))
 		{
-			local favoriteStashIndices = ::EIMO.Mod.Serialization.flagDeserialize("Favs");
+			local favoriteStashIndices = ::EIMO.Mod.Serialization.flagDeserialize("Favs", []);
 			local items = this.m.Assets.getStash().getItems();
 			foreach (idx in favoriteStashIndices)
 				items[idx].eimo_setFavorite(true);
