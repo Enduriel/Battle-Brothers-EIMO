@@ -43,8 +43,8 @@
 			local items = this.m.Assets.getStash().getItems();
 			foreach (idx in favoriteStashIndices)
 				items[idx].eimo_setFavorite(true);
-			::EIMO.Mod.Serialization.flagDeserialize("FavIDs", ::EIMO.FavoriteIDs);
-			::EIMO.Mod.Serialization.flagDeserialize("ForSaleIDs", ::EIMO.ForSaleIDs);
+			::EIMO.Mod.Serialization.flagDeserialize("FavIDs", [], ::EIMO.FavoriteIDs);
+			::EIMO.Mod.Serialization.flagDeserialize("ForSaleIDs", [], ::EIMO.ForSaleIDs);
 		}
 		else
 		{
