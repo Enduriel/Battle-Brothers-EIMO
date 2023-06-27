@@ -1,7 +1,7 @@
-tcCreateDiv = TacticalCombatResultScreenLootPanel.prototype.createDIV;
+EIMO.Hooks.TacticalCombatResultScreenLootPanel_createDIV = TacticalCombatResultScreenLootPanel.prototype.createDIV;
 TacticalCombatResultScreenLootPanel.prototype.createDIV = function (_parentDiv)
 {
-	tcCreateDiv.call(this, _parentDiv);
+	EIMO.Hooks.TacticalCombatResultScreenLootPanel_createDIV.call(this, _parentDiv);
 
 	var self = this;
 	var middleColumn = this.mContainer.children(".column.is-middle").children(".row.is-content");
@@ -14,46 +14,46 @@ TacticalCombatResultScreenLootPanel.prototype.createDIV = function (_parentDiv)
 	}, 'smart-loot-button', 7);
 };
 
-var tcDestroyDIV = TacticalCombatResultScreenLootPanel.prototype.destroyDIV;
+EIMO.Hooks.TacticalCombatResultScreenLootPanel_destroyDIV = TacticalCombatResultScreenLootPanel.prototype.destroyDIV;
 TacticalCombatResultScreenLootPanel.prototype.destroyDIV = function ()
 {
-	tcDestroyDIV.call(this);
+	EIMO.Hooks.TacticalCombatResultScreenLootPanel_destroyDIV.call(this);
 
 	this.mSmartLootButton.remove();
 	this.mSmartLootButton = null;
 };
 
-tcBindTooltips = TacticalCombatResultScreenLootPanel.prototype.bindTooltips;
+EIMO.Hooks.TacticalCombatResultScreenLootPanel_bindTooltips = TacticalCombatResultScreenLootPanel.prototype.bindTooltips;
 TacticalCombatResultScreenLootPanel.prototype.bindTooltips = function()
 {
-	tcBindTooltips.call(this);
+	EIMO.Hooks.TacticalCombatResultScreenLootPanel_bindTooltips.call(this);
 
 	this.mSmartLootButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID, elementId: "TacticalCombatResultScreen.SmartLootButton" });
 }
 
-tcUnbindTooltips = TacticalCombatResultScreenLootPanel.prototype.unbindTooltips;
+EIMO.Hooks.TacticalCombatResultScreenLootPanel_unbindTooltips = TacticalCombatResultScreenLootPanel.prototype.unbindTooltips;
 TacticalCombatResultScreenLootPanel.prototype.unbindTooltips = function()
 {
-	tcUnbindTooltips.call(this);
+	EIMO.Hooks.TacticalCombatResultScreenLootPanel_unbindTooltips.call(this);
 
 	this.mSmartLootButton.unbindTooltip();
 }
 
 
-var tcRemoveItemFromSlot = TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot;
+EIMO.Hooks.TacticalCombatResultScreenLootPanel_removeItemFromSlot = TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot;
 TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot = function(_slot)
 {
 	_slot.setForSaleImageVisible(false);
 	_slot.setFavoriteImageVisible(false);
 	_slot.setFavoriteIDImageVisible(false);
 	_slot.setRepairProfitVisible(null);
-	tcRemoveItemFromSlot.call(this, _slot);
+	EIMO.Hooks.TacticalCombatResultScreenLootPanel_removeItemFromSlot.call(this, _slot);
 };
 
-var tcAssignItemToSlot = TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot;
+EIMO.Hooks.TacticalCombatResultScreenLootPanel_assignItemToSlot = TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot;
 TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot = function(_owner, _slot, _item)
 {
-	tcAssignItemToSlot.call(this, _owner, _slot, _item);
+	EIMO.Hooks.TacticalCombatResultScreenLootPanel_assignItemToSlot.call(this, _owner, _slot, _item);
 	if ((TacticalCombatResultScreenIdentifier.Item.Id in _item) && (TacticalCombatResultScreenIdentifier.Item.ImagePath in _item))
 	{
 		var itemData = _slot.data('item');

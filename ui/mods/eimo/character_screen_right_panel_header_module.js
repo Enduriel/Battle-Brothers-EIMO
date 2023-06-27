@@ -1,7 +1,7 @@
-var createDiv = CharacterScreenRightPanelHeaderModule.prototype.createDIV;
+EIMO.Hooks.CharacterScreenRightPanelHeaderModule_createDIV = CharacterScreenRightPanelHeaderModule.prototype.createDIV;
 CharacterScreenRightPanelHeaderModule.prototype.createDIV = function (_parentDiv)
 {
-	createDiv.call(this, _parentDiv);
+	EIMO.Hooks.CharacterScreenRightPanelHeaderModule_createDIV.call(this, _parentDiv);
 	var self = this;
 
 	this.mEIMO =
@@ -60,11 +60,9 @@ CharacterScreenRightPanelHeaderModule.prototype.createDIV = function (_parentDiv
 		if (self.mEIMO.Buttons.RepairCompanyButton.Enabled) self.mDataSource.EIMOpaidRepairCompany();
 	}, '', 3);
 	this.mEIMO.Buttons.RepairCompanyButton.Enabled = false;
-
-	this.EIMOregisterDatasourceListener();
 }
 
-var destroyDiv = CharacterScreenRightPanelHeaderModule.prototype.destroyDIV;
+EIMO.Hooks.CharacterScreenRightPanelHeaderModule_destroyDIV = CharacterScreenRightPanelHeaderModule.prototype.destroyDIV;
 CharacterScreenRightPanelHeaderModule.prototype.destroyDIV = function()
 {
 	this.mEIMO.Buttons.RatioRepairButton.remove();
@@ -82,19 +80,21 @@ CharacterScreenRightPanelHeaderModule.prototype.destroyDIV = function()
 	this.mEIMO.Buttons.empty();
 	this.mEIMO.Buttons.remove();
 	this.mEIMO.Buttons = null;
-	destroyDiv.call(this);
+	CharacterScreenRightPanelHeaderModule.prototype.destroyDIV.call(this);
 }
 
-CharacterScreenRightPanelHeaderModule.prototype.EIMOregisterDatasourceListener = function()
+EIMO.Hooks.CharacterScreenRightPanelHeaderModule_registerDatasourceListener = CharacterScreenRightPanelHeaderModule.prototype.registerDatasourceListener;
+CharacterScreenRightPanelHeaderModule.prototype.registerDatasourceListener = function()
 {
+	EIMO.Hooks.CharacterScreenRightPanelHeaderModule_registerDatasourceListener.call(this);
 	this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Brother.Selected, jQuery.proxy(this.EIMOonSelectBrother, this));
 	this.mDataSource.addListener(CharacterScreenDatasourceIdentifier.Inventory.StashItemUpdated.Key, jQuery.proxy(this.EIMOupdateRepairButtons, this));
 }
 
-var csBindTooltips = CharacterScreenRightPanelHeaderModule.prototype.bindTooltips;
+EIMO.Hooks.CharacterScreenRightPanelHeaderModule_bindTooltips = CharacterScreenRightPanelHeaderModule.prototype.bindTooltips;
 CharacterScreenRightPanelHeaderModule.prototype.bindTooltips = function ()
 {
-	csBindTooltips.call(this)
+	EIMO.Hooks.CharacterScreenRightPanelHeaderModule_bindTooltips.call(this);
 
 	this.mEIMO.Buttons.RatioRepairButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID,  elementId:  'CharacterScreen.RepairButton' });
 	this.mEIMO.Buttons.RatioSalvageButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID, elementId: 'CharacterScreen.SalvageButton' });
@@ -102,10 +102,10 @@ CharacterScreenRightPanelHeaderModule.prototype.bindTooltips = function ()
 	this.mEIMO.Buttons.RepairCompanyButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID, elementId:  'CharacterScreen.RepairCompanyButton' });
 }
 
-var csUnbindTooltips = CharacterScreenRightPanelHeaderModule.prototype.unbindTooltips;
+EIMO.Hooks.CharacterScreenRightPanelHeaderModule_unbindTooltips = CharacterScreenRightPanelHeaderModule.prototype.unbindTooltips;
 CharacterScreenRightPanelHeaderModule.prototype.unbindTooltips = function ()
 {
-	csUnbindTooltips.call(this);
+	EIMO.Hooks.CharacterScreenRightPanelHeaderModule_unbindTooltips.call(this);
 
 	this.mEIMO.Buttons.RatioRepairButton.unbindTooltip();
 	this.mEIMO.Buttons.RatioSalvageButton.unbindTooltip();

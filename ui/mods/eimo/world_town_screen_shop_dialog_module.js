@@ -17,20 +17,20 @@ WorldTownScreenShopDialogModule.prototype.EIMOnotifyBackendSellAllButtonClicked 
 	SQ.call(this.mSQHandle, 'eimo_onSellAllButtonClicked', null, _callback);
 };
 
-var wtRemoveItemFromSlot = WorldTownScreenShopDialogModule.prototype.removeItemFromSlot;
+EIMO.Hooks.WorldTownScreenShopDialogModule_removeItemFromSlot = WorldTownScreenShopDialogModule.prototype.removeItemFromSlot;
 WorldTownScreenShopDialogModule.prototype.removeItemFromSlot = function(_slot)
 {
 	_slot.setForSaleImageVisible(false);
 	_slot.setFavoriteIDImageVisible(false);
 	_slot.setFavoriteImageVisible(false);
 	_slot.setRepairProfitVisible(null);
-	wtRemoveItemFromSlot.call(this, _slot);
+	EIMO.Hooks.WorldTownScreenShopDialogModule_removeItemFromSlot.call(this, _slot);
 };
 
-var wtAssignItemToSlot = WorldTownScreenShopDialogModule.prototype.assignItemToSlot;
+EIMO.Hooks.WorldTownScreenShopDialogModule_assignItemToSlot = WorldTownScreenShopDialogModule.prototype.assignItemToSlot;
 WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _slot, _item)
 {
-	wtAssignItemToSlot.call(this, _owner, _slot, _item);
+	EIMO.Hooks.WorldTownScreenShopDialogModule_assignItemToSlot.call(this, _owner, _slot, _item);
 	if ((WorldTownScreenIdentifier.Item.Id in _item) && (WorldTownScreenIdentifier.Item.ImagePath in _item))
 	{
 		var itemData = _slot.data('item');
@@ -59,10 +59,10 @@ WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _s
 	}
 };
 
-var wtCreateDIV = WorldTownScreenShopDialogModule.prototype.createDIV;
+EIMO.Hooks.WorldTownScreenShopDialogModule_createDIV = WorldTownScreenShopDialogModule.prototype.createDIV;
 WorldTownScreenShopDialogModule.prototype.createDIV = function (_parentDiv)
 {
-	wtCreateDIV.call(this, _parentDiv);
+	EIMO.Hooks.WorldTownScreenShopDialogModule_createDIV.call(this, _parentDiv);
 	var self = this
 	var container = this.mDialogContainer.findDialogContentContainer();
 	buttonContainer = container.children(".column.is-middle").children(".row.is-content").children(".button-container");
@@ -75,25 +75,25 @@ WorldTownScreenShopDialogModule.prototype.createDIV = function (_parentDiv)
 	}, '', 3);
 };
 
-var wtDestroyDIV = WorldTownScreenShopDialogModule.prototype.destroyDIV;
+EIMO.Hooks.WorldTownScreenShopDialogModule_destroyDIV = WorldTownScreenShopDialogModule.prototype.destroyDIV;
 WorldTownScreenShopDialogModule.prototype.destroyDIV = function (_parentDiv)
 {
-	wtDestroyDIV.call(this, _parentDiv);
+	EIMO.Hooks.WorldTownScreenShopDialogModule_destroyDIV.call(this, _parentDiv);
 
 	this.mSellAllButton.remove()
 	this.mSellAllButton = null;
 };
 
-var wtBindTooltips = WorldTownScreenShopDialogModule.prototype.bindTooltips;
+EIMO.Hooks.WorldTownScreenShopDialogModule_bindTooltips = WorldTownScreenShopDialogModule.prototype.bindTooltips;
 WorldTownScreenShopDialogModule.prototype.bindTooltips = function ()
 {
-	wtBindTooltips.call(this);
+	EIMO.Hooks.WorldTownScreenShopDialogModule_bindTooltips.call(this);
 	this.mSellAllButton.bindTooltip({ contentType: 'msu-generic', modId: EIMO.ID, elementId:  'TownShopDialogModule.SellAllButton' });
 };
 
-var wtUnbindTooltips = WorldTownScreenShopDialogModule.prototype.unbindTooltips;
+EIMO.Hooks.WorldTownScreenShopDialogModule_unbindTooltips = WorldTownScreenShopDialogModule.prototype.unbindTooltips;
 WorldTownScreenShopDialogModule.prototype.unbindTooltips = function ()
 {
-	wtUnbindTooltips.call(this);
+	EIMO.Hooks.WorldTownScreenShopDialogModule_unbindTooltips.call(this);
 	this.mSellAllButton.unbindTooltip();
 };

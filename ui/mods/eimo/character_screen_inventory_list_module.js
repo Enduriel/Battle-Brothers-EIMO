@@ -1,17 +1,18 @@
-var charRemoveItemFromSlot = CharacterScreenInventoryListModule.prototype.removeItemFromSlot;
+EIMO.Hooks.CharacterScreenInventoryListModule_removeItemFromSlot = CharacterScreenInventoryListModule.prototype.removeItemFromSlot;
+
 CharacterScreenInventoryListModule.prototype.removeItemFromSlot = function(_slot)
 {
 	_slot.setForSaleImageVisible(false);
 	_slot.setFavoriteImageVisible(false);
 	_slot.setFavoriteIDImageVisible(false);
 	_slot.setRepairProfitVisible(null);
-	charRemoveItemFromSlot.call(this, _slot);
+	EIMO.Hooks.CharacterScreenInventoryListModule_removeItemFromSlot.call(this, _slot);
 }
 
-var csAssignItemToSlot = CharacterScreenInventoryListModule.prototype.assignItemToSlot;
+EIMO.Hooks.CharacterScreenInventoryListModule_assignItemToSlot = CharacterScreenInventoryListModule.prototype.assignItemToSlot;
 CharacterScreenInventoryListModule.prototype.assignItemToSlot = function(_entityId, _owner, _slot, _item)
 {
-	csAssignItemToSlot.call(this, _entityId, _owner, _slot, _item);
+	EIMO.Hooks.CharacterScreenInventoryListModule_assignItemToSlot.call(this, _entityId, _owner, _slot, _item);
 	if ((CharacterScreenIdentifier.Item.Id in _item) && (CharacterScreenIdentifier.Item.ImagePath in _item))
 	{
 		var itemData = _slot.data('item');
@@ -40,7 +41,7 @@ CharacterScreenInventoryListModule.prototype.assignItemToSlot = function(_entity
 	}
 };
 
-var csCreateItemSlots = CharacterScreenInventoryListModule.prototype.createItemSlots;
+EIMO.Hooks.CharacterScreenInventoryListModule_createItemSlots = CharacterScreenInventoryListModule.prototype.createItemSlots;
 CharacterScreenInventoryListModule.prototype.createItemSlots = function( _owner, _size, _itemArray, _itemContainer )
 {
 	var self = this;
@@ -132,6 +133,6 @@ CharacterScreenInventoryListModule.prototype.createItemSlots = function( _owner,
 		});
 		return result;
 	}
-	csCreateItemSlots.call(this, _owner, _size, _itemArray, _itemContainer);
+	EIMO.Hooks.CharacterScreenInventoryListModule_createItemSlots.call(this, _owner, _size, _itemArray, _itemContainer);
 	delete _itemContainer.createListItem;
 }

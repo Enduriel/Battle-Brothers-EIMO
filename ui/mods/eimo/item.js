@@ -1,7 +1,7 @@
-var createListItem = $.fn.createListItem;
+EIMO.Hooks.$_createListItem = $.fn.createListItem;
 $.fn.createListItem = function(_withPriceLayer, _backgroundImage, _classes)
 {
-	var result = createListItem.call(this, _withPriceLayer, _backgroundImage, _classes);
+	var result = EIMO.Hooks.$_createListItem.call(this, _withPriceLayer, _backgroundImage, _classes);
 
 	// Repair profit layer
 	var repairProfitLayer = $('<div class="repair-profit-layer display-none"/>');
