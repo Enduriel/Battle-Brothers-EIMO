@@ -1,21 +1,21 @@
-::mods_hookNewObjectOnce("ui/global/data_helper", function ( o )
-{
-	local convertItemToUIData = o.convertItemToUIData;
-	o.convertItemToUIData = function ( _item, _forceSmallIcon, _owner = null )
+::Hooks.wrapFunctions(::EIMO.ID, "scripts/ui/global/data_helper", {
+	function convertItemToUIData( _originalFunction )
 	{
-		if (_item == null) return null;
+		return function( _item, _forceSmallIcon, _owner = null ) {
+			if (_item == null) return null;
 
-		local result = convertItemToUIData(_item, _forceSmallIcon, _owner);
-		
-		if (_item.getCondition() < _item.getConditionMax())
-		{
-			result.eimo_repairProfit <- ::EIMO.getRepairProfit(_item);
-		}
+			local result = _originalFunction(_item, _forceSmallIcon, _owner);
 
-		result.eimo_forSale <- _item.eimo_isSetForSale();
-		result.eimo_idFavorite <- _item.eimo_isIDFavorite();
-		result.eimo_favorite <- _item.eimo_isFavorite()
+			if (_item.getCondition() < _item.getConditionMax())
+			{
+				result.eimo_repairProfit <- ::EIMO.getRepairProfit(_item);
+			}
 
-		return result;
+			result.eimo_forSale <- _item.eimo_isSetForSale();
+			result.eimo_idFavorite <- _item.eimo_isIDFavorite();
+			result.eimo_favorite <- _item.eimo_isFavorite()
+
+			return result;
+		};
 	}
 });

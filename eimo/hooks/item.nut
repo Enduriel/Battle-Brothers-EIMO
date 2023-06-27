@@ -1,20 +1,19 @@
-::mods_hookBaseClass("items/item", function ( o )
-{
-	o = o[o.SuperName];
+::Hooks.addFields(::EIMO.ID, "scripts/items/item", {
+	eimo_IsFavorite = false
+});
 
-	o.m.eimo_IsFavorite <- false;
-
-	o.eimo_isFavorite <- function()
+::Hooks.addNewFunctions(::EIMO.ID, "scripts/items/item", {
+	function eimo_isFavorite()
 	{
 		return this.m.eimo_IsFavorite;
 	}
 
-	o.eimo_setFavorite <- function( _bool )
+	function eimo_setFavorite( _bool )
 	{
 		this.m.eimo_IsFavorite = _bool;
 	}
 
-	o.eimo_isSetForSale <- function()
+	function eimo_isSetForSale()
 	{
 		local sell = this.getID() in ::EIMO.ForSaleIDs;
 		if (::EIMO.isLegendArmor(this) && sell)
@@ -30,7 +29,7 @@
 		return sell;
 	}
 
-	o.eimo_setForSale <- function( _bool )
+	function eimo_setForSale( _bool )
 	{
 		if (::EIMO.isLegendArmor(this))
 		{
@@ -52,7 +51,7 @@
 		}
 	}
 
-	o.eimo_isIDFavorite <- function()
+	function eimo_isIDFavorite()
 	{
 		local sell = this.getID() in ::EIMO.FavoriteIDs;
 		if (::EIMO.isLegendArmor(this) && sell)
@@ -68,7 +67,7 @@
 		return sell;
 	}
 
-	o.eimo_setIDFavorite <- function( _bool )
+	function eimo_setIDFavorite( _bool )
 	{
 		if (::EIMO.isLegendArmor(this))
 		{
@@ -90,12 +89,12 @@
 		}
 	}
 
-	o.eimo_shouldBeSold <- function()
+	function eimo_shouldBeSold()
 	{
 		return this.eimo_isSetForSale() && !this.eimo_isFavorite() && !this.eimo_isIDFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
 	}
 
-	o.eimo_getMaxValue <- function()
+	function eimo_getMaxValue()
 	{
 		if (::EIMO.isLegendArmor(this))
 		{

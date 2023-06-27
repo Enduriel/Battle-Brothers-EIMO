@@ -1,6 +1,5 @@
-::mods_hookExactClass("entity/world/settlement", function (o)
-{
-	o.eimo_getBuildings <- function()
+::Hooks.addNewFunctions(::EIMO.ID, "scripts/entity/world/settlement", {
+	function eimo_getBuildings()
 	{
 		local ret = [];
 		foreach (building in this.m.Buildings)
