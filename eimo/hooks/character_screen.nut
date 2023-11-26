@@ -218,11 +218,15 @@
 	{
 		if (!::Hooks.hasMod("mod_legends"))
 		{
+			if (_item.getCondition() == _item.getConditionMax())
+				return;
 			_item.setCondition(_item.getConditionMax());
 			_item.setToBeRepaired(false);
 		}
 		else
 		{
+			if (_item.getRepair() == _item.getRepairMax())
+				return;
 			_item.setCondition(_item.getRepairMax());
 			_item.setToBeRepaired(false, 0);
 		}
