@@ -36,7 +36,7 @@
 			{
 				id = 2,
 				type = "description",
-				text = "Repair current brother's equipment at the local smith instantly by paying a fee.\n\nRequires you to be within 2 world tiles of a town with a smith and have enough money for the repair."
+				text = "Repair current brother's equipment at the local smith instantly by paying a fee.\n\nRequires you to be within 2 world tiles of a town offering repairs and have enough money for the repair."
 			}];
 
 			if (::EIMO.RepairBrothersData.CanRepairNearby)
