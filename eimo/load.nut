@@ -16,6 +16,8 @@ local function registerCSS( _file )
 }
 
 registerJS("assets.js");
+registerJS("eimo_connection.js");
+registerJS("generic_hooks.js");
 registerJS("character_screen_datasource.js");
 registerJS("character_screen.js");
 registerJS("character_screen_inventory_list_module.js");

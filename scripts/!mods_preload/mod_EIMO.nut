@@ -14,3 +14,8 @@
 	::EIMO.Mod <- ::MSU.Class.Mod(::EIMO.ID, ::EIMO.Version, ::EIMO.Name)
 	::include("eimo/load.nut");
 })
+
+::EIMO.HookMod.queue(">mod_msu", function(){
+	::EIMO.JSConnection <- ::new("scripts/ui/mods/eimo_js_connection");
+	::MSU.UI.registerConnection(::EIMO.JSConnection);
+}, ::Hooks.QueueBucket.AfterHooks);

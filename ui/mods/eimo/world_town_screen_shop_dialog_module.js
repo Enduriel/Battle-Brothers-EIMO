@@ -1,3 +1,6 @@
+WorldTownScreenShopDialogModule.prototype.removeItemFromSlot = EIMO.Generic.removeItemFromSlot(WorldTownScreenShopDialogModule.prototype.removeItemFromSlot);
+WorldTownScreenShopDialogModule.prototype.assignItemToSlot = EIMO.Generic.assignItemToSlot(WorldTownScreenShopDialogModule.prototype.assignItemToSlot);
+
 WorldTownScreenShopDialogModule.prototype.EIMOsellAllButtonClicked = function ()
 {
 	var self = this;
@@ -15,48 +18,6 @@ WorldTownScreenShopDialogModule.prototype.EIMOsellAllButtonClicked = function ()
 WorldTownScreenShopDialogModule.prototype.EIMOnotifyBackendSellAllButtonClicked = function (_callback)
 {
 	SQ.call(this.mSQHandle, 'eimo_onSellAllButtonClicked', null, _callback);
-};
-
-EIMO.Hooks.WorldTownScreenShopDialogModule_removeItemFromSlot = WorldTownScreenShopDialogModule.prototype.removeItemFromSlot;
-WorldTownScreenShopDialogModule.prototype.removeItemFromSlot = function(_slot)
-{
-	_slot.setForSaleImageVisible(false);
-	_slot.setFavoriteIDImageVisible(false);
-	_slot.setFavoriteImageVisible(false);
-	_slot.setRepairProfitVisible(null);
-	EIMO.Hooks.WorldTownScreenShopDialogModule_removeItemFromSlot.call(this, _slot);
-};
-
-EIMO.Hooks.WorldTownScreenShopDialogModule_assignItemToSlot = WorldTownScreenShopDialogModule.prototype.assignItemToSlot;
-WorldTownScreenShopDialogModule.prototype.assignItemToSlot = function(_owner, _slot, _item)
-{
-	EIMO.Hooks.WorldTownScreenShopDialogModule_assignItemToSlot.call(this, _owner, _slot, _item);
-	if ((WorldTownScreenIdentifier.Item.Id in _item) && (WorldTownScreenIdentifier.Item.ImagePath in _item))
-	{
-		var itemData = _slot.data('item');
-		itemData.eimo_forSale = _item.eimo_forSale;
-		itemData.eimo_favorite = _item.eimo_favorite;
-		itemData.eimo_idFavorite = _item.eimo_idFavorite;
-		itemData.eimo_repairProfit = Math.round(_item.eimo_repairProfit === undefined ? 0 : _item.eimo_repairProfit);
-		switch (MSU.getSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
-		{
-			case "Reduced":
-				_slot.setForSaleImageVisible(_item.eimo_forSale);
-				_slot.setFavoriteIDImageVisible(_item.eimo_idFavorite);
-				_slot.setFavoriteImageVisible(_item.eimo_favorite);
-				break;
-			case "None":
-				break;
-			case "Normal": default:
-				_slot.setForSaleImageVisible(_item.eimo_forSale);
-				_slot.setFavoriteIDImageVisible(_item.eimo_idFavorite);
-				_slot.setFavoriteImageVisible(_item.eimo_favorite);
-				if (itemData.eimo_repairProfit != 0 && itemData.eimo_repairProfit !== undefined)
-				{
-					_slot.setRepairProfitVisible(itemData.eimo_repairProfit.toString(), _item[CharacterScreenIdentifier.Item.AmountColor]);
-				}
-		}
-	}
 };
 
 EIMO.Hooks.WorldTownScreenShopDialogModule_createDIV = WorldTownScreenShopDialogModule.prototype.createDIV;

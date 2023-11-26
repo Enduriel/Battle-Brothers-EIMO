@@ -12,18 +12,6 @@
 		return ret;
 	}
 
-	q.eimo_onFavoriteInventoryItem <- function( _itemID )
-	{
-		if (!("Assets" in ::World)) return;
-		local item = ::World.Assets.getStash().getItemByInstanceID(_itemID).item;
-		if (item != null)
-		{
-			item.eimo_setFavorite(!item.eimo_isFavorite())
-			return true;
-		}
-		return false;
-	}
-
 	q.eimo_onRatioRepairButtonClicked <- function()
 	{
 		local items = ::World.Assets.getStash().getItems();
@@ -61,50 +49,6 @@
 			}
 		}
 		this.loadStashList();
-	}
-
-	q.eimo_onSetForSaleInventoryItem <- function( _itemID )
-	{
-		if (!("Assets" in ::World)) return null;
-		local item = ::World.Assets.getStash().getItemByInstanceID(_itemID).item;
-
-		if (item != null)
-		{
-			item.eimo_setForSale(!item.eimo_isSetForSale());
-			local id = item.getID();
-			local items = ::World.Assets.getStash().getItems();
-			local retItems = [];
-			foreach (idx, item in items)
-				if (item != null && item.eimo_isSetForSale())
-					retItems.push(idx);
-			return retItems;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	q.eimo_onFavoriteItemsWithID <- function( _instanceID )
-	{
-		if (!("Assets" in ::World)) return null;
-		local item = ::World.Assets.getStash().getItemByInstanceID(_instanceID).item;
-
-		if (item != null)
-		{
-			item.eimo_setIDFavorite(!item.eimo_isIDFavorite());
-			local id = item.getID();
-			local items = ::World.Assets.getStash().getItems();
-			local retItems = [];
-			foreach (idx, item in items)
-				if (item != null && item.eimo_isIDFavorite())
-					retItems.push(idx);
-			return retItems;
-		}
-		else
-		{
-			return null;
-		}
 	}
 
 	q.eimo_getSelectedBrother <- function()

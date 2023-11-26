@@ -1,3 +1,6 @@
+TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot = EIMO.Generic.removeItemFromSlot(TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot);
+TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot = EIMO.Generic.assignItemToSlot(TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot);
+
 EIMO.Hooks.TacticalCombatResultScreenLootPanel_createDIV = TacticalCombatResultScreenLootPanel.prototype.createDIV;
 TacticalCombatResultScreenLootPanel.prototype.createDIV = function (_parentDiv)
 {
@@ -38,49 +41,6 @@ TacticalCombatResultScreenLootPanel.prototype.unbindTooltips = function()
 
 	this.mSmartLootButton.unbindTooltip();
 }
-
-
-EIMO.Hooks.TacticalCombatResultScreenLootPanel_removeItemFromSlot = TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot;
-TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot = function(_slot)
-{
-	_slot.setForSaleImageVisible(false);
-	_slot.setFavoriteImageVisible(false);
-	_slot.setFavoriteIDImageVisible(false);
-	_slot.setRepairProfitVisible(null);
-	EIMO.Hooks.TacticalCombatResultScreenLootPanel_removeItemFromSlot.call(this, _slot);
-};
-
-EIMO.Hooks.TacticalCombatResultScreenLootPanel_assignItemToSlot = TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot;
-TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot = function(_owner, _slot, _item)
-{
-	EIMO.Hooks.TacticalCombatResultScreenLootPanel_assignItemToSlot.call(this, _owner, _slot, _item);
-	if ((TacticalCombatResultScreenIdentifier.Item.Id in _item) && (TacticalCombatResultScreenIdentifier.Item.ImagePath in _item))
-	{
-		var itemData = _slot.data('item');
-		itemData.eimo_forSale = _item.eimo_forSale;
-		itemData.eimo_favorite = _item.eimo_favorite;
-		itemData.eimo_idFavorite = _item.eimo_idFavorite;
-		itemData.eimo_repairProfit = Math.round(_item.eimo_repairProfit === undefined ? 0 : _item.eimo_repairProfit);
-		switch (MSU.getSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
-		{
-			case "Reduced":
-				_slot.setForSaleImageVisible(_item.eimo_forSale);
-				_slot.setFavoriteIDImageVisible(_item.eimo_idFavorite);
-				_slot.setFavoriteImageVisible(_item.eimo_favorite);
-				break;
-			case "None":
-				break;
-			case "Normal": default:
-				_slot.setForSaleImageVisible(_item.eimo_forSale);
-				_slot.setFavoriteIDImageVisible(_item.eimo_idFavorite);
-				_slot.setFavoriteImageVisible(_item.eimo_favorite);
-				if (itemData.eimo_repairProfit != 0 && itemData.eimo_repairProfit !== undefined)
-				{
-					_slot.setRepairProfitVisible(itemData.eimo_repairProfit.toString(), _item[CharacterScreenIdentifier.Item.AmountColor]);
-				}
-		}
-	}
-};
 
 TacticalCombatResultScreenDatasource.prototype.EIMOnotifyBackendSmartLootButtonPressed = function ()
 {
