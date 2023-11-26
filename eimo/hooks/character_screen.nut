@@ -135,9 +135,16 @@
 
 	o.eimo_getRepairData <- function()
 	{
-		::EIMO.RepairBrothersData.SelectedBrotherPrice = this.eimo_getRepairPriceBrother(this.eimo_getSelectedBrother());
-		::EIMO.RepairBrothersData.CompanyPrice = this.eimo_getRepairPriceCompany();
+		if (this.m.eimo_RepairTown == null) {
+			::EIMO.RepairBrothersData.CanRepairNearby = false;
+		} else {
+			local bro = this.eimo_getSelectedBrother();
+			::EIMO.RepairBrothersData.SelectedBrotherPrice = bro
+				? this.eimo_getRepairPriceBrother(bro) : 0;
+			::EIMO.RepairBrothersData.CompanyPrice = this.eimo_getRepairPriceCompany();
+		}
 
+		// ::std.Debug.log("eimo: RepairBrothersData", ::EIMO.RepairBrothersData);
 		::EIMO.Mod.Debug.printLog(format("SelectedBrotherPrice: %s, CompanyPrice: %s", ::EIMO.RepairBrothersData.SelectedBrotherPrice.tostring(), ::EIMO.RepairBrothersData.CompanyPrice.tostring()));
 
 		return ::EIMO.RepairBrothersData;
