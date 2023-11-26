@@ -3,7 +3,7 @@
 	q.m.eimo_SelectedBrother <- null;
 
 	q.queryData = @( __original ) function() {
-		::EIMO.RepairBrothersData.CanRepairNearby = ::Tactical.isActive() ? false : this.eimo_canRepairNearby();
+		::EIMO.RepairBrothersData.CanRepairNearby = this.eimo_canRepairNearby();
 		local ret = __original();
 		ret.EIMO <- {
 			legends = ::Hooks.hasMod("mod_legends"),
@@ -119,6 +119,8 @@
 
 	q.eimo_canRepairNearby <- function()
 	{
+		if (::Tactical.isActive())
+			return false;
 		local settlements = ::World.EntityManager.getSettlements();
 		local playerTile = ::World.State.getPlayer().getTile();
 
