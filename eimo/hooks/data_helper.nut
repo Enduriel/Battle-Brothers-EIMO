@@ -6,7 +6,7 @@
 
 		if (_item.getCondition() < _item.getConditionMax())
 		{
-			result.eimo_repairProfit <- ::EIMO.getRepairProfit(_item);
+			result.eimo_repairProfit <- ::Math.round(::EIMO.getRepairProfit(_item));
 		}
 
 		result.eimo_forSale <- _item.eimo_isSetForSale();
