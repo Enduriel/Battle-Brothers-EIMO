@@ -1,4 +1,4 @@
-::mods_hookNewObjectOnce("ui/global/data_helper", function ( o )
+::mods_hookNewObject("ui/global/data_helper", function ( o )
 {
 	local convertItemToUIData = o.convertItemToUIData;
 	o.convertItemToUIData = function ( _item, _forceSmallIcon, _owner = null )

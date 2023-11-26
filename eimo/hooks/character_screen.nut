@@ -1,4 +1,4 @@
-::mods_hookNewObjectOnce("ui/screens/character/character_screen", function(o)
+::mods_hookNewObject("ui/screens/character/character_screen", function(o)
 {
 	o.m.eimo_RepairTown <- null;
 	o.m.eimo_SelectedBrother <- null;
