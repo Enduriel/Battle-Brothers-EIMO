@@ -144,6 +144,14 @@ CharacterScreenRightPanelHeaderModule.prototype.EIMOupdateRepairButtons = functi
 	{
 		this.mDataSource.EIMOgetRepairData(function(data)
 		{
+			if (data.CanRepair == false)
+			{
+				// additional check which really shouldn't be necessary but sometimes cause issues
+				self.mEIMO.CanRepair = false;
+				this.EIMOrepairBrotherButtonState(false);
+				this.EIMOrepairCompanyButtonState(false);
+				return;
+			}
 			self.EIMOrepairBrotherButtonState(data.SelectedBrotherPrice != 0);
 			self.EIMOrepairCompanyButtonState(data.CompanyPrice != 0);
 		});

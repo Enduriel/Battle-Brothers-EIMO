@@ -146,6 +146,14 @@
 
 	q.eimo_getRepairData <- function()
 	{
+		if (!this.eimo_canRepairNearby())
+		{
+			::EIMO.RepairBrothersData.CanRepairNearby = false;
+			return {
+				CanRepair = false
+			};
+		}
+
 		::EIMO.RepairBrothersData.SelectedBrotherPrice = this.eimo_getRepairPriceBrother(this.eimo_getSelectedBrother());
 		::EIMO.RepairBrothersData.CompanyPrice = this.eimo_getRepairPriceCompany();
 
