@@ -80,7 +80,7 @@ CharacterScreenRightPanelHeaderModule.prototype.destroyDIV = function()
 	this.mEIMO.Buttons.empty();
 	this.mEIMO.Buttons.remove();
 	this.mEIMO.Buttons = null;
-	CharacterScreenRightPanelHeaderModule.prototype.destroyDIV.call(this);
+	EIMO.Hooks.CharacterScreenRightPanelHeaderModule_destroyDIV.call(this);
 }
 
 EIMO.Hooks.CharacterScreenRightPanelHeaderModule_registerDatasourceListener = CharacterScreenRightPanelHeaderModule.prototype.registerDatasourceListener;
