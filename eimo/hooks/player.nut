@@ -1,5 +1,5 @@
 ::EIMO.HookMod.hook("scripts/entity/tactical/player", function(q){
-	q.onSerialize = @( __original ) function() {
+	q.onSerialize = @( __original ) function(_out) {
 		local favorites = [];
 		foreach (i, itemSlot in this.getItems().m.Items)
 		{
@@ -12,7 +12,7 @@
 		return __original(_out);
 	}
 
-	q.onDeserialize = @( __original ) function() {
+	q.onDeserialize = @( __original ) function(_in) {
 		__original(_in);
 		if (::EIMO.Mod.Serialization.isSavedVersionAtLeast("9.1.0", _in.getMetaData()))
 		{

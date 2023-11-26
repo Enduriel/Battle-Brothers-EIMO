@@ -6,7 +6,7 @@
 			if (!_item1.eimo_isFavorite() && _item2.eimo_isFavorite()) return 1;
 			if (_item1.eimo_isFavorite() && !_item2.eimo_isFavorite()) return -1;
 		}
-		local ret = _originalFunction(_item1, _item2);
+		local ret = __original(_item1, _item2);
 		if (ret == 0)
 		{
 			return _item2.getCondition() <=> _item1.getCondition();

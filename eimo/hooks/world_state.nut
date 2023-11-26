@@ -9,7 +9,7 @@ local function getStashIndexFavoriteFlag( _idx )
 	return "EIMO." + _idx + ".Fav";
 }
 ::EIMO.HookMod.hook("scripts/states/world_state", function(q) {
-	q.onSerialize = @(__original) function() {
+	q.onSerialize = @(__original) function(_out) {
 		local favoritedItems = [];
 		foreach (idx, item in this.m.Assets.getStash().getItems())
 			if (item != null && item.eimo_isFavorite())

@@ -2,7 +2,7 @@
 	q.convertItemToUIData = @(__original) function( _item, _forceSmallIcon, _owner = null ) {
 		if (_item == null) return null;
 
-		local result = _originalFunction(_item, _forceSmallIcon, _owner);
+		local result = __original(_item, _forceSmallIcon, _owner);
 
 		if (_item.getCondition() < _item.getConditionMax())
 		{

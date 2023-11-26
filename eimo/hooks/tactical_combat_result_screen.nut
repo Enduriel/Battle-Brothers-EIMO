@@ -29,7 +29,7 @@
 		}
 	}
 
-	o.show = @(__original) function()
+	q.show = @(__original) function()
 	{
 		if (!isVisible() && "Assets" in ::World)
 		{
@@ -79,7 +79,7 @@
 			i.onAddedToStash(Stash.getID());
 			if (i != null && i.getItemType() < ::Const.Items.ItemType.Ammo)
 			{
-				if (::Hooks.hasMod("mod_legends"))
+				if (!::Hooks.hasMod("mod_legends"))
 				{
 					if (::EIMO.getRepairRatio(i) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
 					{

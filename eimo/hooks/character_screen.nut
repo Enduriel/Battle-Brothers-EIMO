@@ -2,7 +2,7 @@
 	q.m.eimo_RepairTown <- null;
 	q.m.eimo_SelectedBrother <- null;
 
-	q.querydata = @( __original ) function() {
+	q.queryData = @( __original ) function() {
 		::EIMO.RepairBrothersData.CanRepairNearby = ::Tactical.isActive() ? false : this.eimo_canRepairNearby();
 		local ret = __original();
 		ret.EIMO <- {
@@ -33,7 +33,7 @@
 			{
 				if (::EIMO.getRepairRatio(item) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.RepairThresholdID).getValue())
 				{
-					if (::Hooks.hasMod("mod_legends"))
+					if (!::Hooks.hasMod("mod_legends"))
 					{
 						item.setToBeRepaired(true);
 					}
@@ -177,7 +177,7 @@
 	{
 		local condition, conditionMax;
 
-		if (::Hooks.hasMod("mod_legends"))
+		if (!::Hooks.hasMod("mod_legends"))
 		{
 			conditionMax = _item.getConditionMax();
 			condition = _item.getCondition();
@@ -206,7 +206,7 @@
 
 	q.eimo_paidRepairItem <- function( _item )
 	{
-		if (::Hooks.hasMod("mod_legends"))
+		if (!::Hooks.hasMod("mod_legends"))
 		{
 			_item.setCondition(_item.getConditionMax());
 			_item.setToBeRepaired(false);
