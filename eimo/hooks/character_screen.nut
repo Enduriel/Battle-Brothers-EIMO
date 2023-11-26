@@ -130,7 +130,7 @@
 			{
 				foreach (building in settlement.eimo_getBuildings())
 				{
-					if (building.isRepairOffered())
+					if (building.isRepairOffered() && (!building.isClosedAtNight() || ::World.getTime().IsDaytime))
 					{
 						::EIMO.Mod.Debug.printLog("Can repair nearby");
 						this.m.eimo_RepairTown = settlement;
