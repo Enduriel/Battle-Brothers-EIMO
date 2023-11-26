@@ -1,5 +1,4 @@
-::mods_hookNewObject("ui/screens/tactical/tactical_combat_result_screen", function(o)
-{
+::EIMO.HookMod.hook("scripts/ui/screens/tactical/tactical_combat_result_screen", function(q) {
 	local CostPerTool = 250.0 / 20; // assume 250 coins per bundle of 20 tools
 	local Assets = Const.World.Assets, ItemType = Const.Items.ItemType;
 
@@ -30,8 +29,7 @@
 		}
 	}
 
-	local show = o.show;
-	o.show = function()
+	o.show = @(__original) function()
 	{
 		if (!isVisible() && "Assets" in ::World)
 		{
@@ -59,10 +57,10 @@
 				return sellValue(b) <=> sellValue(a); // and in general order by sell value, descending
 			});
 		}
-		show();
+		__original();
 	}
 
-	o.eimo_onSmartLootButtonPressed <- function()
+	q.eimo_onSmartLootButtonPressed <- function()
 	{
 
 		if (Tactical.CombatResultLoot.isEmpty()) return Const.UI.convertErrorToUIData(Const.UI.Error.FoundLootListIsEmpty);
@@ -81,7 +79,7 @@
 			i.onAddedToStash(Stash.getID());
 			if (i != null && i.getItemType() < ::Const.Items.ItemType.Ammo)
 			{
-				if (::mods_getRegisteredMod("mod_legends") == null)
+				if (::Hooks.hasMod("mod_legends"))
 				{
 					if (::EIMO.getRepairRatio(i) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
 					{
@@ -280,4 +278,4 @@
 			foundLoot = UIDataHelper.convertCombatResultLootToUIData()
 		};
 	}
-});
+})

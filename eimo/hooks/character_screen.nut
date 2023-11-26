@@ -1,10 +1,18 @@
-::Hooks.addFields(::EIMO.ID, "scripts/ui/screens/character/character_screen", {
-	eimo_RepairTown = null,
-	eimo_SelectedBrother = null
-});
+::EIMO.HookMod.hook("scripts/ui/screens/character/character_screen", function(q) {
+	q.m.eimo_RepairTown <- null;
+	q.m.eimo_SelectedBrother <- null;
 
-::Hooks.addNewFunctions(::EIMO.ID, "scripts/ui/screens/character/character_screen", {
-	function eimo_onFavoriteInventoryItem( _itemID )
+	q.querydata = @( __original ) function() {
+		::EIMO.RepairBrothersData.CanRepairNearby = ::Tactical.isActive() ? false : this.eimo_canRepairNearby();
+		local ret = __original();
+		ret.EIMO <- {
+			legends = ::Hooks.hasMod("mod_legends"),
+			canRepair = ::EIMO.RepairBrothersData.CanRepairNearby
+		}
+		return ret;
+	}
+
+	q.eimo_onFavoriteInventoryItem <- function( _itemID )
 	{
 		if (!("Assets" in ::World)) return;
 		local item = ::World.Assets.getStash().getItemByInstanceID(_itemID).item;
@@ -16,7 +24,7 @@
 		return false;
 	}
 
-	function eimo_onRatioRepairButtonClicked()
+	q.eimo_onRatioRepairButtonClicked <- function()
 	{
 		local items = ::World.Assets.getStash().getItems();
 		foreach( idx, item in items )
@@ -39,7 +47,7 @@
 		this.loadStashList();
 	}
 
-	function eimo_onRatioSalvageButtonClicked()
+	q.eimo_onRatioSalvageButtonClicked <- function()
 	{
 		local items = ::World.Assets.getStash().getItems();
 		foreach (idx, item in items)
@@ -55,7 +63,7 @@
 		this.loadStashList();
 	}
 
-	function eimo_onSetForSaleInventoryItem( _itemID )
+	q.eimo_onSetForSaleInventoryItem <- function( _itemID )
 	{
 		if (!("Assets" in ::World)) return null;
 		local item = ::World.Assets.getStash().getItemByInstanceID(_itemID).item;
@@ -77,7 +85,7 @@
 		}
 	}
 
-	function eimo_onFavoriteItemsWithID( _instanceID )
+	q.eimo_onFavoriteItemsWithID <- function( _instanceID )
 	{
 		if (!("Assets" in ::World)) return null;
 		local item = ::World.Assets.getStash().getItemByInstanceID(_instanceID).item;
@@ -99,17 +107,17 @@
 		}
 	}
 
-	function eimo_getSelectedBrother()
+	q.eimo_getSelectedBrother <- function()
 	{
 		return this.m.eimo_SelectedBrother;
 	}
 
-	function eimo_setSelectedBrother( _entityID )
+	q.eimo_setSelectedBrother <- function( _entityID )
 	{
 		this.m.eimo_SelectedBrother = _entityID == null ? null : this.Tactical.getEntityByID(_entityID);
 	}
 
-	function eimo_canRepairNearby()
+	q.eimo_canRepairNearby <- function()
 	{
 		local settlements = ::World.EntityManager.getSettlements();
 		local playerTile = ::World.State.getPlayer().getTile();
@@ -134,7 +142,7 @@
 		return false;
 	}
 
-	function eimo_getRepairData()
+	q.eimo_getRepairData <- function()
 	{
 		::EIMO.RepairBrothersData.SelectedBrotherPrice = this.eimo_getRepairPriceBrother(this.eimo_getSelectedBrother());
 		::EIMO.RepairBrothersData.CompanyPrice = this.eimo_getRepairPriceCompany();
@@ -144,7 +152,7 @@
 		return ::EIMO.RepairBrothersData;
 	}
 
-	function eimo_getRepairPriceCompany()
+	q.eimo_getRepairPriceCompany <- function()
 	{
 		local price = 0;
 		foreach (brother in ::World.getPlayerRoster().getAll())
@@ -154,7 +162,7 @@
 		return price;
 	}
 
-	function eimo_getRepairPriceBrother( _brother )
+	q.eimo_getRepairPriceBrother <- function( _brother )
 	{
 		local price = 0;
 		foreach (item in _brother.getItems().getAllItems())
@@ -165,7 +173,7 @@
 	}
 
 	// Copy of vanilla code, should get checked after updates
-	function eimo_getRepairPriceItem( _item )
+	q.eimo_getRepairPriceItem <- function( _item )
 	{
 		local condition, conditionMax;
 
@@ -185,7 +193,7 @@
 		return ::Math.max(price, value);
 	}
 
-	function eimo_paidRepairBrother( _brother )
+	q.eimo_paidRepairBrother <- function( _brother )
 	{
 		local price = this.eimo_getRepairPriceBrother(_brother);
 		foreach(item in _brother.getItems().getAllItems())
@@ -196,7 +204,7 @@
 		::World.Assets.addMoney(-price);
 	}
 
-	function eimo_paidRepairItem( _item )
+	q.eimo_paidRepairItem <- function( _item )
 	{
 		if (::Hooks.hasMod("mod_legends"))
 		{
@@ -211,32 +219,18 @@
 		::World.Statistics.getFlags().increment("ItemsRepaired");
 	}
 
-	function eimo_paidRepairBrotherFromJS()
+	q.eimo_paidRepairBrotherFromJS <- function()
 	{
 		this.eimo_paidRepairBrother(this.eimo_getSelectedBrother());
 		this.loadData();
 	}
 
-	function eimo_paidRepairCompanyFromJS()
+	q.eimo_paidRepairCompanyFromJS <- function()
 	{
 		foreach (brother in ::World.getPlayerRoster().getAll())
 		{
 			this.eimo_paidRepairBrother(brother);
 		}
 		this.loadData();
-	}
-})
-
-::Hooks.wrapFunctions(::EIMO.ID, "scripts/ui/screens/character/character_screen", {
-	function queryData( _originalFunction ) {
-		return function() {
-			::EIMO.RepairBrothersData.CanRepairNearby = ::Tactical.isActive() ? false : this.eimo_canRepairNearby();
-			local ret = _originalFunction();
-			ret.EIMO <- {
-				legends = ::Hooks.hasMod("mod_legends"),
-				canRepair = ::EIMO.RepairBrothersData.CanRepairNearby
-			}
-			return ret;
-		}
 	}
 })

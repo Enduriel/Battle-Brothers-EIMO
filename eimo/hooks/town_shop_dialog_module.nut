@@ -1,5 +1,5 @@
-::Hooks.addNewFunctions(::EIMO.ID, "scripts/ui/screens/world/modules/world_town_screen/town_shop_dialog_module", {
-	function eimo_onSellAllButtonClicked()
+::EIMO.HookMod.hook("scripts/ui/screens/world/modules/world_town_screen/town_shop_dialog_module", function(q) {
+	q.eimo_onSellAllButtonClicked <- function()
 	{
 		local removedItem;
 		local shopStash = this.m.Shop.getStash();
