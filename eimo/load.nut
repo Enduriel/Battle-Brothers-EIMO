@@ -16,7 +16,10 @@ local function registerCSS( _file )
 }
 
 registerJS("assets.js");
-registerJS("eimo_connection.js");
+if (::Hooks.getMod("mod_msu").getVersion() < ::Hooks.SQClass.ModVersion("1.3.0-a"))
+	::mods_registerJS("/eimo/eimo_connection.js")
+else
+	registerJS("eimo_connection.js");
 registerJS("generic_hooks.js");
 registerJS("character_screen_datasource.js");
 registerJS("character_screen.js");
