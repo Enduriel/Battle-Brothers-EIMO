@@ -1,7 +1,7 @@
 ::EIMO <- {
 	ID = "mod_EIMO",
 	Name = "End's Inventory Management Overhaul",
-	Version = "9.1.3",
+	Version = "10.0.0",
 	FavoriteIDs = {},
 	ForSaleIDs = {}
 };
