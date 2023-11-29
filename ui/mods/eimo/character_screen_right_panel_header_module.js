@@ -148,8 +148,8 @@ CharacterScreenRightPanelHeaderModule.prototype.EIMOupdateRepairButtons = functi
 			{
 				// additional check which really shouldn't be necessary but sometimes cause issues
 				self.mEIMO.CanRepair = false;
-				this.EIMOrepairBrotherButtonState(false);
-				this.EIMOrepairCompanyButtonState(false);
+				self.EIMOrepairBrotherButtonState(false);
+				self.EIMOrepairCompanyButtonState(false);
 				return;
 			}
 			self.EIMOrepairBrotherButtonState(data.SelectedBrotherPrice != 0);
