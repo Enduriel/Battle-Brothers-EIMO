@@ -3,6 +3,7 @@
 	{
 		local removedItem;
 		local shopStash = this.m.Shop.getStash();
+		local moneyToAdd = 0;
 
 		for (local i = ::World.Assets.getStash().getCapacity() - 1; i >= 0 ; --i)
 		{
@@ -14,8 +15,8 @@
 
 					if (removedItem != null)
 					{
-						shopStash.add(removedItem)
-						::World.Assets.addMoney(removedItem.getSellPrice());
+						shopStash.add(removedItem);
+						moneyToAdd += removedItem.getSellPrice();
 						if (removedItem.isBought())
 						{
 							removedItem.setBought(false);
@@ -32,6 +33,11 @@
 					}
 				}
 			}
+		}
+
+		if (moneyToAdd != 0)
+		{
+			::World.Assets.addMoney(removedItem.getSellPrice());
 		}
 
 		local result = {
