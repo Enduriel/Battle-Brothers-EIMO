@@ -37,7 +37,7 @@
 
 		if (moneyToAdd != 0)
 		{
-			::World.Assets.addMoney(removedItem.getSellPrice());
+			::World.Assets.addMoney(moneyToAdd);
 		}
 
 		local result = {
