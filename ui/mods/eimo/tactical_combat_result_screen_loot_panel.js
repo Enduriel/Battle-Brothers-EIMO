@@ -1,6 +1,6 @@
 TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot = EIMO.Generic.removeItemFromSlot(TacticalCombatResultScreenLootPanel.prototype.removeItemFromSlot);
 TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot = EIMO.Generic.assignItemToSlot(TacticalCombatResultScreenLootPanel.prototype.assignItemToSlot);
-TacticalCombatResultScreenLootPanel.prototype.createItemSlots = EIMO.Generic.createItemSlots(TacticalCombatResultScreenLootPanel.prototype.createItemSlots);
+TacticalCombatResultScreenLootPanel.prototype.createItemSlot = EIMO.Generic.createItemSlot(TacticalCombatResultScreenLootPanel.prototype.createItemSlot);
 
 EIMO.Hooks.TacticalCombatResultScreenLootPanel_createDIV = TacticalCombatResultScreenLootPanel.prototype.createDIV;
 TacticalCombatResultScreenLootPanel.prototype.createDIV = function (_parentDiv)

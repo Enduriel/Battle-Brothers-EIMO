@@ -36,7 +36,7 @@ EIMO.Generic.setFavoriteIDImageVisible = function(_itemSlot, _isVisible)
 	else
 	{
 		imageLayer.find('>img').filter(':first').attr('src', Path.GFX + EIMO.ICON_FAVORITE)
-		if (!(_itemSlot.data('item').eimo_favorite))
+		if (!(_itemSlot.data('eimo').favorite))
 			imageLayer.addClass('display-none').removeClass('display-block');
 	}
 }
@@ -46,9 +46,9 @@ EIMO.Generic.setRepairProfitVisible = function(_itemSlot, _value, _color)
 	if (_color === undefined) {_color = '#ffffff'}
 	var layer = _itemSlot.find('.repair-profit-layer').filter(':first');
 	var label = layer.find('.label').filter(':first');
-	if (_value !== undefined && _value !== null)
+	if (_value != 0) // intentionally falsy check
 	{
-		label.text(_value);
+		label.text(_value.toString());
 		layer.removeClass('display-none').addClass('display-block');
 	}
 	else
@@ -58,13 +58,26 @@ EIMO.Generic.setRepairProfitVisible = function(_itemSlot, _value, _color)
 	label.css({'color' : _color});
 };
 
+EIMO.Generic.isUpdateNecessary = function(_cache, _forSale, _favorite, _idFavorite, _repairProfit)
+{
+	var ret = _cache.forSale != _forSale || _cache.favorite != _favorite || _cache.idFavorite != _idFavorite || _cache.repairProfit != _repairProfit;
+	if (ret) {
+		_cache.forSale = _forSale;
+		_cache.favorite = _favorite;
+		_cache.idFavorite = _idFavorite;
+		_cache.repairProfit = _repairProfit;
+	}
+	return ret;
+}
+
 EIMO.Generic.updateSlotItem = function(_slot, _item)
 {
-	var itemData = _slot.data('item');
-	itemData.eimo_forSale = _item.eimo_forSale;
-	itemData.eimo_favorite = _item.eimo_favorite;
-	itemData.eimo_idFavorite = _item.eimo_idFavorite;
-	itemData.eimo_repairProfit = _item.eimo_repairProfit === undefined ? 0 : _item.eimo_repairProfit;
+	var cache = _slot.data('eimo');
+	var updateNecessary = EIMO.Generic.isUpdateNecessary(cache, _item.eimo_forSale, _item.eimo_favorite, _item.eimo_idFavorite, _item.eimo_repairProfit);
+	_slot.data('eimo', cache);
+	if (!updateNecessary) {
+		return;
+	}
 	switch (MSU.getSettingValue(EIMO.ID, EIMO.VisibilityLevelID))
 	{
 		case "Reduced":
@@ -78,24 +91,24 @@ EIMO.Generic.updateSlotItem = function(_slot, _item)
 			EIMO.Generic.setForSaleImageVisible(_slot, _item.eimo_forSale);
 			EIMO.Generic.setFavoriteIDImageVisible(_slot, _item.eimo_idFavorite);
 			EIMO.Generic.setFavoriteImageVisible(_slot, _item.eimo_favorite);
-			if (itemData.eimo_repairProfit != 0)
-				EIMO.Generic.setRepairProfitVisible(_slot, itemData.eimo_repairProfit.toString(), _item['amountColor']);
+			EIMO.Generic.setRepairProfitVisible(_slot, _item.eimo_repairProfit, _item['amountColor'])
 	}
-	_slot.data('item', itemData);
 }
 
 EIMO.Generic.selectivelyUpdateItemList = function( _itemSlots, _itemsData )
 {
 	if (_itemsData == null)
 		return;
+	var itemSlots = _itemSlots.find('.ui-control.item');
 	var j = 0;
-	for (var i = 0; i < _itemSlots.length && j < _itemsData.length; ++i)
+	for (var i = 0; i < itemSlots.length && j < _itemsData.length; ++i)
 	{
-		var data = _itemSlots[i].data('item');
+		var slot = $(itemSlots.get(i));
+		var data = slot.data('item');
 		var id = 'id' in data ? data.id : data.itemId;
 		if (id == _itemsData[j].id)
 		{
-			EIMO.Generic.updateSlotItem(_itemSlots[i], _itemsData[j++]);
+			EIMO.Generic.updateSlotItem(slot, _itemsData[j++]);
 		}
 	}
 }
@@ -134,60 +147,61 @@ EIMO.Generic.removeItemFromSlot = function( _ogFunc )
 	var oldFuncNum = EIMO.Hooks.removeItemFromSlot.length - 1;
 
 	return function(_slot) {
-		EIMO.Generic.setForSaleImageVisible(_slot, false);
-		EIMO.Generic.setFavoriteIDImageVisible(_slot, false);
-		EIMO.Generic.setFavoriteImageVisible(_slot, false);
-		EIMO.Generic.setRepairProfitVisible(_slot, null);
+		var cache = _slot.data('eimo');
+		if (EIMO.Generic.isUpdateNecessary(cache, false, false, false, 0)) {
+			EIMO.Generic.setForSaleImageVisible(_slot, false);
+			EIMO.Generic.setFavoriteIDImageVisible(_slot, false);
+			EIMO.Generic.setFavoriteImageVisible(_slot, false);
+			EIMO.Generic.setRepairProfitVisible(_slot, 0);
+		}
 		EIMO.Hooks.removeItemFromSlot[oldFuncNum].call(this, _slot);
+		_slot.data('eimo', cache);
 	}
 }
 
-EIMO.Generic.addItemSlotsMousedownEvents = function( _itemSlots )
-{
-	for (var i = 0; i < _itemSlots.length; i++)
-	{
-		var item = _itemSlots[i];
-		item.bindFirst('mousedown', function(_event) {
-			var itemData = $(this).data('item');
-			var id = 'id' in itemData ? itemData.id : itemData.itemId;
-			if (itemData.isEmpty)
-				return;
-			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "SetForSale", _event))
-			{
-				_event.stopImmediatePropagation();
-				Screens.EIMOConnection.setForSaleItemID(id, function(_itemsData) {
-					EIMO.Generic.selectivelyUpdateItemList(_itemSlots, _itemsData);
-				});
-				return false;
-			}
-			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "SetFavorite", _event))
-			{
-				_event.stopImmediatePropagation();
-				Screens.EIMOConnection.favoriteItem(id, function(_itemsData) {
-					EIMO.Generic.selectivelyUpdateItemList(_itemSlots, _itemsData);
-				});
-				return false;
-			}
-			if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "SetIDFavorite", _event))
-			{
-				_event.stopImmediatePropagation();
-				Screens.EIMOConnection.favoriteItemID(id, function(_itemsData) {
-					EIMO.Generic.selectivelyUpdateItemList(_itemSlots, _itemsData);
-				});
-				return false;
-			}
-		})
-	}
+EIMO.Generic.addItemSlotMouseDownEvents = function( _itemSlot, _itemContainer ) {
+	_itemSlot.bindFirst('mousedown', function(_event) {
+		var itemData = $(this).data('item');
+		var id = 'id' in itemData ? itemData.id : itemData.itemId;
+		if (itemData.isEmpty)
+			return;
+		if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "SetForSale", _event))
+		{
+			_event.stopImmediatePropagation();
+			Screens.EIMOConnection.setForSaleItemID(id, function(_itemsData) {
+				EIMO.Generic.selectivelyUpdateItemList(_itemContainer, _itemsData);
+			});
+			return false;
+		}
+		if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "SetFavorite", _event))
+		{
+			_event.stopImmediatePropagation();
+			Screens.EIMOConnection.favoriteItem(id, function(_itemsData) {
+				EIMO.Generic.selectivelyUpdateItemList(_itemContainer, _itemsData);
+			});
+			return false;
+		}
+		if (MSU.Keybinds.isMousebindPressed(EIMO.ID, "SetIDFavorite", _event))
+		{
+			_event.stopImmediatePropagation();
+			Screens.EIMOConnection.favoriteItemID(id, function(_itemsData) {
+				EIMO.Generic.selectivelyUpdateItemList(_itemContainer, _itemsData);
+			});
+			return false;
+		}
+	})
 }
 
-EIMO.Hooks.createItemSlots = [];
-EIMO.Generic.createItemSlots = function( _ogFunc )
+EIMO.Hooks.createItemSlot = [];
+EIMO.Generic.createItemSlot = function( _ogFunc )
 {
-	EIMO.Hooks.createItemSlots.push(_ogFunc);
-	var oldFuncNum = EIMO.Hooks.createItemSlots.length - 1;
+	EIMO.Hooks.createItemSlot.push(_ogFunc);
+	var oldFuncNum = EIMO.Hooks.createItemSlot.length - 1;
 
-	return function(_owner, _size, _itemArray, _itemContainer) {
-		EIMO.Hooks.createItemSlots[oldFuncNum].call(this, _owner, _size, _itemArray, _itemContainer);
-		EIMO.Generic.addItemSlotsMousedownEvents(_itemArray);
+	return function(_owner, _index, _parentDiv, _screenDiv) {
+		var ret = EIMO.Hooks.createItemSlot[oldFuncNum].call(this, _owner, _index, _parentDiv, _screenDiv);
+		EIMO.Generic.addItemSlotMouseDownEvents(ret, _parentDiv);
+		ret.data('eimo', {forSale: false, favorite: false, idFavorite: false, repairProfit: 0 });
+		return ret;
 	}
 }

@@ -1,6 +1,6 @@
 WorldTownScreenShopDialogModule.prototype.removeItemFromSlot = EIMO.Generic.removeItemFromSlot(WorldTownScreenShopDialogModule.prototype.removeItemFromSlot);
 WorldTownScreenShopDialogModule.prototype.assignItemToSlot = EIMO.Generic.assignItemToSlot(WorldTownScreenShopDialogModule.prototype.assignItemToSlot);
-WorldTownScreenShopDialogModule.prototype.createItemSlots = EIMO.Generic.createItemSlots(WorldTownScreenShopDialogModule.prototype.createItemSlots);
+WorldTownScreenShopDialogModule.prototype.createItemSlot = EIMO.Generic.createItemSlot(WorldTownScreenShopDialogModule.prototype.createItemSlot);
 
 WorldTownScreenShopDialogModule.prototype.EIMOsellAllButtonClicked = function ()
 {
