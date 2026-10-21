@@ -77,7 +77,7 @@
 		local function onItemTaken(i, idx)
 		{
 			i.onAddedToStash(Stash.getID());
-			if (i != null && i.getItemType() < ::Const.Items.ItemType.Ammo)
+			if (i != null && ::EIMO.isRepairable(i))
 			{
 				if (!::Hooks.hasMod("mod_legends"))
 				{

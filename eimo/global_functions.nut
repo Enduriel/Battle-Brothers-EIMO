@@ -4,6 +4,14 @@
 	return ::MSU.isKindOf(_item, "legend_armor") || ::MSU.isKindOf(_item, "legend_helmet");
 }
 
+// Equipment that loses condition and can be repaired with tools. Item types are bit flags and an item can have several
+// (e.g. throwing weapons are Weapon | Ammo, and Legends adds its own types through MSU), so test the flags.
+::EIMO.isRepairable <- function( _item )
+{
+	local ItemType = ::Const.Items.ItemType;
+	return _item.isItemType(ItemType.Weapon | ItemType.Shield | ItemType.Armor | ItemType.Helmet);
+}
+
 // Repair & Salvage calculations
 
 local function getToolBuyPrice()

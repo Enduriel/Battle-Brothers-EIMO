@@ -17,7 +17,7 @@
 		local items = ::World.Assets.getStash().getItems();
 		foreach( idx, item in items )
 		{
-			if (item != null && item.getItemType() < ::Const.Items.ItemType.Ammo)
+			if (item != null && ::EIMO.isRepairable(item))
 			{
 				if (::EIMO.getRepairRatio(item) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.RepairThresholdID).getValue())
 				{
