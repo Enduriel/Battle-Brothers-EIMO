@@ -11,9 +11,34 @@
 		this.m.eimo_IsFavorite = _bool;
 	}
 
+	// Marks for sale and type favorites are per item type. Different items can share an ID (e.g. all arrow quivers are
+	// "ammo.arrows"), so the key adds the script's class name. Keys saved by older versions are bare IDs and still match.
+	q.eimo_getTypeKey <- function()
+	{
+		return this.getID() + "/" + this.ClassName;
+	}
+
+	q.eimo_isTypeIn <- function( _table )
+	{
+		return this.eimo_getTypeKey() in _table || this.getID() in _table;
+	}
+
+	q.eimo_setTypeIn <- function( _table, _bool )
+	{
+		if (_bool)
+		{
+			_table[this.eimo_getTypeKey()] <- true;
+			return;
+		}
+		if (this.eimo_getTypeKey() in _table)
+			delete _table[this.eimo_getTypeKey()];
+		if (this.getID() in _table)
+			delete _table[this.getID()];
+	}
+
 	q.eimo_isSetForSale <- function()
 	{
-		local sell = this.getID() in ::EIMO.ForSaleIDs;
+		local sell = this.eimo_isTypeIn(::EIMO.ForSaleIDs);
 		if (::EIMO.isLegendArmor(this) && sell)
 		{
 			foreach (upgrade in this.m.Upgrades)
@@ -39,19 +64,12 @@
 				}
 			}
 		}
-		if (_bool)
-		{
-			::EIMO.ForSaleIDs[this.getID()] <- true;
-		}
-		else if (this.getID() in ::EIMO.ForSaleIDs)
-		{
-			delete ::EIMO.ForSaleIDs[this.getID()];
-		}
+		this.eimo_setTypeIn(::EIMO.ForSaleIDs, _bool);
 	}
 
 	q.eimo_isIDFavorite <- function()
 	{
-		local sell = this.getID() in ::EIMO.FavoriteIDs;
+		local sell = this.eimo_isTypeIn(::EIMO.FavoriteIDs);
 		if (::EIMO.isLegendArmor(this) && sell)
 		{
 			foreach (upgrade in this.m.Upgrades)
@@ -77,14 +95,7 @@
 				}
 			}
 		}
-		if (_bool)
-		{
-			::EIMO.FavoriteIDs[this.getID()] <- true;
-		}
-		else if (this.getID() in ::EIMO.FavoriteIDs)
-		{
-			delete ::EIMO.FavoriteIDs[this.getID()];
-		}
+		this.eimo_setTypeIn(::EIMO.FavoriteIDs, _bool);
 	}
 
 	q.eimo_shouldBeSold <- function()
