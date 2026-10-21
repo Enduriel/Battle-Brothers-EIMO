@@ -225,7 +225,7 @@
 				if (isFood(stashItem)) removeFoodItem(stashItem);
 				if (isFood(lootItem)) addFoodItem(lootItem);
 				onItemDropped(stashItem);
-				onItemTaken(lootItem, si-1);
+				onItemTaken(lootItem, stashis[si-1]);
 			}
 
 			// finally, we want to enhance our supply of food. some food is expensive and other food is cheap, but once purchased, the value in
@@ -265,7 +265,7 @@
 						removeFoodItem(stashItem);
 						addFoodItem(lootItem);
 						onItemDropped(stashItem);
-						onItemTaken(lootItem, si-1);
+						onItemTaken(lootItem, stashis[si-1]);
 						foodDays = newFoodDays;
 					}
 				}
