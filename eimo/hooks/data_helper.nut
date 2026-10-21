@@ -4,7 +4,7 @@
 
 		local result = __original(_item, _forceSmallIcon, _owner);
 
-		if (_item.getCondition() < _item.getConditionMax())
+		if (::EIMO.isDamaged(_item))
 		{
 			result.eimo_repairProfit <- ::Math.round(::EIMO.getRepairProfit(_item));
 		} else {
