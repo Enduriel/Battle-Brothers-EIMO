@@ -4,7 +4,7 @@ local page = ::EIMO.Mod.ModSettings.addPage("Save Settings");
 page.addRangeSetting(::EIMO.RepairThresholdID, 125, 100, 500, 10, "Repair Threshold", "Above this threshold of repair profitability items will be marked for repair by the repair button (Smart Loot uses the wait Threshold).\n\nHigher values mean increased profitability");
 
 ::EIMO.WaitThresholdID <- "WaitThreshold";
-page.addRangeSetting(::EIMO.WaitThresholdID, 150, 100, 500, 10, "Wait Threshold", "Above this threshold of repair profitability items will not be sold until they are fully repaired and will be set to repair when using smart loot.\n\nHigher values mean increased profitability");
+page.addRangeSetting(::EIMO.WaitThresholdID, 150, 100, 500, 10, "Wait Threshold", "Above this threshold of repair profitability items will be set to repair when using smart loot, and will not be sold until they are fully repaired if they are marked for repair or above the Repair Threshold.\n\nHigher values mean increased profitability");
 
 if (::Hooks.hasMod("mod_legends"))
 {

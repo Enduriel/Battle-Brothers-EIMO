@@ -89,7 +89,18 @@
 
 	q.eimo_shouldBeSold <- function()
 	{
-		return this.eimo_isSetForSale() && !this.eimo_isFavorite() && !this.eimo_isIDFavorite() && !(this.getCondition() < this.getConditionMax() && ::EIMO.getRepairRatio(this) > ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
+		return this.eimo_isSetForSale() && !this.eimo_isFavorite() && !this.eimo_isIDFavorite() && !this.eimo_isWaitingForRepair();
+	}
+
+	// Worth repairing before selling, and either marked for repair or will be marked by the repair button
+	q.eimo_isWaitingForRepair <- function()
+	{
+		if (!::EIMO.isRepairable(this) || !::EIMO.isDamaged(this))
+			return false;
+		local ratio = ::EIMO.getRepairRatio(this);
+		if (ratio <= ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue())
+			return false;
+		return this.isToBeRepaired() || ratio > ::EIMO.Mod.ModSettings.getSetting(::EIMO.RepairThresholdID).getValue();
 	}
 
 	q.eimo_getMaxValue <- function()

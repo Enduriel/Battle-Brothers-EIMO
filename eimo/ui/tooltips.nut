@@ -77,7 +77,20 @@
 		})
 	},
 	TownShopDialogModule = {
-		SellAllButton = ::MSU.Class.BasicTooltip("Sell All Loot", "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Items above a ratio of " + ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue() + " will only be sold when in full condition.")
+		SellAllButton = ::MSU.Class.CustomTooltip(function(_data)
+		{
+			return [
+			{
+				id = 1,
+				type = "title",
+				text = "Sell All Loot"
+			},
+			{
+				id = 2,
+				type = "description",
+				text = "Sell all items marked for sale. Favorited items will be ignored, even if marked for sale. Damaged items above a ratio of " + ::EIMO.Mod.ModSettings.getSetting(::EIMO.WaitThresholdID).getValue() + " will only be sold once repaired, if they are marked for repair or above the repair threshold of " + ::EIMO.Mod.ModSettings.getSetting(::EIMO.RepairThresholdID).getValue() + "."
+			}];
+		})
 	},
 	TacticalCombatResultScreen = {
 		SmartLootButton = ::MSU.Class.BasicTooltip("Smart Loot", "Intelligently loot all items including moving items from player inventory and automatically adding consumables to their totals.")
