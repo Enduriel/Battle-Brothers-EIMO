@@ -78,23 +78,23 @@ local function getMaxLegendsArmorSellPrice( _armor )
 	return getMaxItemSellPrice(_item);
 }
 
-local function getRatio( _item, _valueChangeFunction, _priceFunction )
+::EIMO.isDamaged <- function( _item )
 {
 	if (::EIMO.isLegendArmor(_item))
 	{
-		if (_item.getRepair() == _item.getRepairMax())
-		{
-			return 100;
-		}
+		return _item.getRepair() < _item.getRepairMax();
 	}
-	else
+	return _item.getCondition() < _item.getConditionMax();
+}
+
+local function getRatio( _item, _valueChangeFunction, _priceFunction )
+{
+	local price = _priceFunction(_item);
+	if (price == 0)
 	{
-		if (_item.getCondition() == _item.getConditionMax())
-		{
-			return 100;
-		}
+		return 100;
 	}
-	return 100 * _valueChangeFunction(_item) / _priceFunction(_item);
+	return 100 * _valueChangeFunction(_item) / price;
 }
 
 local function getValueChange( _item, _function )
@@ -138,6 +138,10 @@ local function getRepairCost( _item )
 
 ::EIMO.getRepairRatio <- function( _item )
 {
+	if (!::EIMO.isDamaged(_item))
+	{
+		return 100;
+	}
 	return getRatio(_item, getRepairValueChange, getRepairCost);
 }
 

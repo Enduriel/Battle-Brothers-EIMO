@@ -94,7 +94,7 @@
 					}
 					else if (::EIMO.getSalvageRatio(i) < ::EIMO.Mod.ModSettings.getSetting(::EIMO.SalvageThresholdID).getValue())
 					{
-						if (i.canBeSalvaged()) i.setToBeSalvaged(true, idx);
+						if (i.canBeSalvaged() && !i.eimo_isIDFavorite()) i.setToBeSalvaged(true, idx);
 					}
 				}
 			}

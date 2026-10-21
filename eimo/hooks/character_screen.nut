@@ -40,7 +40,7 @@
 		local items = ::World.Assets.getStash().getItems();
 		foreach (idx, item in items)
 		{
-			if (item != null && item.canBeSalvaged() && !item.eimo_isFavorite())
+			if (item != null && item.canBeSalvaged() && !item.eimo_isFavorite() && !item.eimo_isIDFavorite())
 			{
 				if (::EIMO.getSalvageRatio(item) < ::EIMO.Mod.ModSettings.getSetting(::EIMO.SalvageThresholdID).getValue())
 				{
